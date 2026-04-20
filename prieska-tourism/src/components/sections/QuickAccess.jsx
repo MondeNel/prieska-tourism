@@ -9,11 +9,14 @@ import {
   Store, 
   Bed, 
   Info,
-  Briefcase 
+  Briefcase,
+  Shield,
+  Cloud,
+  Fuel,
+  Map
 } from 'lucide-react';
 
 // Data for Quick Access Cards
-// Each card can link to an external page (via 'to') or an anchor on the home page (via 'href')
 const quickAccessItems = [
   {
     id: 'news',
@@ -80,6 +83,38 @@ const quickAccessItems = [
     color: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
+    id: 'emergency',
+    title: 'Emergency',
+    description: 'Important contact numbers',
+    icon: Shield,
+    href: '#emergency',
+    color: 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 dark:group-hover:bg-red-600 group-hover:text-white dark:group-hover:text-white',
+  },
+  {
+    id: 'weather',
+    title: 'Weather',
+    description: 'Current conditions',
+    icon: Cloud,
+    href: '#weather',
+    color: 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 group-hover:bg-cyan-600 dark:group-hover:bg-cyan-600 group-hover:text-white dark:group-hover:text-white',
+  },
+  {
+    id: 'fuel',
+    title: 'Fuel Prices',
+    description: 'Compare local stations',
+    icon: Fuel,
+    href: '#fuel',
+    color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-600 dark:group-hover:bg-amber-600 group-hover:text-white dark:group-hover:text-white',
+  },
+  {
+    id: 'map',
+    title: 'Map',
+    description: 'Interactive area map',
+    icon: Map,
+    href: '#map',
+    color: 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:bg-green-600 dark:group-hover:bg-green-600 group-hover:text-white dark:group-hover:text-white',
+  },
+  {
     id: 'faq',
     title: 'FAQ',
     description: 'Answers to common questions',
@@ -101,13 +136,11 @@ const QuickAccess = () => {
         </p>
       </div>
 
-      {/* Responsive Grid: 2 cols on mobile, up to 4 on large screens */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {quickAccessItems.map((item) => {
           const IconComponent = item.icon;
           const isAnchor = item.href;
           
-          // Base card classes with dark mode support
           const cardClasses = `group flex flex-col items-center p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/30 transition-all duration-200 cursor-pointer text-center`;
           
           const CardContent = () => (
@@ -124,7 +157,6 @@ const QuickAccess = () => {
             </>
           );
 
-          // Render as a link (either React Router Link or anchor)
           if (item.to) {
             return (
               <Link key={item.id} to={item.to} className={cardClasses}>

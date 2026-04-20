@@ -74,31 +74,33 @@ const Hero = () => {
         </p>
       </div>
 
-      {/* CSS Animations */}
-      <style jsx>{`
-        @keyframes fadeInUp {
-          from {
+      {/* Regular style tag for animations */}
+      <style>
+        {`
+          @keyframes fadeInUp {
+            from {
+              opacity: 0;
+              transform: translateY(30px);
+            }
+            to {
+              opacity: 1;
+              transform: translateY(0);
+            }
+          }
+          .animate-fade-in-up {
             opacity: 0;
-            transform: translateY(30px);
+            animation: fadeInUp 0.8s ease-out forwards;
           }
-          to {
-            opacity: 1;
-            transform: translateY(0);
+          
+          @keyframes gradientShift {
+            0%, 100% { opacity: 0.3; transform: scale(1); }
+            50% { opacity: 0.6; transform: scale(1.05); }
           }
-        }
-        .animate-fade-in-up {
-          opacity: 0;
-          animation: fadeInUp 0.8s ease-out forwards;
-        }
-        
-        @keyframes gradientShift {
-          0%, 100% { opacity: 0.3; transform: scale(1); }
-          50% { opacity: 0.6; transform: scale(1.05); }
-        }
-        .animate-gradient-shift {
-          animation: gradientShift 8s ease-in-out infinite;
-        }
-      `}</style>
+          .animate-gradient-shift {
+            animation: gradientShift 8s ease-in-out infinite;
+          }
+        `}
+      </style>
     </section>
   )
 }

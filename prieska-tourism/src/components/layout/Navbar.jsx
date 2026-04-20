@@ -1,7 +1,7 @@
 // src/components/layout/Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Facebook, Instagram, Twitter, MapPin, ArrowRight, Sun, Moon } from 'lucide-react'
+import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 
 const Navbar = () => {
@@ -53,25 +53,37 @@ const Navbar = () => {
     navigate(path)
   }
 
- return (
-    <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-      scrolled 
-        ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg py-2' 
-        : 'bg-transparent py-4'
-    }`}>
+  return (
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        scrolled 
+          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg py-2' 
+          : 'bg-transparent py-4'
+      }`}
+    >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
-          {/* Logo */}
-          <Link to="/" className="flex items-center gap-2 group">
-            <div className={`w-10 h-10 rounded-xl bg-gradient-to-br from-prieska-terracotta to-prieska-river flex items-center justify-center shadow-md transition-all duration-300 group-hover:scale-105 group-hover:shadow-lg ${!scrolled && 'bg-white/20 backdrop-blur-sm'}`}>
-              <MapPin size={20} className="text-white" />
-            </div>
-            <span className={`text-2xl font-serif font-bold transition-colors duration-300 ${
+          
+          {/* Modern Logo */}
+          <Link to="/" className="group flex items-center">
+            <span className={`text-2xl font-sans font-bold tracking-tight transition-all duration-300 ${
               scrolled 
-                ? 'text-prieska-terracotta dark:text-prieska-terracotta' 
-                : 'text-white dark:text-white'
+                ? 'text-gray-900 dark:text-white' 
+                : 'text-white'
             }`}>
-              Visit Prieska
+              Prieska
+            </span>
+            <span className={`ml-1 h-5 w-0.5 transition-all duration-500 group-hover:h-6 ${
+              scrolled 
+                ? 'bg-prieska-terracotta' 
+                : 'bg-white'
+            }`} />
+            <span className={`ml-2 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
+              scrolled 
+                ? 'text-gray-500 dark:text-gray-400' 
+                : 'text-white/70'
+            }`}>
+              Northern Cape
             </span>
           </Link>
 
@@ -103,17 +115,18 @@ const Navbar = () => {
               <ArrowRight size={18} />
             </button>
 
-<button
-  onClick={toggleTheme}
-  className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
-    scrolled 
-      ? 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800' 
-      : 'text-white/80 dark:text-white/80 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10'
-  }`}
-  aria-label="Toggle theme"
->
-  {isDark ? <Sun size={20} /> : <Moon size={20} />}
-</button>
+            {/* Theme Toggle Button */}
+            <button
+              onClick={toggleTheme}
+              className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
+                scrolled 
+                  ? 'text-gray-500 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800' 
+                  : 'text-white/80 dark:text-white/80 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10'
+              }`}
+              aria-label="Toggle theme"
+            >
+              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+            </button>
 
             {/* Social Icons */}
             <div className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-300/50 dark:border-gray-700">
