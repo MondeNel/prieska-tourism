@@ -1,26 +1,31 @@
+// src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
-import Hero from './components/sections/Hero'
-import Notices from './components/sections/Notices'
-import News from './components/sections/News'
-import Gallery from './components/sections/Gallery'
-import Attractions from './components/sections/Attractions'
-import Accommodation from './components/sections/Accommodation'
+import Home from './pages/Home'
+import Services from './pages/Services'
+import GalleryPage from './pages/GalleryPage'
+import FAQ from './pages/FAQ'
+import Booking from './pages/Booking'
+
 
 function App() {
   return (
-    <div className="min-h-screen flex flex-col">
-      <Navbar />
-      <main className="flex-grow">
-        <Hero />
-        <Notices />
-        <News />
-        <Gallery />
-        <Attractions />
-        <Accommodation />
-      </main>
-      <Footer />
-    </div>
+    <Router>
+      <div className="min-h-screen flex flex-col">
+        <Navbar />
+        <main className="flex-grow">
+          <Routes>
+            <Route path="/" element={<Home />} />
+            <Route path="/services" element={<Services />} />
+            <Route path="/gallery" element={<GalleryPage />} />
+            <Route path="/faq" element={<FAQ />} />
+            <Route path="/booking" element={<Booking />} />
+          </Routes>
+        </main>
+        <Footer />
+      </div>
+    </Router>
   )
 }
 
