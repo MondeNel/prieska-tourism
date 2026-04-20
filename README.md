@@ -1,1 +1,1 @@
-# -prieska-tourism
+# prieska-tourism
