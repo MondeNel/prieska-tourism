@@ -1,6 +1,6 @@
 // src/components/sections/Hero.jsx
 import { useEffect, useRef } from 'react'
-import { ChevronDown, MapPin, Sparkles } from 'lucide-react'
+import { MapPin } from 'lucide-react'
 
 const Hero = () => {
   const gradientRef = useRef(null)
@@ -69,31 +69,10 @@ const Hero = () => {
         </p>
 
         {/* Description */}
-        <p className="text-base md:text-lg mb-8 text-white/90 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
+        <p className="text-base md:text-lg text-white/90 max-w-2xl mx-auto animate-fade-in-up" style={{ animationDelay: '0.8s' }}>
           Experience the soul of the Northern Cape — from the mystical Orange River to the warmth of Karoo hospitality.
         </p>
-
-        {/* CTA Buttons */}
-        <div className="flex flex-col sm:flex-row gap-4 justify-center animate-fade-in-up" style={{ animationDelay: '1s' }}>
-          <button className="bg-white text-prieska-terracotta px-6 py-3 rounded-full text-base font-semibold hover:bg-opacity-95 transition-all transform hover:scale-105 shadow-xl hover:shadow-2xl flex items-center justify-center gap-2">
-            Start Your Journey
-            <ChevronDown size={18} className="rotate-[-90deg]" />
-          </button>
-          <button className="border-2 border-white text-white px-6 py-3 rounded-full text-base font-semibold hover:bg-white hover:text-prieska-terracotta transition-all transform hover:scale-105 backdrop-blur-sm flex items-center justify-center gap-2">
-            <Sparkles size={16} />
-            Explore Prieska
-          </button>
-        </div>
       </div>
-
-      {/* Scroll Indicator */}
-      <a 
-        href="#why-prieska" 
-        className="absolute bottom-6 left-1/2 transform -translate-x-1/2 text-white flex flex-col items-center gap-1 animate-bounce z-10"
-      >
-        <span className="text-xs uppercase tracking-wider">Scroll</span>
-        <ChevronDown size={18} />
-      </a>
 
       {/* CSS Animations */}
       <style jsx>{`

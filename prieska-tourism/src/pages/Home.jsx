@@ -8,16 +8,20 @@ import Attractions from '../components/sections/Attractions'
 import Testimonials from '../components/sections/Testimonials'
 import Accommodation from '../components/sections/Accommodation'
 import Businesses from '../components/sections/Businesses' 
+import QuickAccess from '../components/sections/QuickAccess';
+import Vacancies from '../components/sections/Vacancies'
 
 const Home = () => {
   return (
     <>
       <Hero />
+      <QuickAccess />
       <WhyPrieska />
       <Notices />
       <History />
       <Attractions />
       <Businesses />
+      <Vacancies />
       <Accommodation />
       <Testimonials />
       <News />

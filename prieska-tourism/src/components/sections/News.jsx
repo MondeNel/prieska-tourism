@@ -1,3 +1,4 @@
+// src/components/sections/News.jsx
 import SectionTitle from '../ui/SectionTitle'
 import { newsItems } from '../../data/news'
 
@@ -6,7 +7,7 @@ const News = () => {
   const sideNews = newsItems.slice(1, 3)
 
   return (
-    <section className="py-16 px-4 max-w-7xl mx-auto bg-prieska-sand bg-opacity-30">
+    <section id="news" className="py-16 px-4 max-w-7xl mx-auto bg-prieska-sand bg-opacity-30">
       <SectionTitle subtitle="LATEST STORIES" title="News from Prieska" />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
