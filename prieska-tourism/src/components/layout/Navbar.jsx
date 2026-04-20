@@ -58,27 +58,27 @@ const Navbar = () => {
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
           ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg py-2' 
-          : 'bg-transparent py-4'
+          : 'bg-transparent py-3 md:py-4'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center">
           
-          {/* Modern Logo */}
+          {/* Logo – slightly smaller on mobile, no wrapping */}
           <Link to="/" className="group flex items-center">
-            <span className={`text-2xl font-sans font-bold tracking-tight transition-all duration-300 ${
+            <span className={`text-xl sm:text-2xl font-sans font-bold tracking-tight transition-all duration-300 ${
               scrolled 
                 ? 'text-gray-900 dark:text-white' 
                 : 'text-white'
             }`}>
               Prieska
             </span>
-            <span className={`ml-1 h-5 w-0.5 transition-all duration-500 group-hover:h-6 ${
+            <span className={`ml-1 h-4 sm:h-5 w-0.5 transition-all duration-500 group-hover:h-5 sm:group-hover:h-6 ${
               scrolled 
                 ? 'bg-prieska-terracotta' 
                 : 'bg-white'
             }`} />
-            <span className={`ml-2 text-xs font-medium uppercase tracking-[0.2em] transition-all duration-300 ${
+            <span className={`ml-2 text-[10px] sm:text-xs font-medium uppercase tracking-[0.15em] sm:tracking-[0.2em] transition-all duration-300 whitespace-nowrap ${
               scrolled 
                 ? 'text-gray-500 dark:text-gray-400' 
                 : 'text-white/70'
@@ -93,7 +93,7 @@ const Navbar = () => {
               <button
                 key={link.name}
                 onClick={() => handleNavigation(link.path)}
-                className={`relative px-4 py-2 font-medium transition-all duration-200 group ${
+                className={`relative px-3 lg:px-4 py-2 font-medium transition-all duration-200 group ${
                   scrolled 
                     ? 'text-gray-700 dark:text-gray-300 hover:text-prieska-terracotta dark:hover:text-prieska-terracotta' 
                     : 'text-white/90 hover:text-white dark:text-white/90 dark:hover:text-white'
@@ -109,10 +109,10 @@ const Navbar = () => {
             {/* Book Now CTA Button */}
             <button
               onClick={() => navigate('/booking')}
-              className="ml-4 px-6 py-2.5 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-semibold rounded-full shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-2"
+              className="ml-2 lg:ml-4 px-4 lg:px-6 py-2 lg:py-2.5 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-semibold rounded-full shadow-md hover:shadow-xl transform hover:scale-105 transition-all duration-300 flex items-center gap-1.5 lg:gap-2 text-sm lg:text-base"
             >
               <span>Book Now</span>
-              <ArrowRight size={18} />
+              <ArrowRight className="w-4 h-4 lg:w-[18px] lg:h-[18px]" />
             </button>
 
             {/* Theme Toggle Button */}
@@ -125,18 +125,18 @@ const Navbar = () => {
               }`}
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun size={20} /> : <Moon size={20} />}
+              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
             {/* Social Icons */}
-            <div className="flex items-center gap-2 ml-2 pl-2 border-l border-gray-300/50 dark:border-gray-700">
+            <div className="flex items-center gap-1 lg:gap-2 ml-1 lg:ml-2 pl-1 lg:pl-2 border-l border-gray-300/50 dark:border-gray-700">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
                 className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
                   scrolled 
                     ? 'text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20' 
                     : 'text-white/80 dark:text-white/80 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10'
                 }`}>
-                <Facebook size={22} />
+                <Facebook className="w-5 h-5 lg:w-[22px] lg:h-[22px]" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
                 className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
@@ -144,7 +144,7 @@ const Navbar = () => {
                     ? 'text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20' 
                     : 'text-white/80 dark:text-white/80 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10'
                 }`}>
-                <Instagram size={22} />
+                <Instagram className="w-5 h-5 lg:w-[22px] lg:h-[22px]" />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
                 className={`p-2 rounded-full transition-all duration-200 hover:scale-110 ${
@@ -152,7 +152,7 @@ const Navbar = () => {
                     ? 'text-gray-500 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20' 
                     : 'text-white/80 dark:text-white/80 hover:text-white dark:hover:text-white hover:bg-white/10 dark:hover:bg-white/10'
                 }`}>
-                <Twitter size={22} />
+                <Twitter className="w-5 h-5 lg:w-[22px] lg:h-[22px]" />
               </a>
             </div>
           </div>
@@ -167,7 +167,7 @@ const Navbar = () => {
             }`}
             aria-label="Toggle menu"
           >
-            {isOpen ? <X size={24} /> : <Menu size={24} />}
+            {isOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
           </button>
         </div>
       </div>
@@ -198,19 +198,19 @@ const Navbar = () => {
               className="w-full mt-2 px-4 py-3 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-semibold rounded-lg shadow-md hover:shadow-lg transition-all flex items-center justify-center gap-2"
             >
               <span>Book Now</span>
-              <ArrowRight size={18} />
+              <ArrowRight className="w-4 h-4" />
             </button>
 
             <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
               <div className="flex items-center gap-4">
                 <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500">
-                  <Facebook size={24} />
+                  <Facebook className="w-5 h-5" />
                 </a>
                 <a href="https://instagram.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500">
-                  <Instagram size={24} />
+                  <Instagram className="w-5 h-5" />
                 </a>
                 <a href="https://twitter.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-400">
-                  <Twitter size={24} />
+                  <Twitter className="w-5 h-5" />
                 </a>
               </div>
               <button
@@ -218,7 +218,7 @@ const Navbar = () => {
                 className="p-2 text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta dark:hover:text-prieska-terracotta"
                 aria-label="Toggle theme"
               >
-                {isDark ? <Sun size={24} /> : <Moon size={24} />}
+                {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
               </button>
             </div>
           </div>

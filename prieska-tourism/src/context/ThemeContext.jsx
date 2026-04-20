@@ -30,6 +30,21 @@ export const ThemeProvider = ({ children }) => {
     }
   }, [isDark])
 
+  // Listen for system theme changes when the user hasn't set a manual preference
+  useEffect(() => {
+    const stored = localStorage.getItem('theme')
+    // Only follow system if there's no stored preference
+    if (stored !== null) return
+
+    const mediaQuery = window.matchMedia('(prefers-color-scheme: dark)')
+    const handleChange = (e) => {
+      setIsDark(e.matches)
+    }
+
+    mediaQuery.addEventListener('change', handleChange)
+    return () => mediaQuery.removeEventListener('change', handleChange)
+  }, [])
+
   const toggleTheme = () => setIsDark(prev => !prev)
 
   return (

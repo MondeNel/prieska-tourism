@@ -1,3 +1,4 @@
+// src/components/sections/InteractiveMap.jsx
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
 import { Icon } from 'leaflet'
 import 'leaflet/dist/leaflet.css'
@@ -37,16 +38,19 @@ const getMarkerColor = (type) => {
 
 const InteractiveMap = () => {
   return (
-    <section id="map" className="py-16 px-4 max-w-7xl mx-auto">
+    <section id="map" className="py-12 md:py-16 px-4 max-w-7xl mx-auto">
       <SectionTitle subtitle="EXPLORE THE AREA" title="Interactive Map" />
       
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden p-2">
-        <div className="h-[500px] w-full rounded-lg overflow-hidden">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-lg overflow-hidden p-1.5 md:p-2">
+        <div className="h-[350px] sm:h-[400px] md:h-[500px] w-full rounded-lg overflow-hidden">
           <MapContainer 
             center={PRIESKA_CENTER} 
-            zoom={14} 
+            zoom={13} 
             style={{ height: '100%', width: '100%' }}
             className="z-0"
+            scrollWheelZoom={true}
+            dragging={true}
+            touchZoom={true}
           >
             <TileLayer
               attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
@@ -55,10 +59,10 @@ const InteractiveMap = () => {
             {mapLocations.map(loc => (
               <Marker key={loc.id} position={[loc.lat, loc.lng]}>
                 <Popup>
-                  <div className="p-1">
-                    <h4 className="font-bold text-gray-800">{loc.name}</h4>
-                    <p className="text-sm text-gray-600">{loc.desc}</p>
-                    <span className={`inline-block mt-1 px-2 py-0.5 text-white text-xs rounded-full ${getMarkerColor(loc.type)}`}>
+                  <div className="p-0.5 md:p-1">
+                    <h4 className="font-bold text-gray-800 text-sm md:text-base">{loc.name}</h4>
+                    <p className="text-xs md:text-sm text-gray-600">{loc.desc}</p>
+                    <span className={`inline-block mt-1 px-1.5 md:px-2 py-0.5 text-white text-[10px] md:text-xs rounded-full ${getMarkerColor(loc.type)}`}>
                       {loc.type}
                     </span>
                   </div>
@@ -69,10 +73,19 @@ const InteractiveMap = () => {
         </div>
       </div>
       
-      <div className="flex flex-wrap justify-center gap-6 mt-6">
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-green-500"></span> Attractions</div>
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-blue-500"></span> Accommodation</div>
-        <div className="flex items-center gap-2"><span className="w-3 h-3 rounded-full bg-orange-500"></span> Businesses</div>
+      <div className="flex flex-wrap justify-center gap-4 md:gap-6 mt-4 md:mt-6 text-xs md:text-sm">
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-green-500"></span> 
+          <span className="text-gray-700 dark:text-gray-300">Attractions</span>
+        </div>
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-blue-500"></span> 
+          <span className="text-gray-700 dark:text-gray-300">Accommodation</span>
+        </div>
+        <div className="flex items-center gap-1.5 md:gap-2">
+          <span className="w-2.5 h-2.5 md:w-3 md:h-3 rounded-full bg-orange-500"></span> 
+          <span className="text-gray-700 dark:text-gray-300">Businesses</span>
+        </div>
       </div>
     </section>
   )

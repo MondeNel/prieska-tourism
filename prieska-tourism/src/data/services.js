@@ -1,3 +1,12 @@
+import { 
+  Building2, 
+  Sailboat, 
+  Bird, 
+  Telescope, 
+  Camera, 
+  Users 
+} from 'lucide-react'
+
 export const services = [
   {
     id: 1,
@@ -5,7 +14,7 @@ export const services = [
     description: "Explore Prieska's rich history with a knowledgeable local guide. Visit the Tiger's Eye Fort, Khoisan rock art sites, and the Prieska Museum.",
     price: "From R250 pp",
     duration: "2-3 hours",
-    icon: "🏛️"
+    icon: Building2
   },
   {
     id: 2,
@@ -13,7 +22,7 @@ export const services = [
     description: "Kayaking, fishing, or scenic river cruises on the mighty Orange River. Equipment rental and guides available.",
     price: "From R350 pp",
     duration: "Half day",
-    icon: "🚣"
+    icon: Sailboat
   },
   {
     id: 3,
@@ -21,7 +30,7 @@ export const services = [
     description: "Over 200 bird species call Die Bos Nature Reserve home. Join our expert birder for a morning or afternoon session.",
     price: "From R200 pp",
     duration: "3 hours",
-    icon: "🦜"
+    icon: Bird
   },
   {
     id: 4,
@@ -29,7 +38,7 @@ export const services = [
     description: "The Karoo has some of the darkest skies in the world. Enjoy a guided tour of the southern constellations with telescope viewing.",
     price: "From R180 pp",
     duration: "2 hours (evening)",
-    icon: "✨"
+    icon: Telescope
   },
   {
     id: 5,
@@ -37,7 +46,7 @@ export const services = [
     description: "Capture the stunning landscapes, historic buildings, and vibrant culture of Prieska with a professional photographer.",
     price: "From R450 pp",
     duration: "Full day",
-    icon: "📸"
+    icon: Camera
   },
   {
     id: 6,
@@ -45,6 +54,6 @@ export const services = [
     description: "Meet local artisans, learn traditional crafts, and experience authentic Karoo hospitality in a nearby community.",
     price: "From R300 pp",
     duration: "4 hours",
-    icon: "🏘️"
+    icon: Users
   }
 ]

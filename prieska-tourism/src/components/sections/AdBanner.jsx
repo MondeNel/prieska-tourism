@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { X, ExternalLink } from 'lucide-react'
 
-// Placeholder ads - replace with real ad data later
 const ads = [
   {
     id: 1,
@@ -45,40 +44,45 @@ const AdBanner = () => {
   const currentAd = ads[currentAdIndex]
 
   return (
-    <div className="relative max-w-7xl mx-auto px-4 mb-8">
+    <div className="relative max-w-7xl mx-auto px-4 mb-6 md:mb-8">
       <div className={`bg-gradient-to-r ${currentAd.bgColor} rounded-xl shadow-lg overflow-hidden`}>
         <button 
           onClick={() => setIsVisible(false)}
-          className="absolute top-2 right-2 z-10 p-1 bg-black/20 hover:bg-black/40 rounded-full text-white transition"
+          className="absolute top-1.5 right-1.5 md:top-2 md:right-2 z-10 p-1 bg-black/20 hover:bg-black/40 rounded-full text-white transition"
         >
-          <X size={16} />
+          <X className="w-3.5 h-3.5 md:w-4 md:h-4" />
         </button>
         
-        <a href={currentAd.link} target="_blank" rel="noopener noreferrer" className="block p-6 md:p-8">
-          <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+        <a href={currentAd.link} target="_blank" rel="noopener noreferrer" className="block p-4 md:p-6 lg:p-8">
+          <div className="flex flex-col md:flex-row items-start md:items-center justify-between gap-3 md:gap-4">
             <div className="text-white">
-              <span className="text-xs uppercase tracking-wider bg-white/20 px-3 py-1 rounded-full">Sponsored</span>
-              <h3 className="text-2xl md:text-3xl font-serif font-bold mt-3">{currentAd.title}</h3>
-              <p className="text-white/90 mt-1">{currentAd.description}</p>
+              <span className="text-[10px] md:text-xs uppercase tracking-wider bg-white/20 px-2 md:px-3 py-0.5 md:py-1 rounded-full">
+                Sponsored
+              </span>
+              <h3 className="text-lg md:text-2xl lg:text-3xl font-serif font-bold mt-2 md:mt-3">
+                {currentAd.title}
+              </h3>
+              <p className="text-white/90 text-sm md:text-base mt-0.5 md:mt-1">
+                {currentAd.description}
+              </p>
             </div>
-            <div className="flex items-center gap-2 bg-white/20 backdrop-blur-sm px-5 py-3 rounded-full text-white font-medium hover:bg-white/30 transition">
+            <div className="flex items-center gap-1.5 md:gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 md:px-5 md:py-3 rounded-full text-white text-sm md:text-base font-medium hover:bg-white/30 transition self-start md:self-auto">
               <span>Learn More</span>
-              <ExternalLink size={16} />
+              <ExternalLink className="w-3.5 h-3.5 md:w-4 md:h-4" />
             </div>
           </div>
         </a>
       </div>
       
-      {/* Dot indicators */}
-      <div className="flex justify-center gap-2 mt-3">
+      <div className="flex justify-center gap-1.5 md:gap-2 mt-2 md:mt-3">
         {ads.map((_, idx) => (
           <button 
             key={idx}
             onClick={() => setCurrentAdIndex(idx)}
-            className={`h-1.5 rounded-full transition-all ${
+            className={`h-1 md:h-1.5 rounded-full transition-all ${
               idx === currentAdIndex 
-                ? 'w-8 bg-prieska-terracotta' 
-                : 'w-4 bg-gray-300 dark:bg-gray-600'
+                ? 'w-6 md:w-8 bg-prieska-terracotta' 
+                : 'w-3 md:w-4 bg-gray-300 dark:bg-gray-600'
             }`}
           />
         ))}

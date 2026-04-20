@@ -14,19 +14,19 @@ const Businesses = () => {
     : businesses.filter(b => b.category === selectedCategory)
 
   return (
-    <section id="businesses" className="py-16 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900">
+    <section id="businesses" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900">
       <SectionTitle subtitle="EVERYTHING YOU NEED" title="Local Businesses & Amenities" />
       
-      <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto -mt-6 mb-8">
+      <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto -mt-4 md:-mt-6 mb-6 md:mb-8 text-sm md:text-base">
         From fuel stops to fashion, Prieska has all the essentials for a comfortable stay or permanent move.
       </p>
 
-      <div className="flex flex-wrap justify-center gap-2 mb-10">
+      <div className="flex flex-wrap justify-center gap-1.5 md:gap-2 mb-8 md:mb-10">
         {categories.map(category => (
           <button
             key={category}
             onClick={() => setSelectedCategory(category)}
-            className={`px-4 py-2 rounded-full text-sm font-medium transition ${
+            className={`px-3 md:px-4 py-1.5 md:py-2 rounded-full text-xs md:text-sm font-medium transition ${
               selectedCategory === category
                 ? 'bg-prieska-terracotta text-white dark:bg-prieska-terracotta'
                 : 'bg-white dark:bg-gray-800 text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700'
@@ -37,34 +37,34 @@ const Businesses = () => {
         ))}
       </div>
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
         {filteredBusinesses.map(business => {
           const IconComponent = business.icon
           return (
             <div 
               key={business.id} 
-              className="bg-white dark:bg-gray-800 rounded-xl p-6 shadow-sm hover:shadow-md transition border border-gray-100 dark:border-gray-700 flex flex-col"
+              className="bg-white dark:bg-gray-800 rounded-xl p-4 md:p-6 shadow-sm hover:shadow-md transition border border-gray-100 dark:border-gray-700 flex flex-col"
             >
-              <div className="flex items-start gap-4">
-                <div className="p-3 bg-prieska-sand/30 dark:bg-gray-700 rounded-xl">
-                  <IconComponent size={28} className="text-prieska-terracotta dark:text-prieska-terracotta" />
+              <div className="flex items-start gap-3 md:gap-4">
+                <div className="p-2 md:p-3 bg-prieska-sand/30 dark:bg-gray-700 rounded-lg md:rounded-xl">
+                  <IconComponent className="w-5 h-5 md:w-6 md:h-6 lg:w-7 lg:h-7 text-prieska-terracotta dark:text-prieska-terracotta" />
                 </div>
                 <div className="flex-1">
-                  <h3 className="text-xl font-serif font-bold text-gray-800 dark:text-white mb-1">
+                  <h3 className="text-base md:text-lg lg:text-xl font-serif font-bold text-gray-800 dark:text-white mb-0.5 md:mb-1">
                     {business.name}
                   </h3>
-                  <span className={`inline-block px-2 py-0.5 rounded-full text-xs font-semibold ${categoryColors[business.category] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}>
+                  <span className={`inline-block px-1.5 md:px-2 py-0.5 rounded-full text-[10px] md:text-xs font-semibold ${categoryColors[business.category] || 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300'}`}>
                     {business.category}
                   </span>
                 </div>
               </div>
               
-              <p className="text-gray-600 dark:text-gray-300 text-sm mt-4 mb-3 flex-1">
+              <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm mt-3 md:mt-4 mb-2 md:mb-3 flex-1">
                 {business.description}
               </p>
               
-              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mt-2 pt-3 border-t border-gray-100 dark:border-gray-700">
-                <MapPin size={14} className="mr-1 text-prieska-terracotta dark:text-prieska-terracotta flex-shrink-0" />
+              <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs md:text-sm mt-2 pt-2 md:pt-3 border-t border-gray-100 dark:border-gray-700">
+                <MapPin className="w-3 h-3 md:w-3.5 md:h-3.5 mr-1 text-prieska-terracotta dark:text-prieska-terracotta flex-shrink-0" />
                 <span>{business.location}</span>
               </div>
             </div>
@@ -73,7 +73,7 @@ const Businesses = () => {
       </div>
 
       {filteredBusinesses.length === 0 && (
-        <p className="text-center text-gray-500 dark:text-gray-400 mt-8">No businesses found in this category.</p>
+        <p className="text-center text-gray-500 dark:text-gray-400 mt-8 text-sm md:text-base">No businesses found in this category.</p>
       )}
     </section>
   )

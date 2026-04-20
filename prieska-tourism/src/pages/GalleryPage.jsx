@@ -1,3 +1,4 @@
+// src/pages/GalleryPage.jsx
 import { useState } from 'react'
 import SectionTitle from '../components/ui/SectionTitle'
 import { X } from 'lucide-react'
@@ -18,31 +19,48 @@ const GalleryPage = () => {
   const [currentImage, setCurrentImage] = useState(null)
 
   return (
-    <div className="py-16 px-4 max-w-7xl mx-auto">
+    <div className="py-8 md:py-16 px-4 max-w-7xl mx-auto min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
       <SectionTitle subtitle="VISUAL JOURNEY" title="Prieska Gallery" />
       
-      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
         {galleryImages.map((img) => (
           <div
             key={img.id}
             onClick={() => { setCurrentImage(img); setLightboxOpen(true) }}
             className="aspect-square overflow-hidden rounded-lg cursor-pointer group relative"
           >
-            <img src={img.src} alt={img.alt} className="w-full h-full object-cover group-hover:scale-110 transition duration-500" />
-            <div className="absolute inset-0 bg-black bg-opacity-0 group-hover:bg-opacity-30 transition flex items-end p-3">
-              <p className="text-white text-sm opacity-0 group-hover:opacity-100 transition">{img.caption}</p>
+            <img 
+              src={img.src} 
+              alt={img.alt} 
+              className="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
+              loading="lazy"
+            />
+            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-end p-2 md:p-3">
+              <p className="text-white text-xs md:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                {img.caption}
+              </p>
             </div>
           </div>
         ))}
       </div>
 
       {lightboxOpen && currentImage && (
-        <div className="fixed inset-0 bg-black bg-opacity-90 z-50 flex items-center justify-center p-4">
-          <button onClick={() => setLightboxOpen(false)} className="absolute top-4 right-4 text-white hover:text-gray-300">
-            <X size={32} />
+        <div className="fixed inset-0 bg-black/95 dark:bg-black/95 z-50 flex items-center justify-center p-4">
+          <button 
+            onClick={() => setLightboxOpen(false)} 
+            className="absolute top-2 right-2 md:top-4 md:right-4 text-white hover:text-gray-300 p-2 z-10"
+            aria-label="Close gallery"
+          >
+            <X className="w-6 h-6 md:w-8 md:h-8" />
           </button>
-          <img src={currentImage.src} alt={currentImage.alt} className="max-h-full max-w-full object-contain" />
-          <p className="absolute bottom-8 text-white text-lg">{currentImage.caption}</p>
+          <img 
+            src={currentImage.src} 
+            alt={currentImage.alt} 
+            className="max-h-[85vh] max-w-full object-contain"
+          />
+          <p className="absolute bottom-4 md:bottom-8 text-white text-sm md:text-lg text-center px-4">
+            {currentImage.caption}
+          </p>
         </div>
       )}
     </div>
