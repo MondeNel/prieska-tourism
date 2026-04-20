@@ -27,22 +27,26 @@ const WhyPrieska = () => {
   ];
 
   return (
-    <section className="py-16 px-4 bg-gradient-to-br from-prieska-sand to-white">
+    <section className="py-16 px-4 bg-gradient-to-br from-prieska-sand to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto text-center">
-        <span className="text-prieska-terracotta font-semibold uppercase tracking-wider">Why make the journey?</span>
-        <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-800 mt-2 mb-4">Prieska is Different.</h2>
-        <p className="text-lg text-gray-600 max-w-2xl mx-auto mb-12">
+        <span className="text-prieska-terracotta dark:text-prieska-terracotta font-semibold uppercase tracking-wider">
+          Why make the journey?
+        </span>
+        <h2 className="text-3xl md:text-4xl font-serif font-bold text-gray-800 dark:text-white mt-2 mb-4">
+          Prieska is Different.
+        </h2>
+        <p className="text-lg text-gray-600 dark:text-gray-300 max-w-2xl mx-auto mb-12">
           In a world of over-touristed spots, Prieska offers something rare: <span className="font-semibold">space to breathe, stories to hear, and beauty that surprises.</span>
         </p>
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
           {reasons.map((item, idx) => (
-            <div key={idx} className="bg-white p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
-              <div className="text-prieska-terracotta mb-4 flex justify-center">
+            <div key={idx} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md hover:shadow-xl transition transform hover:-translate-y-1">
+              <div className="text-prieska-terracotta dark:text-prieska-terracotta mb-4 flex justify-center">
                 {item.icon}
               </div>
-              <h3 className="text-xl font-serif font-bold mb-2">{item.title}</h3>
-              <p className="text-gray-600">{item.description}</p>
+              <h3 className="text-xl font-serif font-bold mb-2 text-gray-800 dark:text-white">{item.title}</h3>
+              <p className="text-gray-600 dark:text-gray-400">{item.description}</p>
             </div>
           ))}
         </div>

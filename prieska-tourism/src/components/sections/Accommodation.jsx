@@ -1,3 +1,4 @@
+// src/components/sections/Accommodation.jsx
 import { useState } from 'react'
 import { MapPin, Bed, Wifi, Car, Wind, Utensils, Phone, MessageCircle, Facebook, Instagram, Camera } from 'lucide-react'
 import SectionTitle from '../ui/SectionTitle'
@@ -33,7 +34,7 @@ const Accommodation = () => {
         {accommodations.map((place) => (
           <div 
             key={place.id} 
-            className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 group"
+            className="bg-white dark:bg-gray-800 rounded-xl overflow-hidden shadow-md hover:shadow-xl transition duration-300 group"
           >
             <div className="relative h-56 overflow-hidden bg-gradient-to-br from-prieska-river to-prieska-terracotta flex items-center justify-center group-hover:scale-105 transition duration-500">
               <span className="text-white text-lg font-semibold opacity-80">Guesthouse Photo</span>
@@ -42,7 +43,6 @@ const Accommodation = () => {
                   {place.type}
                 </span>
               </div>
-              {/* View Photos Button Overlay */}
               <button 
                 onClick={() => openGallery(place)}
                 className="absolute bottom-4 right-4 bg-black bg-opacity-60 text-white text-xs px-3 py-1.5 rounded-full flex items-center gap-1 hover:bg-opacity-80 transition"
@@ -54,35 +54,34 @@ const Accommodation = () => {
             
             <div className="p-6">
               <div className="flex items-start justify-between mb-2">
-                <h3 className="text-xl font-serif font-bold text-gray-800">
+                <h3 className="text-xl font-serif font-bold text-gray-800 dark:text-white">
                   {place.name}
                 </h3>
-                <span className="text-prieska-terracotta font-semibold text-sm bg-orange-50 px-2 py-1 rounded">
+                <span className="text-prieska-terracotta dark:text-prieska-terracotta font-semibold text-sm bg-orange-50 dark:bg-orange-900/20 px-2 py-1 rounded">
                   {place.priceRange}
                 </span>
               </div>
               
-              <div className="flex items-center text-gray-500 text-sm mb-3">
-                <MapPin size={16} className="mr-1 text-prieska-terracotta" />
+              <div className="flex items-center text-gray-500 dark:text-gray-400 text-sm mb-3">
+                <MapPin size={16} className="mr-1 text-prieska-terracotta dark:text-prieska-terracotta" />
                 <span>Prieska, Northern Cape</span>
               </div>
               
-              <p className="text-gray-600 text-sm mb-4 line-clamp-3">
+              <p className="text-gray-600 dark:text-gray-300 text-sm mb-4 line-clamp-3">
                 {place.description}
               </p>
               
-              <div className="flex flex-wrap gap-2 mb-4 border-t border-gray-100 pt-4">
+              <div className="flex flex-wrap gap-2 mb-4 border-t border-gray-100 dark:border-gray-700 pt-4">
                 {place.features.map((feat, idx) => (
-                  <span key={idx} className="inline-flex items-center gap-1 text-xs text-gray-500 bg-gray-100 px-2 py-1 rounded-full">
+                  <span key={idx} className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
                     {getFeatureIcon(feat)}
                     {feat}
                   </span>
                 ))}
               </div>
               
-              {/* Contact Buttons */}
               <div className="flex gap-2 mb-3">
-                <button className="flex-1 border border-prieska-terracotta text-prieska-terracotta hover:bg-prieska-terracotta hover:text-white font-medium py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2">
+                <button className="flex-1 border border-prieska-terracotta text-prieska-terracotta dark:text-prieska-terracotta hover:bg-prieska-terracotta hover:text-white dark:hover:text-white font-medium py-2 rounded-lg transition duration-200 flex items-center justify-center gap-2">
                   <Phone size={16} />
                   Call
                 </button>
@@ -95,14 +94,13 @@ const Accommodation = () => {
                 </button>
               </div>
 
-              {/* Social Media Links */}
-              <div className="flex items-center justify-center gap-5 pt-2 border-t border-gray-100">
+              <div className="flex items-center justify-center gap-5 pt-2 border-t border-gray-100 dark:border-gray-700">
                 {place.facebook && (
                   <a 
                     href={place.facebook} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-blue-600 transition p-1"
+                    className="text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 transition p-1"
                     title="Facebook"
                   >
                     <Facebook size={22} />
@@ -113,13 +111,13 @@ const Accommodation = () => {
                     href={place.instagram} 
                     target="_blank" 
                     rel="noopener noreferrer"
-                    className="text-gray-500 hover:text-pink-600 transition p-1"
+                    className="text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500 transition p-1"
                     title="Instagram"
                   >
                     <Instagram size={22} />
                   </a>
                 )}
-                <span className="text-xs text-gray-400">{place.contact}</span>
+                <span className="text-xs text-gray-400 dark:text-gray-500">{place.contact}</span>
               </div>
             </div>
           </div>
@@ -127,10 +125,9 @@ const Accommodation = () => {
       </div>
       
       <div className="text-center mt-10">
-        <p className="text-gray-500 italic"></p>
+        <p className="text-gray-500 dark:text-gray-400 italic"></p>
       </div>
 
-      {/* Gallery Modal */}
       <GalleryModal 
         isOpen={galleryOpen}
         onClose={() => setGalleryOpen(false)}

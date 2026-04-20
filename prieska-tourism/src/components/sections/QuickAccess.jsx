@@ -20,8 +20,8 @@ const quickAccessItems = [
     title: 'News',
     description: 'Latest updates & stories from Prieska',
     icon: Newspaper,
-    href: '#news', // Changed to anchor link
-    color: 'bg-blue-50 text-blue-600 group-hover:bg-blue-600 group-hover:text-white',
+    href: '#news',
+    color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 dark:group-hover:bg-blue-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'history',
@@ -29,7 +29,7 @@ const quickAccessItems = [
     description: 'Ancient origins & heritage',
     icon: Landmark,
     href: '#history',
-    color: 'bg-amber-50 text-amber-600 group-hover:bg-amber-600 group-hover:text-white',
+    color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-600 dark:group-hover:bg-amber-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'vacancies',
@@ -37,7 +37,7 @@ const quickAccessItems = [
     description: 'Find job opportunities in Prieska',
     icon: Briefcase,
     href: '#vacancies',
-    color: 'bg-emerald-50 text-emerald-600 group-hover:bg-emerald-600 group-hover:text-white',
+    color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 dark:group-hover:bg-emerald-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'notices',
@@ -45,7 +45,7 @@ const quickAccessItems = [
     description: 'Important announcements & updates',
     icon: Bell,
     href: '#notices',
-    color: 'bg-red-50 text-red-600 group-hover:bg-red-600 group-hover:text-white',
+    color: 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 dark:group-hover:bg-red-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'events',
@@ -53,7 +53,7 @@ const quickAccessItems = [
     description: 'What\'s happening in and around town',
     icon: CalendarDays,
     href: '#events',
-    color: 'bg-green-50 text-green-600 group-hover:bg-green-600 group-hover:text-white',
+    color: 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:bg-green-600 dark:group-hover:bg-green-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'things-to-do',
@@ -61,7 +61,7 @@ const quickAccessItems = [
     description: 'Adventures, sights & experiences',
     icon: MapPin,
     href: '#discover',
-    color: 'bg-purple-50 text-purple-600 group-hover:bg-purple-600 group-hover:text-white',
+    color: 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 dark:group-hover:bg-purple-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'businesses',
@@ -69,7 +69,7 @@ const quickAccessItems = [
     description: 'Shops, services & amenities',
     icon: Store,
     href: '#businesses',
-    color: 'bg-indigo-50 text-indigo-600 group-hover:bg-indigo-600 group-hover:text-white',
+    color: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 dark:group-hover:bg-indigo-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'guesthouses',
@@ -77,7 +77,7 @@ const quickAccessItems = [
     description: 'Find your perfect stay',
     icon: Bed,
     href: '#accommodation',
-    color: 'bg-orange-50 text-orange-600 group-hover:bg-orange-600 group-hover:text-white',
+    color: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 dark:group-hover:bg-orange-600 group-hover:text-white dark:group-hover:text-white',
   },
   {
     id: 'faq',
@@ -85,7 +85,7 @@ const quickAccessItems = [
     description: 'Answers to common questions',
     icon: Info,
     to: '/faq',
-    color: 'bg-gray-50 text-gray-600 group-hover:bg-gray-600 group-hover:text-white',
+    color: 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-600 dark:group-hover:bg-gray-700 group-hover:text-white dark:group-hover:text-gray-200',
   },
 ];
 
@@ -93,29 +93,32 @@ const QuickAccess = () => {
   return (
     <section className="py-12 px-4 max-w-7xl mx-auto">
       <div className="mb-8">
-        <h2 className="text-3xl font-serif font-bold text-gray-800">Quick Access</h2>
-        <p className="text-gray-600 mt-2">Everything you need, right at your fingertips.</p>
+        <h2 className="text-3xl font-serif font-bold text-gray-800 dark:text-white">
+          Quick Access
+        </h2>
+        <p className="text-gray-600 dark:text-gray-400 mt-2">
+          Everything you need, right at your fingertips.
+        </p>
       </div>
 
-      {/* Responsive Grid: 1 col on mobile, up to 4 on large screens */}
+      {/* Responsive Grid: 2 cols on mobile, up to 4 on large screens */}
       <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 md:gap-6">
         {quickAccessItems.map((item) => {
           const IconComponent = item.icon;
-          // Determine if this is an internal anchor or a React Router link
           const isAnchor = item.href;
           
-          // Base card classes
-          const cardClasses = `group flex flex-col items-center p-5 bg-white rounded-xl shadow-sm border border-gray-100 hover:shadow-md transition-all duration-200 cursor-pointer text-center ${isAnchor ? '' : ''}`;
+          // Base card classes with dark mode support
+          const cardClasses = `group flex flex-col items-center p-5 bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 hover:shadow-md dark:hover:shadow-gray-900/30 transition-all duration-200 cursor-pointer text-center`;
           
           const CardContent = () => (
             <>
               <div className={`p-3 rounded-full transition-colors duration-200 ${item.color}`}>
                 <IconComponent size={24} />
               </div>
-              <h3 className="font-semibold text-gray-800 mt-3 group-hover:text-prieska-terracotta transition-colors">
+              <h3 className="font-semibold text-gray-800 dark:text-gray-200 mt-3 group-hover:text-prieska-terracotta dark:group-hover:text-prieska-terracotta transition-colors">
                 {item.title}
               </h3>
-              <p className="text-sm text-gray-500 mt-1 hidden sm:block">
+              <p className="text-sm text-gray-500 dark:text-gray-400 mt-1 hidden sm:block">
                 {item.description}
               </p>
             </>

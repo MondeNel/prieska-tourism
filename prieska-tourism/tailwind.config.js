@@ -1,5 +1,7 @@
+// tailwind.config.js
 /** @type {import('tailwindcss').Config} */
 export default {
+  darkMode: 'class',
   content: [
     "./index.html",
     "./src/**/*.{js,ts,jsx,tsx}",
@@ -12,8 +14,8 @@ export default {
         'prieska-sand': '#EADDCA',
       },
       fontFamily: {
-        'serif': ['"Playfair Display"', 'serif'],
-        'sans': ['Inter', 'sans-serif'],
+        'serif': ['Merriweather', 'serif'],      // Changed
+        'sans': ['Poppins', 'sans-serif'],       // Changed
       },
     },
   },

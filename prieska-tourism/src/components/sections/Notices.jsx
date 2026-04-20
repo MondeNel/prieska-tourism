@@ -1,3 +1,4 @@
+// src/components/sections/Notices.jsx
 import { AlertCircle, Calendar, Bell } from 'lucide-react'
 import SectionTitle from '../ui/SectionTitle'
 
@@ -35,18 +36,18 @@ const Notices = () => {
       
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {notices.map((notice) => (
-          <div key={notice.id} className="bg-white p-6 rounded-xl shadow-md border border-gray-100 hover:shadow-lg transition">
+          <div key={notice.id} className="bg-white dark:bg-gray-800 p-6 rounded-xl shadow-md border border-gray-100 dark:border-gray-700 hover:shadow-lg transition">
             <div className="flex items-center gap-3 mb-4">
-              <div className="bg-prieska-sand p-2 rounded-full">
+              <div className="bg-prieska-sand dark:bg-gray-700 p-2 rounded-full">
                 {notice.icon}
               </div>
-              <span className="text-sm font-semibold text-prieska-terracotta uppercase tracking-wide">
+              <span className="text-sm font-semibold text-prieska-terracotta dark:text-prieska-terracotta uppercase tracking-wide">
                 {notice.type}
               </span>
             </div>
-            <h3 className="text-xl font-serif font-bold mb-2">{notice.title}</h3>
-            <p className="text-gray-500 text-sm mb-3">{notice.date}</p>
-            <p className="text-gray-600">{notice.description}</p>
+            <h3 className="text-xl font-serif font-bold mb-2 text-gray-800 dark:text-white">{notice.title}</h3>
+            <p className="text-gray-500 dark:text-gray-400 text-sm mb-3">{notice.date}</p>
+            <p className="text-gray-600 dark:text-gray-300">{notice.description}</p>
           </div>
         ))}
       </div>
