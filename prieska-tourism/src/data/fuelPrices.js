@@ -1,8 +1,10 @@
+// src/data/fuelPrices.js
+
 export const fuelPrices = [
   {
     id: 1,
     station: 'GWK Fuel Station',
-    location: 'Main Road',
+    location: 'Main Road, Prieska',
     prices: {
       petrol93: 23.45,
       petrol95: 23.89,
@@ -13,15 +15,15 @@ export const fuelPrices = [
   },
   {
     id: 2,
-    station: 'Engen Prieska',
-    location: 'N10 Highway',
+    station: 'OVK Fuel Station',
+    location: 'N10 Highway, Prieska',
     prices: {
-      petrol93: 23.50,
+      petrol93: 23.52,
       petrol95: 23.95,
-      diesel50: 22.15,
+      diesel50: 22.18,
       diesel500: 21.90
     },
-    lastUpdated: '2025-04-14'
+    lastUpdated: '2025-04-16'
   }
 ]
 

@@ -13,7 +13,8 @@ import {
   Shield,
   Cloud,
   Fuel,
-  Map
+  Map,
+  School
 } from 'lucide-react';
 
 const quickAccessItems = [
@@ -121,6 +122,14 @@ const quickAccessItems = [
     to: '/faq',
     color: 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-600 group-hover:text-white',
   },
+  {
+  id: 'schools',
+  title: 'Schools',
+  description: 'Education in Prieska',
+  icon: School,
+  href: '#schools',
+  color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white',
+}
 ];
 
 const QuickAccess = () => {

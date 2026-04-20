@@ -7,7 +7,9 @@ import {
   Zap, 
   Shield, 
   Landmark, 
-  Wrench 
+  Wrench,
+  Car,
+  Sofa
 } from 'lucide-react'
 
 export const businesses = [
@@ -22,11 +24,11 @@ export const businesses = [
   },
   {
     id: 2,
-    name: "Engen Prieska",
+    name: "OVK Fuel Station",
     category: "Fuel",
     description: "Fuel, QuickShop, and ATM. Open daily 6am-9pm.",
     icon: Fuel,
-    location: "N10 Highway"
+    location: "N10 Highway, Prieska"
   },
 
   // Retail & Shopping
@@ -70,10 +72,26 @@ export const businesses = [
     icon: Shirt,
     location: "Tieroog Mall"
   },
+  {
+    id: 8,
+    name: "Pep Stores",
+    category: "Retail",
+    description: "Affordable clothing, footwear, homeware and cellular products.",
+    icon: ShoppingBag,
+    location: "Main Road, Prieska"
+  },
+  {
+    id: 9,
+    name: "Prieska Meubels",
+    category: "Retail",
+    description: "Quality furniture store with a great variety for a small town.",
+    icon: Sofa,
+    location: "Prieska"
+  },
 
   // Food & Dining
   {
-    id: 8,
+    id: 10,
     name: "KFC",
     category: "Food",
     description: "The Colonel's famous fried chicken, burgers, and sides.",
@@ -81,9 +99,27 @@ export const businesses = [
     location: "Main Road"
   },
 
+  // Automotive
+  {
+    id: 11,
+    name: "Toyota Prieska",
+    category: "Automotive",
+    description: "New and used Toyota vehicles, parts, and certified service centre.",
+    icon: Car,
+    location: "Prieska"
+  },
+  {
+    id: 12,
+    name: "Prieska Auto Repairs",
+    category: "Automotive",
+    description: "Vehicle servicing, tyre repairs, and breakdown assistance.",
+    icon: Wrench,
+    location: "Industrial Area"
+  },
+
   // Services & Security
   {
-    id: 9,
+    id: 13,
     name: "Prieska Electrical",
     category: "Services",
     description: "Electrical supplies, repairs, and solar installations.",
@@ -91,28 +127,38 @@ export const businesses = [
     location: "Church Street"
   },
   {
-    id: 10,
+    id: 14,
     name: "ADT Security Prieska",
     category: "Security",
     description: "24/7 armed response, alarm monitoring, and CCTV solutions.",
     icon: Shield,
     location: "Voortrekker Street"
   },
+
+  // Banking & Finance
   {
-    id: 11,
-    name: "Prieska Auto Repairs",
-    category: "Services",
-    description: "Vehicle servicing, tyre repairs, and breakdown assistance.",
-    icon: Wrench,
-    location: "Industrial Area"
-  },
-  {
-    id: 12,
+    id: 15,
     name: "Standard Bank",
     category: "Finance",
     description: "ATM, deposits, and full banking services.",
     icon: Landmark,
     location: "Main Road"
+  },
+  {
+    id: 16,
+    name: "Absa Bank",
+    category: "Finance",
+    description: "Full-service banking branch with ATMs and financial advice.",
+    icon: Landmark,
+    location: "Cnr Main & Church Street, Prieska"
+  },
+  {
+    id: 17,
+    name: "FNB Prieska",
+    category: "Finance",
+    description: "First National Bank branch with ATM and personal/business banking.",
+    icon: Landmark,
+    location: "Kerk Street, Prieska"
   }
 ]
 
@@ -122,6 +168,7 @@ export const categoryColors = {
   "Retail": "bg-blue-100 text-blue-800",
   "Fashion": "bg-pink-100 text-pink-800",
   "Food": "bg-red-100 text-red-800",
+  "Automotive": "bg-slate-100 text-slate-800",
   "Services": "bg-purple-100 text-purple-800",
   "Security": "bg-green-100 text-green-800",
   "Finance": "bg-indigo-100 text-indigo-800"

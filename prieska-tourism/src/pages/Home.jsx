@@ -14,6 +14,7 @@ import Vacancies from '../components/sections/Vacancies'
 import Accommodation from '../components/sections/Accommodation'
 import Testimonials from '../components/sections/Testimonials'
 import News from '../components/sections/News'
+import Schools from '../components/sections/Schools'
 
 const Home = () => {
   return (
@@ -30,6 +31,7 @@ const Home = () => {
       <Attractions />
       <FuelPriceTracker />
       <Businesses />
+      <Schools /> 
       <Vacancies />
       <Accommodation />
       <Testimonials />

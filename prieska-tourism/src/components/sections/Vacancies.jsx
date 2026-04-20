@@ -3,9 +3,11 @@ import { useState } from 'react'
 import SectionTitle from '../ui/SectionTitle'
 import { vacancies, getRelativeTime } from '../../data/vacancies'
 import { MapPin, Clock, Phone, Mail, ChevronDown, ChevronUp } from 'lucide-react'
+import PostVacancyModal from '../ui/PostVacancyModal'
 
 const Vacancies = () => {
   const [expandedId, setExpandedId] = useState(null)
+  const [showPostModal, setShowPostModal] = useState(false)
 
   const toggleExpand = (id) => {
     setExpandedId(expandedId === id ? null : id)
@@ -109,10 +111,19 @@ const Vacancies = () => {
         <p className="text-gray-500 dark:text-gray-400 mb-3 md:mb-4 text-sm md:text-base">
           Are you an employer looking to hire in Prieska?
         </p>
-        <button className="bg-white dark:bg-gray-800 border-2 border-prieska-terracotta text-prieska-terracotta dark:text-prieska-terracotta px-5 md:px-6 py-2.5 md:py-3 rounded-full text-sm md:text-base font-semibold hover:bg-prieska-terracotta hover:text-white dark:hover:bg-prieska-terracotta dark:hover:text-white transition-all">
+        <button 
+          onClick={() => setShowPostModal(true)}
+          className="bg-white dark:bg-gray-800 border-2 border-prieska-terracotta text-prieska-terracotta dark:text-prieska-terracotta px-5 md:px-6 py-2.5 md:py-3 rounded-full text-sm md:text-base font-semibold hover:bg-prieska-terracotta hover:text-white dark:hover:bg-prieska-terracotta dark:hover:text-white transition-all"
+        >
           Post a Vacancy
         </button>
       </div>
+
+      {/* Post Vacancy Modal */}
+      <PostVacancyModal 
+        isOpen={showPostModal}
+        onClose={() => setShowPostModal(false)}
+      />
     </section>
   )
 }
