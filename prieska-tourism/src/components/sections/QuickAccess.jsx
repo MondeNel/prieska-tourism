@@ -2,8 +2,8 @@
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
 import { 
-  Newspaper, Landmark, Bell, CalendarDays, MapPin, Store, Bed, Info, Briefcase,
-  Shield, Cloud, Fuel, Map as MapIcon, Users, Megaphone, Home, AlertCircle
+  Newspaper, Landmark, Bell, CalendarDays, Store, Bed, Info, Briefcase,
+  Shield, Cloud, Fuel, Map as MapIcon, Users, Megaphone, AlertCircle
 } from 'lucide-react'
 import QuickAccessSkeleton from '../ui/skeletons/QuickAccessSkeleton'
 
@@ -18,7 +18,6 @@ const QuickAccess = ({ openModal }) => {
   }, [])
 
   const scrollToSection = (sectionId) => {
-    // If we're not on the home page, navigate there first
     if (location.pathname !== '/') {
       navigate('/')
       setTimeout(() => {
@@ -36,15 +35,13 @@ const QuickAccess = ({ openModal }) => {
   }
 
   const quickAccessItems = [
-    { id: 'home', title: 'Home', description: 'Return to top', icon: Home, action: () => window.scrollTo({ top: 0, behavior: 'smooth' }), color: 'bg-gray-50 dark:bg-gray-800 text-gray-600 dark:text-gray-400 group-hover:bg-gray-600 group-hover:text-white' },
     { id: 'news', title: 'News', description: 'Latest updates & stories', icon: Newspaper, action: () => openModal?.('news'), color: 'bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-400 group-hover:bg-blue-600 group-hover:text-white' },
     { id: 'history', title: 'History', description: 'Ancient origins & heritage', icon: Landmark, action: () => openModal?.('history'), color: 'bg-amber-50 dark:bg-amber-900/30 text-amber-600 dark:text-amber-400 group-hover:bg-amber-600 group-hover:text-white' },
-    { id: 'vacancies', title: 'Vacancies', description: 'Job opportunities', icon: Briefcase, action: () => scrollToSection('vacancies'), color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white' },
+    { id: 'vacancies', title: 'Vacancies', description: 'Job opportunities', icon: Briefcase, action: () => openModal?.('vacancies'), color: 'bg-emerald-50 dark:bg-emerald-900/30 text-emerald-600 dark:text-emerald-400 group-hover:bg-emerald-600 group-hover:text-white' },
     { id: 'notices', title: 'Notice Board', description: 'Community classifieds', icon: Bell, action: () => openModal?.('noticeboard'), color: 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 group-hover:text-white' },
     { id: 'events', title: 'Events', description: 'What\'s happening', icon: CalendarDays, action: () => openModal?.('events'), color: 'bg-green-50 dark:bg-green-900/30 text-green-600 dark:text-green-400 group-hover:bg-green-600 group-hover:text-white' },
     { id: 'report', title: 'Report Issue', description: 'Notify municipality', icon: AlertCircle, action: () => openModal?.('report'), color: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white' },
-    { id: 'things-to-do', title: 'Things to Do', description: 'Adventures & sights', icon: MapPin, action: () => scrollToSection('discover'), color: 'bg-purple-50 dark:bg-purple-900/30 text-purple-600 dark:text-purple-400 group-hover:bg-purple-600 group-hover:text-white' },
-    { id: 'businesses', title: 'Businesses', description: 'Shops & services', icon: Store, action: () => scrollToSection('businesses'), color: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white' },
+    { id: 'businesses', title: 'Businesses', description: 'Shops & services', icon: Store, action: () => openModal?.('businesses'), color: 'bg-indigo-50 dark:bg-indigo-900/30 text-indigo-600 dark:text-indigo-400 group-hover:bg-indigo-600 group-hover:text-white' },
     { id: 'guesthouses', title: 'Guesthouses', description: 'Find your stay', icon: Bed, action: () => scrollToSection('accommodation'), color: 'bg-orange-50 dark:bg-orange-900/30 text-orange-600 dark:text-orange-400 group-hover:bg-orange-600 group-hover:text-white' },
     { id: 'emergency', title: 'Emergency', description: 'Important numbers', icon: Shield, action: () => scrollToSection('emergency'), color: 'bg-red-50 dark:bg-red-900/30 text-red-600 dark:text-red-400 group-hover:bg-red-600 group-hover:text-white' },
     { id: 'weather', title: 'Weather', description: 'Current conditions', icon: Cloud, action: () => scrollToSection('weather'), color: 'bg-cyan-50 dark:bg-cyan-900/30 text-cyan-600 dark:text-cyan-400 group-hover:bg-cyan-600 group-hover:text-white' },
@@ -56,7 +53,7 @@ const QuickAccess = ({ openModal }) => {
   ]
 
   if (loading) {
-    return <QuickAccessSkeleton count={17} />
+    return <QuickAccessSkeleton count={quickAccessItems.length} />
   }
 
   return (

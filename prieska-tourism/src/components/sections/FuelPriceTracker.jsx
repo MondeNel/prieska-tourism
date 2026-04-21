@@ -1,9 +1,14 @@
 // src/components/sections/FuelPriceTracker.jsx
+import { useState } from 'react'
 import SectionTitle from '../ui/SectionTitle'
 import { fuelPrices } from '../../data/fuelPrices'
 import { Fuel, TrendingDown, Calendar } from 'lucide-react'
+import FuelCalculatorModal from '../ui/FuelCalculatorModal'
 
 const FuelPriceTracker = () => {
+  const [selectedStation, setSelectedStation] = useState(null)
+  const [showCalculator, setShowCalculator] = useState(false)
+
   const fuelTypes = [
     { key: 'petrol93', label: 'Petrol 93', color: 'text-orange-500 dark:text-orange-400' },
     { key: 'petrol95', label: 'Petrol 95', color: 'text-orange-600 dark:text-orange-500' },
@@ -11,9 +16,19 @@ const FuelPriceTracker = () => {
     { key: 'diesel500', label: 'Diesel 500', color: 'text-green-700 dark:text-green-600' }
   ]
 
+  const handleStationClick = (station) => {
+    setSelectedStation(station)
+    setShowCalculator(true)
+  }
+
   return (
-    <section id="fuel" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900/50">
+    <section id="fuel" className="py-8 md:py-12 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900/50">
       <SectionTitle subtitle="SAVE AT THE PUMP" title="Fuel Prices in Prieska" />
+      
+      {/* Instructional Text */}
+      <p className="text-center text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4">
+        ⛽ Click on any station below to open the fuel calculator — see exactly how many litres you'll get for your money.
+      </p>
       
       <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
         <table className="w-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden text-[11px] md:text-sm">
@@ -28,7 +43,11 @@ const FuelPriceTracker = () => {
           </thead>
           <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
             {fuelPrices.map(station => (
-              <tr key={station.id} className="hover:bg-gray-50 dark:hover:bg-gray-700/50">
+              <tr 
+                key={station.id} 
+                className="hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition"
+                onClick={() => handleStationClick(station)}
+              >
                 <td className="px-2 md:px-4 py-2 md:py-3">
                   <div className="flex items-center gap-1.5 md:gap-3">
                     <Fuel className="w-3.5 h-3.5 md:w-5 md:h-5 text-prieska-terracotta flex-shrink-0" />
@@ -61,6 +80,13 @@ const FuelPriceTracker = () => {
         <TrendingDown className="w-3 h-3 md:w-4 md:h-4 inline mr-0.5" />
         Prices updated daily. Actual pump price may vary slightly.
       </p>
+
+      {/* Calculator Modal */}
+      <FuelCalculatorModal 
+        isOpen={showCalculator}
+        onClose={() => setShowCalculator(false)}
+        station={selectedStation}
+      />
     </section>
   )
 }

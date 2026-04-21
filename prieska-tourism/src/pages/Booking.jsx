@@ -205,7 +205,7 @@ const Booking = () => {
       />
 
       {/* Global Calendar Overrides */}
-      <style jsx global>{`
+      <style>{`
         .react-calendar {
           width: 100%;
           border: none;

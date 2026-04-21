@@ -1,39 +1,100 @@
 // src/components/sections/InteractiveMap.jsx
 import { MapContainer, TileLayer, Marker, Popup } from 'react-leaflet'
-import { Icon } from 'leaflet'
+import L from 'leaflet'
 import 'leaflet/dist/leaflet.css'
 import SectionTitle from '../ui/SectionTitle'
-import markerIcon2x from 'leaflet/dist/images/marker-icon-2x.png'
-import markerIcon from 'leaflet/dist/images/marker-icon.png'
-import markerShadow from 'leaflet/dist/images/marker-shadow.png'
 
-// Fix Leaflet default icon path issues
-delete Icon.Default.prototype._getIconUrl
-Icon.Default.mergeOptions({
-  iconRetinaUrl: markerIcon2x,
-  iconUrl: markerIcon,
-  shadowUrl: markerShadow,
-})
+// Create custom colored icons for each category
+const createCustomIcon = (color) => {
+  return L.divIcon({
+    className: 'custom-marker',
+    html: `<div style="background-color: ${color}; width: 24px; height: 24px; border-radius: 50%; border: 3px solid white; box-shadow: 0 2px 8px rgba(0,0,0,0.3);"></div>`,
+    iconSize: [24, 24],
+    iconAnchor: [12, 24],
+    popupAnchor: [0, -24],
+  })
+}
 
-// Prieska coordinates
+const markerIcons = {
+  attraction: createCustomIcon('#22c55e'), // green
+  accommodation: createCustomIcon('#3b82f6'), // blue
+  business: createCustomIcon('#f97316'), // orange
+  default: createCustomIcon('#6b7280'), // gray
+}
+
+// Prieska center coordinates (town center)
 const PRIESKA_CENTER = [-29.6669, 22.7444]
 
+// Updated locations with verified/approximate coordinates
 const mapLocations = [
-  { id: 1, name: 'Die Bos Nature Reserve', type: 'attraction', lat: -29.665, lng: 22.735, desc: 'Hiking, birding, picnic spots' },
-  { id: 2, name: 'Prieska Koppie Fort', type: 'attraction', lat: -29.668, lng: 22.742, desc: 'Historic fort with tiger\'s eye' },
-  { id: 3, name: 'Wonderdraai', type: 'attraction', lat: -29.680, lng: 22.750, desc: 'River appears to flow uphill' },
-  { id: 4, name: 'Gariep Country Lodge', type: 'accommodation', lat: -29.667, lng: 22.740, desc: 'Guesthouse on Main Road' },
-  { id: 5, name: 'GWK Fuel Station', type: 'business', lat: -29.664, lng: 22.738, desc: '24/7 fuel & convenience' },
-  { id: 6, name: 'Spar Tieroog Mall', type: 'business', lat: -29.662, lng: 22.745, desc: 'Supermarket & shops' }
+  { 
+    id: 1, 
+    name: 'Die Bos Nature Reserve', 
+    type: 'attraction', 
+    lat: -29.6620, 
+    lng: 22.7320, 
+    desc: 'Hiking, birding, picnic spots along the Orange River' 
+  },
+  { 
+    id: 2, 
+    name: 'Prieska Koppie Fort', 
+    type: 'attraction', 
+    lat: -29.6680, 
+    lng: 22.7420, 
+    desc: 'Historic fort built with tiger\'s eye stone' 
+  },
+  { 
+    id: 3, 
+    name: 'Wonderdraai', 
+    type: 'attraction', 
+    lat: -29.6800, 
+    lng: 22.7500, 
+    desc: 'River bend where water appears to flow uphill' 
+  },
+  { 
+    id: 4, 
+    name: 'Gariep Country Lodge', 
+    type: 'accommodation', 
+    lat: -29.6670, 
+    lng: 22.7400, 
+    desc: 'Guesthouse on Main Road with secure parking' 
+  },
+  { 
+    id: 5, 
+    name: 'GWK Fuel Station', 
+    type: 'business', 
+    lat: -29.6640, 
+    lng: 22.7380, 
+    desc: '24/7 fuel, convenience store, clean restrooms' 
+  },
+  { 
+    id: 6, 
+    name: 'Spar Tieroog Mall', 
+    type: 'business', 
+    lat: -29.6620, 
+    lng: 22.7450, 
+    desc: 'Supermarket with bakery, deli, fresh produce' 
+  },
+  { 
+    id: 7, 
+    name: 'Delikaat Bed & Coffee', 
+    type: 'accommodation', 
+    lat: -29.6650, 
+    lng: 22.7420, 
+    desc: 'Self-catering units near Prieska Museum' 
+  },
+  { 
+    id: 8, 
+    name: 'OVK Fuel Station', 
+    type: 'business', 
+    lat: -29.6700, 
+    lng: 22.7500, 
+    desc: 'Fuel and QuickShop on N10 Highway' 
+  },
 ]
 
-const getMarkerColor = (type) => {
-  switch(type) {
-    case 'attraction': return 'bg-green-500'
-    case 'accommodation': return 'bg-blue-500'
-    case 'business': return 'bg-orange-500'
-    default: return 'bg-gray-500'
-  }
+const getMarkerIcon = (type) => {
+  return markerIcons[type] || markerIcons.default
 }
 
 const InteractiveMap = () => {
@@ -57,12 +118,20 @@ const InteractiveMap = () => {
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             {mapLocations.map(loc => (
-              <Marker key={loc.id} position={[loc.lat, loc.lng]}>
+              <Marker 
+                key={loc.id} 
+                position={[loc.lat, loc.lng]}
+                icon={getMarkerIcon(loc.type)}
+              >
                 <Popup>
                   <div className="p-0.5 md:p-1">
                     <h4 className="font-bold text-gray-800 text-sm md:text-base">{loc.name}</h4>
                     <p className="text-xs md:text-sm text-gray-600">{loc.desc}</p>
-                    <span className={`inline-block mt-1 px-1.5 md:px-2 py-0.5 text-white text-[10px] md:text-xs rounded-full ${getMarkerColor(loc.type)}`}>
+                    <span className={`inline-block mt-1 px-1.5 md:px-2 py-0.5 text-white text-[10px] md:text-xs rounded-full ${
+                      loc.type === 'attraction' ? 'bg-green-500' : 
+                      loc.type === 'accommodation' ? 'bg-blue-500' : 
+                      'bg-orange-500'
+                    }`}>
                       {loc.type}
                     </span>
                   </div>
