@@ -12,7 +12,7 @@ const FuelPriceTracker = () => {
   ]
 
   return (
-    <section id="fuel" className="py-8 md:py-12 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900/50">
+    <section id="fuel" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900/50">
       <SectionTitle subtitle="SAVE AT THE PUMP" title="Fuel Prices in Prieska" />
       
       <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">

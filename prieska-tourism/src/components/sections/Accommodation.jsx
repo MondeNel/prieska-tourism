@@ -28,7 +28,7 @@ const Accommodation = () => {
   }
 
   return (
-    <section id="accommodation" className="py-12 md:py-16 px-4 max-w-7xl mx-auto">
+     <section id="accommodation" className="py-12 md:py-16 px-4 max-w-7xl mx-auto">
       <SectionTitle subtitle="STAY IN COMFORT" title="Prieska Guesthouses & Lodges" />
       
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 lg:gap-8">

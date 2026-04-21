@@ -14,7 +14,7 @@ const Vacancies = () => {
   }
 
   return (
-    <section id="vacancies" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gradient-to-b from-white to-prieska-sand/10 dark:from-gray-900 dark:to-gray-800">
+   <section id="vacancies" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gradient-to-b from-white to-prieska-sand/10 dark:from-gray-900 dark:to-gray-800">
       <SectionTitle subtitle="WORK IN PRIESKA" title="Job Vacancies" />
       
       <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto -mt-4 md:-mt-6 mb-8 md:mb-10 text-sm md:text-base">

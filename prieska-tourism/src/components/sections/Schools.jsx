@@ -5,7 +5,7 @@ import { MapPin, Phone } from 'lucide-react'
 
 const Schools = () => {
   return (
-    <section id="schools" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-white dark:bg-gray-900">
+     <section id="schools" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-white dark:bg-gray-900">
       <SectionTitle subtitle="EDUCATION IN PRIESKA" title="Schools & Learning" />
       
       <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto -mt-4 md:-mt-6 mb-8 md:mb-10 text-sm md:text-base">

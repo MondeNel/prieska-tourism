@@ -1,17 +1,28 @@
 // src/components/sections/Businesses.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import SectionTitle from '../ui/SectionTitle'
 import { businesses, categoryColors } from '../../data/businesses'
 import { MapPin } from 'lucide-react'
+import BusinessSkeleton from '../ui/skeletons/BusinessSkeleton'
 
 const Businesses = () => {
   const [selectedCategory, setSelectedCategory] = useState('All')
+  const [loading, setLoading] = useState(true)
   
   const categories = ['All', ...new Set(businesses.map(b => b.category))]
   
   const filteredBusinesses = selectedCategory === 'All' 
     ? businesses 
     : businesses.filter(b => b.category === selectedCategory)
+
+  useEffect(() => {
+    const timer = setTimeout(() => setLoading(false), 600)
+    return () => clearTimeout(timer)
+  }, [])
+
+  if (loading) {
+    return <BusinessSkeleton count={6} />
+  }
 
   return (
     <section id="businesses" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900">

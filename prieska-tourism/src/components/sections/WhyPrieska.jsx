@@ -27,7 +27,7 @@ const WhyPrieska = () => {
   ];
 
   return (
-    <section id="why-prieska" className="py-12 md:py-16 px-4 bg-gradient-to-br from-prieska-sand to-white dark:from-gray-900 dark:to-gray-800">
+   <section id="why-prieska" className="py-12 md:py-16 px-4 bg-gradient-to-br from-prieska-sand to-white dark:from-gray-900 dark:to-gray-800">
       <div className="max-w-7xl mx-auto text-center">
         <span className="text-prieska-terracotta dark:text-prieska-terracotta text-xs md:text-sm font-semibold uppercase tracking-wider">
           Why make the journey?

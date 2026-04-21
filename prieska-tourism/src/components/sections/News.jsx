@@ -7,7 +7,7 @@ const News = () => {
   const sideNews = newsItems.slice(1, 3)
 
   return (
-    <section id="news" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-prieska-sand/30 dark:bg-gray-900">
+     <section id="news" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-prieska-sand/30 dark:bg-gray-900">
       <SectionTitle subtitle="LATEST STORIES" title="News from Prieska" />
       
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 md:gap-8">
