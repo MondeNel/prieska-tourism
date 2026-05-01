@@ -2,7 +2,7 @@
 import { useState } from 'react'
 import SectionTitle from '../ui/SectionTitle'
 import { fuelPrices } from '../../data/fuelPrices'
-import { Fuel, TrendingDown, Calendar } from 'lucide-react'
+import { Fuel, TrendingDown, MapPin } from 'lucide-react'
 import FuelCalculatorModal from '../ui/FuelCalculatorModal'
 
 const FuelPriceTracker = () => {
@@ -12,8 +12,8 @@ const FuelPriceTracker = () => {
   const fuelTypes = [
     { key: 'petrol93', label: 'Petrol 93', color: 'text-orange-500 dark:text-orange-400' },
     { key: 'petrol95', label: 'Petrol 95', color: 'text-orange-600 dark:text-orange-500' },
-    { key: 'diesel50', label: 'Diesel 50', color: 'text-green-600 dark:text-green-500' },
-    { key: 'diesel500', label: 'Diesel 500', color: 'text-green-700 dark:text-green-600' }
+    { key: 'diesel50', label: 'Diesel 50ppm', color: 'text-green-600 dark:text-green-500' },
+    { key: 'diesel500', label: 'Diesel 500ppm', color: 'text-green-700 dark:text-green-600' }
   ]
 
   const handleStationClick = (station) => {
@@ -22,62 +22,64 @@ const FuelPriceTracker = () => {
   }
 
   return (
-    <section id="fuel" className="py-8 md:py-12 px-4 max-w-7xl mx-auto bg-gray-50 dark:bg-gray-900/50">
+    <div className="space-y-4">
       <SectionTitle subtitle="SAVE AT THE PUMP" title="Fuel Prices in Prieska" />
       
       {/* Instructional Text */}
-      <p className="text-center text-sm md:text-base text-gray-600 dark:text-gray-300 mb-4">
-        ⛽ Click on any station below to open the fuel calculator — see exactly how many litres you'll get for your money.
+      <p className="text-center text-sm text-gray-600 dark:text-gray-300">
+        Click on any station below to open the fuel calculator
       </p>
-      
-      <div className="overflow-x-auto -mx-4 px-4 md:mx-0 md:px-0">
-        <table className="w-full bg-white dark:bg-gray-800 rounded-xl shadow-md overflow-hidden text-[11px] md:text-sm">
-          <thead className="bg-prieska-river text-white">
-            <tr>
-              <th className="px-2 md:px-4 py-2 md:py-3 text-left font-serif text-xs md:text-base">Station</th>
+
+      {/* Station Cards */}
+      <div className="grid grid-cols-1 gap-4">
+        {fuelPrices.map(station => (
+          <div 
+            key={station.id} 
+            onClick={() => handleStationClick(station)}
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 cursor-pointer hover:shadow-lg hover:border-prieska-terracotta dark:hover:border-prieska-terracotta hover:scale-[1.02] transition-all duration-200 group"
+          >
+            {/* Station Header */}
+            <div className="flex items-center gap-3 mb-3">
+              <div className="p-2 bg-prieska-terracotta/10 dark:bg-prieska-terracotta/20 rounded-lg group-hover:bg-prieska-terracotta/20 dark:group-hover:bg-prieska-terracotta/30 transition-colors">
+                <Fuel className="w-5 h-5 text-prieska-terracotta" />
+              </div>
+              <div className="flex-1">
+                <h3 className="font-semibold text-gray-800 dark:text-white text-sm group-hover:text-prieska-terracotta transition-colors">
+                  {station.station}
+                </h3>
+                <div className="flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400">
+                  <MapPin className="w-3 h-3" />
+                  <span>{station.location}</span>
+                </div>
+              </div>
+            </div>
+
+            {/* Price Grid */}
+            <div className="grid grid-cols-4 gap-2">
               {fuelTypes.map(ft => (
-                <th key={ft.key} className="px-1.5 md:px-3 py-2 md:py-3 text-center text-[11px] md:text-sm whitespace-nowrap">{ft.label}</th>
+                <div 
+                  key={ft.key} 
+                  className="text-center bg-gray-50 dark:bg-gray-700/50 rounded-lg p-2 group-hover:bg-white dark:group-hover:bg-gray-700 transition-colors"
+                >
+                  <p className="text-[10px] text-gray-500 dark:text-gray-400 mb-0.5">{ft.label}</p>
+                  <p className={`font-mono font-bold text-sm ${ft.color}`}>
+                    R {station.prices[ft.key].toFixed(2)}
+                  </p>
+                </div>
               ))}
-              <th className="px-1.5 md:px-3 py-2 md:py-3 text-center text-[11px] md:text-sm whitespace-nowrap">Updated</th>
-            </tr>
-          </thead>
-          <tbody className="divide-y divide-gray-200 dark:divide-gray-700">
-            {fuelPrices.map(station => (
-              <tr 
-                key={station.id} 
-                className="hover:bg-gray-50 dark:hover:bg-gray-700/50 cursor-pointer transition"
-                onClick={() => handleStationClick(station)}
-              >
-                <td className="px-2 md:px-4 py-2 md:py-3">
-                  <div className="flex items-center gap-1.5 md:gap-3">
-                    <Fuel className="w-3.5 h-3.5 md:w-5 md:h-5 text-prieska-terracotta flex-shrink-0" />
-                    <div>
-                      <p className="font-semibold text-gray-800 dark:text-white text-xs md:text-base">{station.station}</p>
-                      <p className="text-[9px] md:text-xs text-gray-500 dark:text-gray-400">{station.location}</p>
-                    </div>
-                  </div>
-                </td>
-                {fuelTypes.map(ft => (
-                  <td key={ft.key} className="px-1.5 md:px-3 py-2 md:py-3 text-center">
-                    <span className={`font-mono font-bold text-[11px] md:text-sm ${ft.color}`}>
-                      R {station.prices[ft.key].toFixed(2)}
-                    </span>
-                  </td>
-                ))}
-                <td className="px-1.5 md:px-3 py-2 md:py-3 text-center">
-                  <div className="flex items-center justify-center gap-0.5 md:gap-1 text-[9px] md:text-xs text-gray-500 dark:text-gray-400">
-                    <Calendar className="w-3 h-3 md:w-3.5 md:h-3.5" />
-                    {station.lastUpdated}
-                  </div>
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+            </div>
+
+            {/* Updated Info */}
+            <p className="text-center text-[10px] text-gray-400 dark:text-gray-500 mt-3">
+              Updated: {station.lastUpdated}
+            </p>
+          </div>
+        ))}
       </div>
       
-      <p className="text-center text-[11px] md:text-sm text-gray-500 dark:text-gray-400 mt-3">
-        <TrendingDown className="w-3 h-3 md:w-4 md:h-4 inline mr-0.5" />
+      {/* Disclaimer */}
+      <p className="text-center text-[11px] text-gray-500 dark:text-gray-400">
+        <TrendingDown className="w-3 h-3 inline mr-1" />
         Prices updated daily. Actual pump price may vary slightly.
       </p>
 
@@ -87,7 +89,7 @@ const FuelPriceTracker = () => {
         onClose={() => setShowCalculator(false)}
         station={selectedStation}
       />
-    </section>
+    </div>
   )
 }
 
