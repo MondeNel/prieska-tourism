@@ -1,6 +1,6 @@
 // src/components/layout/MainFeed.jsx
 import { getRecentActivity, getTimeAgo } from '../../data/activityFeed'
-import { Newspaper, Megaphone, Calendar, AlertTriangle, Image, Heart, MessageCircle, Share2, X } from 'lucide-react'
+import { Newspaper, Megaphone, Calendar, AlertTriangle, Heart, MessageCircle, Share2, X } from 'lucide-react'
 import { useState } from 'react'
 
 const postCategories = [
@@ -60,10 +60,6 @@ const MainFeed = () => {
             <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-500 dark:text-gray-400 text-left truncate">
               What's happening in Prieska?
             </div>
-            <div className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition px-2 sm:px-3 py-1 sm:py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700 flex-shrink-0">
-              <Image className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-              <span className="hidden sm:inline">Photo</span>
-            </div>
           </button>
         ) : (
           <div>
@@ -102,11 +98,7 @@ const MainFeed = () => {
               className="w-full bg-gray-100 dark:bg-gray-700 rounded-lg px-3 sm:px-4 py-2 sm:py-2.5 text-xs sm:text-sm text-gray-700 dark:text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-prieska-terracotta resize-none"
               rows={3}
             />
-            <div className="flex items-center justify-between mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700">
-              <button className="flex items-center gap-1 sm:gap-1.5 text-[10px] sm:text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition px-2 sm:px-3 py-1 sm:py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-                <Image className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
-                Add Photo
-              </button>
+            <div className="flex items-center justify-end mt-2 sm:mt-3 pt-2 sm:pt-3 border-t border-gray-100 dark:border-gray-700">
               <button
                 onClick={handlePost}
                 disabled={!postText.trim()}
@@ -119,7 +111,7 @@ const MainFeed = () => {
         )}
       </div>
 
-      {/* Activity Feed Posts — each post is its own card */}
+      {/* Activity Feed Posts */}
       {activities.map(activity => (
         <div
           key={activity.id}
