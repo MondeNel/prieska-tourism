@@ -79,7 +79,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="border-t border-gray-800 mt-6 md:mt-8 pt-6 md:pt-8 text-center text-xs md:text-sm">
-          <p>© 2026 Visit Prieska. Demo frontend project — not an official tourism site.</p>
+          <p>© 2026 Visit Prieska. Created by Monde Nel.</p>
         </div>
       </div>
     </footer>

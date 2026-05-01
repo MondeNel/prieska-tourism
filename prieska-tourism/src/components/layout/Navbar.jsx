@@ -1,7 +1,7 @@
 // src/components/layout/Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon, 
+import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon,
   Newspaper, Landmark, Bell, CalendarDays, Store, Bed, Briefcase, MapPin, Shield,
   GraduationCap, Users, Megaphone, AlertCircle, Fuel, Home, Clock, Image, HelpCircle
 } from 'lucide-react'
@@ -25,12 +25,7 @@ const Navbar = ({ switchFeed, openModal }) => {
 
   const handleNavigation = (path) => {
     setIsOpen(false)
-    if (path === '/') {
-      navigate('/')
-      window.scrollTo({ top: 0, behavior: 'smooth' })
-    } else {
-      navigate(path)
-    }
+    navigate(path)
   }
 
   const pageLinks = [
@@ -63,12 +58,12 @@ const Navbar = ({ switchFeed, openModal }) => {
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg py-2' 
-          : 'bg-white dark:bg-gray-900 py-3'
+          ? 'bg-white/90 dark:bg-gray-900/90 backdrop-blur-md shadow-lg py-1' 
+          : 'bg-white dark:bg-gray-900 py-1.5'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between items-center">
+        <div className="flex justify-between items-center h-12">
           
           {/* Logo */}
           <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
@@ -76,45 +71,45 @@ const Navbar = ({ switchFeed, openModal }) => {
           </Link>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-2">
-            {/* Book Now Button - Desktop */}
+          <div className="flex items-center gap-1.5">
+            {/* Book Now Button */}
             <button
               onClick={() => { setIsOpen(false); navigate('/booking') }}
-              className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm"
+              className="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white text-xs font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
             >
               <span>Book Now</span>
-              <ArrowRight className="w-4 h-4" />
+              <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
             {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
-              className="p-2 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="p-1.5 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               aria-label="Toggle theme"
             >
-              {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
+              {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* Social Icons - Desktop */}
-            <div className="hidden sm:flex items-center gap-1 border-l border-gray-200 dark:border-gray-700 pl-2">
+            {/* Social Icons */}
+            <div className="hidden sm:flex items-center gap-0.5 border-l border-gray-200 dark:border-gray-700 pl-1.5">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 transition">
-                <Facebook className="w-4 h-4" />
+                className="p-1.5 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 transition">
+                <Facebook className="w-3.5 h-3.5" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-pink-600 transition">
-                <Instagram className="w-4 h-4" />
+                className="p-1.5 rounded-full text-gray-500 dark:text-gray-400 hover:text-pink-600 transition">
+                <Instagram className="w-3.5 h-3.5" />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-400 transition">
-                <Twitter className="w-4 h-4" />
+                className="p-1.5 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-400 transition">
+                <Twitter className="w-3.5 h-3.5" />
               </a>
             </div>
 
-            {/* Hamburger Menu Button */}
+            {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="p-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -125,19 +120,16 @@ const Navbar = ({ switchFeed, openModal }) => {
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="fixed inset-0 top-[57px] z-40 bg-black/50" onClick={() => setIsOpen(false)} />
+        <div className="fixed inset-0 top-[49px] z-40 bg-black/50" onClick={() => setIsOpen(false)} />
       )}
 
-      {/* Mobile Menu Panel - Slides from right */}
-      <div className={`fixed top-[57px] right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto ${
+      {/* Mobile Menu Panel */}
+      <div className={`fixed top-[49px] right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>
         <div className="p-4 space-y-4">
-          {/* Pages */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
-              Pages
-            </h3>
+            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">Pages</h3>
             {pageLinks.map(link => (
               <button
                 key={link.path}
@@ -156,14 +148,10 @@ const Navbar = ({ switchFeed, openModal }) => {
             ))}
           </div>
 
-          {/* Divider */}
           <div className="border-t border-gray-200 dark:border-gray-700" />
 
-          {/* Quick Links */}
           <div>
-            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
-              Quick Links
-            </h3>
+            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">Quick Links</h3>
             {quickLinks.map(link => (
               <button
                 key={link.name}
@@ -176,7 +164,6 @@ const Navbar = ({ switchFeed, openModal }) => {
             ))}
           </div>
 
-          {/* Social Icons */}
           <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
             <div className="flex items-center justify-center gap-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600">
