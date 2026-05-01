@@ -1,13 +1,15 @@
 // src/components/sections/Vacancies.jsx
 import { useState } from 'react'
 import { vacancies, getRelativeTime } from '../../data/vacancies'
-import { MapPin, Clock, Phone, Mail, Image, Smile } from 'lucide-react'
+import { MapPin, Clock, Send, Plus } from 'lucide-react'
 import PostVacancyModal from '../ui/PostVacancyModal'
+import ApplyJobModal from '../ui/ApplyJobModal'
 
 const Vacancies = () => {
   const [showPostModal, setShowPostModal] = useState(false)
+  const [showApplyModal, setShowApplyModal] = useState(false)
+  const [selectedVacancy, setSelectedVacancy] = useState(null)
   const [selectedType, setSelectedType] = useState('all')
-  const [postText, setPostText] = useState('')
 
   const types = ['all', ...new Set(vacancies.map(v => v.type.toLowerCase()))]
 
@@ -15,39 +17,30 @@ const Vacancies = () => {
     ? vacancies 
     : vacancies.filter(v => v.type.toLowerCase() === selectedType)
 
+  const handleApply = (vacancy) => {
+    setSelectedVacancy(vacancy)
+    setShowApplyModal(true)
+  }
+
   return (
     <div className="space-y-4">
-      {/* Post Composer */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-white font-bold text-sm">
-            J
-          </div>
-          <input
-            type="text"
-            value={postText}
-            onChange={(e) => setPostText(e.target.value)}
-            placeholder="Post a job vacancy or share an opportunity..."
-            className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2.5 text-sm text-gray-700 dark:text-gray-300 placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-prieska-terracotta"
-          />
+      {/* Post Vacancy Button */}
+      <button
+        onClick={() => setShowPostModal(true)}
+        className="w-full bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition group"
+      >
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-emerald-500 to-green-600 flex items-center justify-center text-white">
+          <Plus className="w-5 h-5" />
         </div>
-        <div className="flex items-center gap-2 border-t border-gray-100 dark:border-gray-700 pt-3">
-          <button className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-            <Image className="w-4 h-4" />
-            Photo
-          </button>
-          <button className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-            <Smile className="w-4 h-4" />
-            Feeling
-          </button>
-          <button 
-            onClick={() => setShowPostModal(true)}
-            className="ml-auto bg-prieska-terracotta text-white px-4 py-1.5 rounded-full text-xs font-medium hover:bg-opacity-90 transition"
-          >
-            Post Vacancy
-          </button>
+        <div className="flex-1 text-left">
+          <p className="text-sm font-medium text-gray-800 dark:text-white group-hover:text-prieska-terracotta transition">
+            Post a Vacancy
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            Share a job opportunity with the community
+          </p>
         </div>
-      </div>
+      </button>
 
       {/* Type Filter */}
       <div className="flex gap-1.5 overflow-x-auto pb-1">
@@ -77,7 +70,6 @@ const Vacancies = () => {
               key={vacancy.id} 
               className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
             >
-              {/* Header */}
               <div className="p-4 pb-2">
                 <div className="flex items-start gap-3">
                   <div className="p-2 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg">
@@ -97,14 +89,12 @@ const Vacancies = () => {
                 </div>
               </div>
 
-              {/* Content */}
               <div className="px-4 pb-3">
                 <p className="text-gray-600 dark:text-gray-300 text-xs leading-relaxed">
                   {vacancy.description}
                 </p>
               </div>
 
-              {/* Details */}
               <div className="px-4 pb-3 space-y-1 text-[10px] text-gray-500 dark:text-gray-400">
                 <div className="flex items-center gap-2">
                   <MapPin className="w-3 h-3" />
@@ -115,24 +105,13 @@ const Vacancies = () => {
                 </div>
               </div>
 
-              {/* Actions */}
-              <div className="flex items-center border-t border-gray-100 dark:border-gray-700">
-                <a 
-                  href={`tel:${vacancy.contactPhone.replace(/\s/g, '')}`}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition"
+              <div className="px-4 pb-4">
+                <button
+                  onClick={() => handleApply(vacancy)}
+                  className="w-full bg-prieska-terracotta text-white py-2 rounded-lg text-sm font-medium hover:bg-opacity-90 transition flex items-center justify-center gap-2"
                 >
-                  <Phone className="w-3.5 h-3.5" />
-                  Call
-                </a>
-                <a 
-                  href={`mailto:${vacancy.contactEmail}?subject=Application for ${vacancy.title}`}
-                  className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition border-x border-gray-100 dark:border-gray-700"
-                >
-                  <Mail className="w-3.5 h-3.5" />
-                  Email
-                </a>
-                <button className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
-                  ↗️ Share
+                  <Send className="w-4 h-4" />
+                  Apply Now
                 </button>
               </div>
             </div>
@@ -146,10 +125,15 @@ const Vacancies = () => {
         </p>
       )}
 
-      {/* Post Vacancy Modal */}
       <PostVacancyModal 
         isOpen={showPostModal}
         onClose={() => setShowPostModal(false)}
+      />
+
+      <ApplyJobModal 
+        isOpen={showApplyModal}
+        onClose={() => setShowApplyModal(false)}
+        vacancy={selectedVacancy}
       />
     </div>
   )
