@@ -24,7 +24,7 @@ import MobileBottomNav from '../components/layout/MobileBottomNav'
 import MunicipalUpdates from '../components/sections/MunicipalUpdates'
 
 import HomepageSkeleton from '../components/ui/skeletons/HomepageSkeleton'
-import { Newspaper, Calendar, Megaphone } from 'lucide-react'
+import { Newspaper, Calendar, Megaphone, Sun } from 'lucide-react'
 
 const Home = ({ activeFeed, switchFeed }) => {
   const [loading, setLoading] = useState(true)
@@ -69,6 +69,7 @@ const Home = ({ activeFeed, switchFeed }) => {
 
   return (
     <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-950">
+      {/* Quick Stats */}
       <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 py-2 mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
@@ -118,12 +119,14 @@ const Home = ({ activeFeed, switchFeed }) => {
         </div>
       </div>
 
+      {/* Mobile Ad Banner */}
       <div className="lg:hidden flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 pb-2">
         <div className="max-w-2xl mx-auto">
           <AdBanner />
         </div>
       </div>
 
+      {/* Scrollable Content */}
       <div className="flex-1 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 h-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
@@ -131,7 +134,7 @@ const Home = ({ activeFeed, switchFeed }) => {
               <LeftSidebar switchFeed={handleSwitchFeed} activeFeed={activeFeed} />
             </div>
             
-            <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-20 feed-scroll">
+            <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-4 feed-scroll">
               {renderMainContent()}
             </div>
             
@@ -142,8 +145,26 @@ const Home = ({ activeFeed, switchFeed }) => {
         </div>
       </div>
 
+      {/* Weather Banner - Mobile Only */}
+      <div className="lg:hidden flex-shrink-0 bg-gradient-to-r from-prieska-river to-prieska-terracotta px-4 py-2.5">
+        <div className="flex items-center justify-between max-w-2xl mx-auto text-white">
+          <div className="flex items-center gap-2">
+            <Sun className="w-4 h-4 text-yellow-300" />
+            <span className="text-xs font-medium">Prieska</span>
+          </div>
+          <div className="flex items-center gap-3 text-xs">
+            <span className="font-bold">28°C</span>
+            <span className="text-white/70">Sunny</span>
+            <span className="text-white/70 hidden sm:inline">• Humidity 35%</span>
+            <span className="text-white/70 hidden sm:inline">• Wind 12 km/h</span>
+          </div>
+        </div>
+      </div>
+
+      {/* Mobile Bottom Navigation */}
       <MobileBottomNav switchFeed={handleSwitchFeed} activeFeed={activeFeed} />
 
+      {/* Scrollbar Styles */}
       <style>{`
         .feed-scroll::-webkit-scrollbar { width: 6px; }
         .feed-scroll::-webkit-scrollbar-track { background: transparent; }
