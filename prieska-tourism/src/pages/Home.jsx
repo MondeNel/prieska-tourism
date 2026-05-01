@@ -3,7 +3,6 @@ import { useState, useEffect } from 'react'
 import LeftSidebar from '../components/layout/LeftSidebar'
 import RightSidebar from '../components/layout/RightSidebar'
 import MainFeed from '../components/layout/MainFeed'
-import Hero from '../components/sections/Hero'
 
 import ContentHubModal from '../components/ui/ContentHubModal'
 import History from '../components/sections/History'
@@ -25,7 +24,7 @@ import HomepageSkeleton from '../components/ui/skeletons/HomepageSkeleton'
 
 const Home = () => {
   const [activeModal, setActiveModal] = useState(null)
-  const [activeFeed, setActiveFeed] = useState('feed') // 'feed', 'fuel', 'guesthouses', 'map', 'emergency', 'schools'
+  const [activeFeed, setActiveFeed] = useState('feed')
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -41,7 +40,6 @@ const Home = () => {
 
   const switchFeed = (feedName) => {
     setActiveFeed(feedName)
-    // Scroll feed to top
     document.getElementById('main-feed')?.scrollTo(0, 0)
   }
 
@@ -49,9 +47,24 @@ const Home = () => {
     return <HomepageSkeleton />
   }
 
-  // Determine what to show in the main content area
   const renderMainContent = () => {
     switch (activeFeed) {
+      case 'history':
+        return <History />
+      case 'news':
+        return <LocalNews />
+      case 'businesses':
+        return <BusinessesDirectory />
+      case 'vacancies':
+        return <Vacancies />
+      case 'noticeboard':
+        return <CommunityNoticeBoard />
+      case 'events':
+        return <EventsCalendar />
+      case 'community':
+        return <CommunityGroups />
+      case 'attractions':
+        return <Attractions />
       case 'fuel':
         return <FuelPriceTracker />
       case 'guesthouses':
@@ -68,13 +81,9 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
-      <Hero />
-      
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 pt-20">
       <div className="max-w-7xl mx-auto px-4 py-6">
-        {/* 3-Column Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar */}
           <LeftSidebar 
             openModal={openModal} 
             switchFeed={switchFeed}
@@ -82,12 +91,10 @@ const Home = () => {
             className="lg:col-span-3" 
           />
           
-          {/* Main Content Area */}
-          <div id="main-feed" className="lg:col-span-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+          <div id="main-feed" className="lg:col-span-6 overflow-y-auto max-h-[calc(100vh-100px)]">
             {renderMainContent()}
           </div>
           
-          {/* Right Sidebar */}
           <RightSidebar 
             openModal={openModal}
             className="lg:col-span-3" 
@@ -95,33 +102,9 @@ const Home = () => {
         </div>
       </div>
       
-      {/* Modals */}
-      <ContentHubModal isOpen={activeModal === 'history'} onClose={closeModal} title="A Land of Legends & Legacy">
-        <History />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'news'} onClose={closeModal} title="Local News">
-        <LocalNews />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'noticeboard'} onClose={closeModal} title="Community Notice Board">
-        <CommunityNoticeBoard />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'events'} onClose={closeModal} title="Community Events">
-        <EventsCalendar />
-      </ContentHubModal>
+      {/* Keep only the Report modal since it's not a feed replacement */}
       <ContentHubModal isOpen={activeModal === 'report'} onClose={closeModal} title="Report an Issue">
         <IssueReporting />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'community'} onClose={closeModal} title="Churches & Community Groups">
-        <CommunityGroups />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'attractions'} onClose={closeModal} title="Things to Do in Prieska">
-        <Attractions />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'vacancies'} onClose={closeModal} title="Job Vacancies">
-        <Vacancies />
-      </ContentHubModal>
-      <ContentHubModal isOpen={activeModal === 'businesses'} onClose={closeModal} title="Local Businesses & Amenities">
-        <BusinessesDirectory />
       </ContentHubModal>
     </div>
   )
