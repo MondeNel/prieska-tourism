@@ -65,20 +65,20 @@ const Home = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-950 pt-20">
-      {/* Quick Stats - Fixed below navbar */}
-      <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-950 border-b border-gray-200 dark:border-gray-800 px-4 py-2.5">
+    <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-950 pt-16">
+      {/* Quick Stats */}
+      <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 py-2">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
             <button
               onClick={() => switchFeed('news')}
-              className={`bg-white dark:bg-gray-800 rounded-lg p-2.5 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
                 activeFeed === 'news' 
                   ? 'border-blue-500 dark:border-blue-400' 
                   : 'border-transparent hover:border-blue-300 dark:hover:border-blue-700'
               }`}
             >
-              <p className="text-base font-bold text-blue-600 dark:text-blue-400">{stats.newsThisWeek}</p>
+              <p className="text-sm font-bold text-blue-600 dark:text-blue-400">{stats.newsThisWeek}</p>
               <div className="flex items-center justify-center gap-1">
                 <Newspaper className="w-3 h-3 text-blue-500" />
                 <p className="text-[10px] text-gray-500 dark:text-gray-400">News</p>
@@ -86,13 +86,13 @@ const Home = () => {
             </button>
             <button
               onClick={() => switchFeed('events')}
-              className={`bg-white dark:bg-gray-800 rounded-lg p-2.5 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
                 activeFeed === 'events' 
                   ? 'border-green-500 dark:border-green-400' 
                   : 'border-transparent hover:border-green-300 dark:hover:border-green-700'
               }`}
             >
-              <p className="text-base font-bold text-green-600 dark:text-green-400">{stats.upcomingEvents}</p>
+              <p className="text-sm font-bold text-green-600 dark:text-green-400">{stats.upcomingEvents}</p>
               <div className="flex items-center justify-center gap-1">
                 <Calendar className="w-3 h-3 text-green-500" />
                 <p className="text-[10px] text-gray-500 dark:text-gray-400">Events</p>
@@ -100,13 +100,13 @@ const Home = () => {
             </button>
             <button
               onClick={() => switchFeed('noticeboard')}
-              className={`bg-white dark:bg-gray-800 rounded-lg p-2.5 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
+              className={`bg-white dark:bg-gray-800 rounded-lg p-2 text-center shadow-sm hover:shadow-md transition cursor-pointer border-2 ${
                 activeFeed === 'noticeboard' 
                   ? 'border-purple-500 dark:border-purple-400' 
                   : 'border-transparent hover:border-purple-300 dark:hover:border-purple-700'
               }`}
             >
-              <p className="text-base font-bold text-purple-600 dark:text-purple-400">{stats.newNotices}</p>
+              <p className="text-sm font-bold text-purple-600 dark:text-purple-400">{stats.newNotices}</p>
               <div className="flex items-center justify-center gap-1">
                 <Megaphone className="w-3 h-3 text-purple-500" />
                 <p className="text-[10px] text-gray-500 dark:text-gray-400">Notices</p>
@@ -116,30 +116,54 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Scrollable Content Area */}
+      {/* Scrollable Content */}
       <div className="flex-1 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 h-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
-            {/* Left Sidebar */}
-            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4">
-              <LeftSidebar 
-                switchFeed={switchFeed}
-                activeFeed={activeFeed}
-              />
+            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
+              <LeftSidebar switchFeed={switchFeed} activeFeed={activeFeed} />
             </div>
             
-            {/* Feed Content - This scrolls independently */}
-            <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-8">
+            <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-8 feed-scroll">
               {renderMainContent()}
             </div>
             
-            {/* Right Sidebar */}
-            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4">
+            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
               <RightSidebar />
             </div>
           </div>
         </div>
       </div>
+
+      {/* White scrollbar styling */}
+      <style>{`
+        .feed-scroll::-webkit-scrollbar {
+          width: 6px;
+        }
+        .feed-scroll::-webkit-scrollbar-track {
+          background: transparent;
+        }
+        .feed-scroll::-webkit-scrollbar-thumb {
+          background: #d1d5db;
+          border-radius: 3px;
+        }
+        .feed-scroll::-webkit-scrollbar-thumb:hover {
+          background: #9ca3af;
+        }
+        .dark .feed-scroll::-webkit-scrollbar-thumb {
+          background: #4b5563;
+        }
+        .dark .feed-scroll::-webkit-scrollbar-thumb:hover {
+          background: #6b7280;
+        }
+        .feed-scroll {
+          scrollbar-width: thin;
+          scrollbar-color: #d1d5db transparent;
+        }
+        .dark .feed-scroll {
+          scrollbar-color: #4b5563 transparent;
+        }
+      `}</style>
     </div>
   )
 }

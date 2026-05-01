@@ -14,12 +14,20 @@
   }
 }
 
-/* Dark mode custom styles if needed */
+@layer utilities {
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
+  }
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+}
+
 .dark .bg-prieska-sand {
   @apply bg-gray-800;
 }
 
-/* React Calendar Base Overrides */
 .react-calendar {
   width: 100% !important;
   border: none !important;
@@ -84,7 +92,6 @@
   color: #9ca3af !important;
 }
 
-/* Dark Mode Overrides */
 .dark .react-calendar {
   color: #e5e7eb !important;
 }
