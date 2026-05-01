@@ -1,11 +1,10 @@
 // src/components/layout/MainFeed.jsx
-import { getRecentActivity, getQuickStats, getTimeAgo } from '../../data/activityFeed'
+import { getRecentActivity, getTimeAgo } from '../../data/activityFeed'
 import { Newspaper, Megaphone, Calendar, AlertTriangle, Image, Smile, Heart, MessageCircle, Share2 } from 'lucide-react'
 import { useState } from 'react'
 
 const MainFeed = ({ openModal }) => {
   const activities = getRecentActivity(10)
-  const stats = getQuickStats()
   const [postText, setPostText] = useState('')
 
   const getIcon = (type) => {
@@ -30,22 +29,6 @@ const MainFeed = ({ openModal }) => {
 
   return (
     <div>
-      {/* Quick Stats Row */}
-      <div className="grid grid-cols-3 gap-2 mb-4">
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
-          <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{stats.newsThisWeek}</p>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400">News</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
-          <p className="text-xl font-bold text-green-600 dark:text-green-400">{stats.upcomingEvents}</p>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400">Events</p>
-        </div>
-        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
-          <p className="text-xl font-bold text-purple-600 dark:text-purple-400">{stats.newNotices}</p>
-          <p className="text-[10px] text-gray-500 dark:text-gray-400">Notices</p>
-        </div>
-      </div>
-
       {/* Post Composer */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-4">
         <div className="flex items-center gap-3 mb-3">
@@ -85,7 +68,6 @@ const MainFeed = ({ openModal }) => {
             key={activity.id} 
             className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
           >
-            {/* Post Header */}
             <div className="p-4 pb-2">
               <div className="flex items-start gap-3">
                 <div className={`p-2 rounded-lg ${activity.color}`}>
@@ -105,7 +87,6 @@ const MainFeed = ({ openModal }) => {
               </div>
             </div>
 
-            {/* Post Content */}
             <div className="px-4 pb-3">
               <h4 className="font-semibold text-gray-800 dark:text-white text-sm mb-1">
                 {activity.title}
@@ -115,8 +96,7 @@ const MainFeed = ({ openModal }) => {
               </p>
             </div>
 
-            {/* Post Actions */}
-            <div className="flex items-center gap-0 border-t border-gray-100 dark:border-gray-700">
+            <div className="flex items-center border-t border-gray-100 dark:border-gray-700">
               <button className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
                 <Heart className="w-4 h-4" />
                 Like
