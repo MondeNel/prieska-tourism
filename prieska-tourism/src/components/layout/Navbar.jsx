@@ -28,6 +28,15 @@ const Navbar = ({ switchFeed, openModal }) => {
     navigate(path)
   }
 
+  const handleFeedNavigation = (feedName) => {
+    setIsOpen(false)
+    if (location.pathname !== '/') {
+      navigate(`/?feed=${feedName}`)
+    } else {
+      switchFeed?.(feedName)
+    }
+  }
+
   const pageLinks = [
     { name: 'Home', icon: Home, path: '/' },
     { name: 'Services', icon: Clock, path: '/services' },
@@ -37,21 +46,21 @@ const Navbar = ({ switchFeed, openModal }) => {
   ]
 
   const quickLinks = [
-    { name: 'News Feed', icon: Newspaper, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('feed') } },
-    { name: 'History', icon: Landmark, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('history') } },
-    { name: 'Local News', icon: Newspaper, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('news') } },
-    { name: 'Notice Board', icon: Bell, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('noticeboard') } },
-    { name: 'Events', icon: CalendarDays, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('events') } },
-    { name: 'Businesses', icon: Store, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('businesses') } },
-    { name: 'Vacancies', icon: Briefcase, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('vacancies') } },
-    { name: 'Guesthouses', icon: Bed, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('guesthouses') } },
-    { name: 'Fuel Prices', icon: Fuel, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('fuel') } },
-    { name: 'Map', icon: MapPin, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('map') } },
-    { name: 'Emergency', icon: Shield, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('emergency') } },
-    { name: 'Schools', icon: GraduationCap, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('schools') } },
-    { name: 'Community', icon: Users, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('community') } },
-    { name: 'Report Issue', icon: AlertCircle, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('report') } },
-    { name: 'Municipal Updates', icon: Megaphone, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('municipal') } },
+    { name: 'News Feed', icon: Newspaper, action: () => handleFeedNavigation('feed') },
+    { name: 'History', icon: Landmark, action: () => handleFeedNavigation('history') },
+    { name: 'Local News', icon: Newspaper, action: () => handleFeedNavigation('news') },
+    { name: 'Notice Board', icon: Bell, action: () => handleFeedNavigation('noticeboard') },
+    { name: 'Events', icon: CalendarDays, action: () => handleFeedNavigation('events') },
+    { name: 'Businesses', icon: Store, action: () => handleFeedNavigation('businesses') },
+    { name: 'Vacancies', icon: Briefcase, action: () => handleFeedNavigation('vacancies') },
+    { name: 'Guesthouses', icon: Bed, action: () => handleFeedNavigation('guesthouses') },
+    { name: 'Fuel Prices', icon: Fuel, action: () => handleFeedNavigation('fuel') },
+    { name: 'Map', icon: MapPin, action: () => handleFeedNavigation('map') },
+    { name: 'Emergency', icon: Shield, action: () => handleFeedNavigation('emergency') },
+    { name: 'Schools', icon: GraduationCap, action: () => handleFeedNavigation('schools') },
+    { name: 'Community', icon: Users, action: () => handleFeedNavigation('community') },
+    { name: 'Report Issue', icon: AlertCircle, action: () => handleFeedNavigation('report') },
+    { name: 'Municipal Updates', icon: Megaphone, action: () => handleFeedNavigation('municipal') },
   ]
 
   return (
@@ -65,14 +74,11 @@ const Navbar = ({ switchFeed, openModal }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-12">
           
-          {/* Logo */}
           <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
             <Logo size="small" />
           </Link>
 
-          {/* Right Actions */}
           <div className="flex items-center gap-1.5">
-            {/* Book Now Button */}
             <button
               onClick={() => { setIsOpen(false); navigate('/booking') }}
               className="hidden sm:flex items-center gap-1 px-3 py-1.5 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white text-xs font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300"
@@ -81,7 +87,6 @@ const Navbar = ({ switchFeed, openModal }) => {
               <ArrowRight className="w-3.5 h-3.5" />
             </button>
 
-            {/* Theme Toggle */}
             <button
               onClick={toggleTheme}
               className="p-1.5 rounded-full text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -90,7 +95,6 @@ const Navbar = ({ switchFeed, openModal }) => {
               {isDark ? <Sun className="w-4 h-4" /> : <Moon className="w-4 h-4" />}
             </button>
 
-            {/* Social Icons */}
             <div className="hidden sm:flex items-center gap-0.5 border-l border-gray-200 dark:border-gray-700 pl-1.5">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
                 className="p-1.5 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 transition">
@@ -106,7 +110,6 @@ const Navbar = ({ switchFeed, openModal }) => {
               </a>
             </div>
 
-            {/* Mobile Menu Button */}
             <button 
               onClick={() => setIsOpen(!isOpen)} 
               className="p-1.5 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
@@ -118,12 +121,10 @@ const Navbar = ({ switchFeed, openModal }) => {
         </div>
       </div>
 
-      {/* Mobile Menu Overlay */}
       {isOpen && (
         <div className="fixed inset-0 top-[49px] z-40 bg-black/50" onClick={() => setIsOpen(false)} />
       )}
 
-      {/* Mobile Menu Panel */}
       <div className={`fixed top-[49px] right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto ${
         isOpen ? 'translate-x-0' : 'translate-x-full'
       }`}>

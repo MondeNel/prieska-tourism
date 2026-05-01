@@ -1,4 +1,5 @@
 // src/App.jsx
+import { useState } from 'react'
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
@@ -8,15 +9,20 @@ import GalleryPage from './pages/GalleryPage'
 import FAQ from './pages/FAQ'
 import Booking from './pages/Booking'
 
-
 function App() {
+  const [activeFeed, setActiveFeed] = useState('feed')
+
+  const switchFeed = (feedName) => {
+    setActiveFeed(feedName)
+  }
+
   return (
     <Router>
       <div className="min-h-screen flex flex-col">
-        <Navbar />
+        <Navbar switchFeed={switchFeed} />
         <main className="flex-grow">
           <Routes>
-            <Route path="/" element={<Home />} />
+            <Route path="/" element={<Home activeFeed={activeFeed} switchFeed={switchFeed} />} />
             <Route path="/services" element={<Services />} />
             <Route path="/gallery" element={<GalleryPage />} />
             <Route path="/faq" element={<FAQ />} />
