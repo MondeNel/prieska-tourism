@@ -1,11 +1,14 @@
 // src/components/layout/Navbar.jsx
 import { useState, useEffect } from 'react'
 import { Link, useNavigate, useLocation } from 'react-router-dom'
-import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon } from 'lucide-react'
+import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon, 
+  Newspaper, Landmark, Bell, CalendarDays, Store, Bed, Briefcase, MapPin, Shield,
+  GraduationCap, Users, Megaphone, AlertCircle, Fuel, Home, Clock, Image, HelpCircle
+} from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
 import Logo from '../ui/Logo'
 
-const Navbar = () => {
+const Navbar = ({ switchFeed, openModal }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
@@ -20,6 +23,42 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
+  const handleNavigation = (path) => {
+    setIsOpen(false)
+    if (path === '/') {
+      navigate('/')
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    } else {
+      navigate(path)
+    }
+  }
+
+  const pageLinks = [
+    { name: 'Home', icon: Home, path: '/' },
+    { name: 'Services', icon: Clock, path: '/services' },
+    { name: 'Gallery', icon: Image, path: '/gallery' },
+    { name: 'FAQ', icon: HelpCircle, path: '/faq' },
+    { name: 'Book Now', icon: CalendarDays, path: '/booking', highlight: true },
+  ]
+
+  const quickLinks = [
+    { name: 'News Feed', icon: Newspaper, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('feed') } },
+    { name: 'History', icon: Landmark, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('history') } },
+    { name: 'Local News', icon: Newspaper, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('news') } },
+    { name: 'Notice Board', icon: Bell, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('noticeboard') } },
+    { name: 'Events', icon: CalendarDays, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('events') } },
+    { name: 'Businesses', icon: Store, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('businesses') } },
+    { name: 'Vacancies', icon: Briefcase, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('vacancies') } },
+    { name: 'Guesthouses', icon: Bed, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('guesthouses') } },
+    { name: 'Fuel Prices', icon: Fuel, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('fuel') } },
+    { name: 'Map', icon: MapPin, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('map') } },
+    { name: 'Emergency', icon: Shield, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('emergency') } },
+    { name: 'Schools', icon: GraduationCap, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('schools') } },
+    { name: 'Community', icon: Users, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('community') } },
+    { name: 'Report Issue', icon: AlertCircle, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('report') } },
+    { name: 'Municipal Updates', icon: Megaphone, action: () => { setIsOpen(false); navigate('/'); switchFeed?.('municipal') } },
+  ]
+
   return (
     <nav 
       className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
@@ -32,15 +71,15 @@ const Navbar = () => {
         <div className="flex justify-between items-center">
           
           {/* Logo */}
-          <Link to="/" className="flex items-center">
+          <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
             <Logo size="small" />
           </Link>
 
           {/* Right Actions */}
-          <div className="flex items-center gap-3">
-            {/* Book Now Button */}
+          <div className="flex items-center gap-2">
+            {/* Book Now Button - Desktop */}
             <button
-              onClick={() => navigate('/booking')}
+              onClick={() => { setIsOpen(false); navigate('/booking') }}
               className="hidden sm:flex items-center gap-1.5 px-4 py-2 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-medium rounded-full shadow-md hover:shadow-lg transform hover:scale-105 transition-all duration-300 text-sm"
             >
               <span>Book Now</span>
@@ -56,26 +95,26 @@ const Navbar = () => {
               {isDark ? <Sun className="w-5 h-5" /> : <Moon className="w-5 h-5" />}
             </button>
 
-            {/* Social Icons - Desktop Only */}
-            <div className="hidden sm:flex items-center gap-1 border-l border-gray-200 dark:border-gray-700 pl-3">
+            {/* Social Icons - Desktop */}
+            <div className="hidden sm:flex items-center gap-1 border-l border-gray-200 dark:border-gray-700 pl-2">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" 
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 dark:hover:text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
+                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-600 transition">
                 <Facebook className="w-4 h-4" />
               </a>
               <a href="https://instagram.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-pink-600 dark:hover:text-pink-500 hover:bg-pink-50 dark:hover:bg-pink-900/20 transition">
+                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-pink-600 transition">
                 <Instagram className="w-4 h-4" />
               </a>
               <a href="https://twitter.com" target="_blank" rel="noopener noreferrer"
-                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-400 dark:hover:text-blue-400 hover:bg-blue-50 dark:hover:bg-blue-900/20 transition">
+                className="p-2 rounded-full text-gray-500 dark:text-gray-400 hover:text-blue-400 transition">
                 <Twitter className="w-4 h-4" />
               </a>
             </div>
 
-            {/* Mobile Menu Toggle */}
+            {/* Hamburger Menu Button */}
             <button 
               onClick={() => setIsOpen(!isOpen)} 
-              className="lg:hidden p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
+              className="p-2 rounded-lg text-gray-600 dark:text-gray-400 hover:bg-gray-100 dark:hover:bg-gray-800 transition"
               aria-label="Toggle menu"
             >
               {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
@@ -84,23 +123,62 @@ const Navbar = () => {
         </div>
       </div>
 
-      {/* Mobile Menu - Shows nav links and socials */}
+      {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div className="lg:hidden bg-white dark:bg-gray-900 border-t border-gray-100 dark:border-gray-800 shadow-lg">
-          <div className="px-4 py-3 space-y-2">
-            <Link to="/" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Home</Link>
-            <Link to="/services" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Services</Link>
-            <Link to="/gallery" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">Gallery</Link>
-            <Link to="/faq" className="block px-3 py-2 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800">FAQ</Link>
-            <button
-              onClick={() => { setIsOpen(false); navigate('/booking') }}
-              className="w-full mt-2 px-4 py-2.5 bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white font-medium rounded-lg flex items-center justify-center gap-2"
-            >
-              <span>Book Now</span>
-              <ArrowRight className="w-4 h-4" />
-            </button>
-            
-            <div className="flex items-center gap-4 pt-3 mt-3 border-t border-gray-200 dark:border-gray-700">
+        <div className="fixed inset-0 top-[57px] z-40 bg-black/50" onClick={() => setIsOpen(false)} />
+      )}
+
+      {/* Mobile Menu Panel - Slides from right */}
+      <div className={`fixed top-[57px] right-0 bottom-0 w-80 max-w-[85vw] bg-white dark:bg-gray-900 shadow-2xl z-50 transform transition-transform duration-300 overflow-y-auto ${
+        isOpen ? 'translate-x-0' : 'translate-x-full'
+      }`}>
+        <div className="p-4 space-y-4">
+          {/* Pages */}
+          <div>
+            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
+              Pages
+            </h3>
+            {pageLinks.map(link => (
+              <button
+                key={link.path}
+                onClick={() => handleNavigation(link.path)}
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  link.highlight
+                    ? 'bg-gradient-to-r from-prieska-terracotta to-prieska-river text-white'
+                    : location.pathname === link.path
+                      ? 'bg-prieska-terracotta/10 text-prieska-terracotta'
+                      : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800'
+                }`}
+              >
+                <link.icon className="w-4 h-4" />
+                {link.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Divider */}
+          <div className="border-t border-gray-200 dark:border-gray-700" />
+
+          {/* Quick Links */}
+          <div>
+            <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">
+              Quick Links
+            </h3>
+            {quickLinks.map(link => (
+              <button
+                key={link.name}
+                onClick={link.action}
+                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-prieska-terracotta transition-colors"
+              >
+                <link.icon className="w-4 h-4" />
+                {link.name}
+              </button>
+            ))}
+          </div>
+
+          {/* Social Icons */}
+          <div className="border-t border-gray-200 dark:border-gray-700 pt-4">
+            <div className="flex items-center justify-center gap-4">
               <a href="https://facebook.com" target="_blank" rel="noopener noreferrer" className="p-2 text-gray-500 dark:text-gray-400 hover:text-blue-600">
                 <Facebook className="w-5 h-5" />
               </a>
@@ -113,7 +191,7 @@ const Navbar = () => {
             </div>
           </div>
         </div>
-      )}
+      </div>
     </nav>
   )
 }
