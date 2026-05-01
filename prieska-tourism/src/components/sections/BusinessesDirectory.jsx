@@ -1,7 +1,7 @@
 // src/components/sections/BusinessesDirectory.jsx
 import { useState, useEffect } from 'react'
 import { businesses, categoryColors } from '../../data/businesses'
-import { MapPin, Phone, Image } from 'lucide-react'
+import { MapPin, Phone, Plus } from 'lucide-react'
 import BusinessSkeleton from '../ui/skeletons/BusinessSkeleton'
 import AddBusinessModal from '../ui/AddBusinessModal'
 
@@ -27,29 +27,23 @@ const BusinessesDirectory = () => {
 
   return (
     <div className="space-y-4">
-      {/* Post Composer */}
-      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4">
-        <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
-            B
-          </div>
-          <div className="flex-1 bg-gray-100 dark:bg-gray-700 rounded-full px-4 py-2.5 text-sm text-gray-500 dark:text-gray-400">
-            Add your business or recommend a local service...
-          </div>
+      {/* Add Business Button */}
+      <button
+        onClick={() => setShowAddModal(true)}
+        className="w-full bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 flex items-center gap-3 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition group"
+      >
+        <div className="w-10 h-10 rounded-full bg-gradient-to-br from-indigo-500 to-blue-600 flex items-center justify-center text-white font-bold text-sm">
+          <Plus className="w-5 h-5" />
         </div>
-        <div className="flex items-center gap-2 border-t border-gray-100 dark:border-gray-700 pt-3">
-          <button className="flex items-center gap-1.5 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition px-3 py-1.5 rounded-full hover:bg-gray-100 dark:hover:bg-gray-700">
-            <Image className="w-4 h-4" />
-            Photo
-          </button>
-          <button 
-            onClick={() => setShowAddModal(true)}
-            className="ml-auto bg-prieska-terracotta text-white px-4 py-1.5 rounded-full text-xs font-medium hover:bg-opacity-90 transition"
-          >
-            Add Business
-          </button>
+        <div className="flex-1 text-left">
+          <p className="text-sm font-medium text-gray-800 dark:text-white group-hover:text-prieska-terracotta transition">
+            Add Your Business
+          </p>
+          <p className="text-xs text-gray-500 dark:text-gray-400">
+            List your business in the Prieska directory
+          </p>
         </div>
-      </div>
+      </button>
 
       {/* Category Filter */}
       <div className="flex gap-1.5 overflow-x-auto pb-1">
