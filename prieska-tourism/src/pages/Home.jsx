@@ -3,13 +3,7 @@ import { useState, useEffect } from 'react'
 import LeftSidebar from '../components/layout/LeftSidebar'
 import RightSidebar from '../components/layout/RightSidebar'
 import MainFeed from '../components/layout/MainFeed'
-import AdBanner from '../components/sections/AdBanner'
-import FuelPriceTracker from '../components/sections/FuelPriceTracker'
-import Schools from '../components/sections/Schools'
-import Accommodation from '../components/sections/Accommodation'
-import InteractiveMap from '../components/sections/InteractiveMap'
-import EmergencyNumbers from '../components/sections/EmergencyNumbers'
-import MunicipalUpdates from '../components/sections/MunicipalUpdates'
+import Hero from '../components/sections/Hero'
 
 import ContentHubModal from '../components/ui/ContentHubModal'
 import History from '../components/sections/History'
@@ -21,11 +15,17 @@ import EventsCalendar from '../components/sections/EventsCalendar'
 import Attractions from '../components/sections/Attractions'
 import Vacancies from '../components/sections/Vacancies'
 import BusinessesDirectory from '../components/sections/BusinessesDirectory'
+import FuelPriceTracker from '../components/sections/FuelPriceTracker'
+import Accommodation from '../components/sections/Accommodation'
+import InteractiveMap from '../components/sections/InteractiveMap'
+import EmergencyNumbers from '../components/sections/EmergencyNumbers'
+import Schools from '../components/sections/Schools'
 
 import HomepageSkeleton from '../components/ui/skeletons/HomepageSkeleton'
 
 const Home = () => {
   const [activeModal, setActiveModal] = useState(null)
+  const [activeFeed, setActiveFeed] = useState('feed') // 'feed', 'fuel', 'guesthouses', 'map', 'emergency', 'schools'
   const [loading, setLoading] = useState(true)
 
   useEffect(() => {
@@ -39,36 +39,59 @@ const Home = () => {
     setActiveModal(modalName)
   }
 
+  const switchFeed = (feedName) => {
+    setActiveFeed(feedName)
+    // Scroll feed to top
+    document.getElementById('main-feed')?.scrollTo(0, 0)
+  }
+
   if (loading) {
     return <HomepageSkeleton />
   }
 
+  // Determine what to show in the main content area
+  const renderMainContent = () => {
+    switch (activeFeed) {
+      case 'fuel':
+        return <FuelPriceTracker />
+      case 'guesthouses':
+        return <Accommodation />
+      case 'map':
+        return <InteractiveMap />
+      case 'emergency':
+        return <EmergencyNumbers />
+      case 'schools':
+        return <Schools />
+      default:
+        return <MainFeed openModal={openModal} />
+    }
+  }
+
   return (
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
+      <Hero />
+      
       <div className="max-w-7xl mx-auto px-4 py-6">
         {/* 3-Column Grid Layout */}
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar - 3 columns on desktop */}
-          <LeftSidebar openModal={openModal} className="lg:col-span-3" />
+          {/* Left Sidebar */}
+          <LeftSidebar 
+            openModal={openModal} 
+            switchFeed={switchFeed}
+            activeFeed={activeFeed}
+            className="lg:col-span-3" 
+          />
           
-          {/* Main Feed - 6 columns on desktop */}
-          <div className="lg:col-span-6">
-            <MainFeed />
-            
-            {/* Below the feed, keep essential sections */}
-            <div className="mt-6">
-              <AdBanner />
-              <MunicipalUpdates />
-              <InteractiveMap />
-              <FuelPriceTracker />
-              <Schools />
-              <Accommodation />
-              <EmergencyNumbers />
-            </div>
+          {/* Main Content Area */}
+          <div id="main-feed" className="lg:col-span-6 overflow-y-auto max-h-[calc(100vh-120px)]">
+            {renderMainContent()}
           </div>
           
-          {/* Right Sidebar - 3 columns on desktop */}
-          <RightSidebar className="lg:col-span-3" />
+          {/* Right Sidebar */}
+          <RightSidebar 
+            openModal={openModal}
+            className="lg:col-span-3" 
+          />
         </div>
       </div>
       

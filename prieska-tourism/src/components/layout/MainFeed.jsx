@@ -1,10 +1,10 @@
 // src/components/layout/MainFeed.jsx
 import { getRecentActivity, getQuickStats, getTimeAgo } from '../../data/activityFeed'
-import { Newspaper, Megaphone, Calendar, AlertTriangle, TrendingUp, Image, Smile } from 'lucide-react'
+import { Newspaper, Megaphone, Calendar, AlertTriangle, Image, Smile, Heart, MessageCircle, Share2 } from 'lucide-react'
 import { useState } from 'react'
 
-const MainFeed = ({ className = '' }) => {
-  const activities = getRecentActivity(8)
+const MainFeed = ({ openModal }) => {
+  const activities = getRecentActivity(10)
   const stats = getQuickStats()
   const [postText, setPostText] = useState('')
 
@@ -29,27 +29,27 @@ const MainFeed = ({ className = '' }) => {
   }
 
   return (
-    <div className={`${className}`}>
+    <div>
       {/* Quick Stats Row */}
       <div className="grid grid-cols-3 gap-2 mb-4">
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-2 text-center">
-          <p className="text-lg font-bold text-blue-700 dark:text-blue-300">{stats.newsThisWeek}</p>
-          <p className="text-[10px] text-blue-600 dark:text-blue-400">News</p>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+          <p className="text-xl font-bold text-blue-600 dark:text-blue-400">{stats.newsThisWeek}</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400">News</p>
         </div>
-        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-2 text-center">
-          <p className="text-lg font-bold text-green-700 dark:text-green-300">{stats.upcomingEvents}</p>
-          <p className="text-[10px] text-green-600 dark:text-green-400">Events</p>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+          <p className="text-xl font-bold text-green-600 dark:text-green-400">{stats.upcomingEvents}</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400">Events</p>
         </div>
-        <div className="bg-purple-50 dark:bg-purple-900/20 rounded-lg p-2 text-center">
-          <p className="text-lg font-bold text-purple-700 dark:text-purple-300">{stats.newNotices}</p>
-          <p className="text-[10px] text-purple-600 dark:text-purple-400">Notices</p>
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+          <p className="text-xl font-bold text-purple-600 dark:text-purple-400">{stats.newNotices}</p>
+          <p className="text-[10px] text-gray-500 dark:text-gray-400">Notices</p>
         </div>
       </div>
 
       {/* Post Composer */}
       <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 mb-4">
         <div className="flex items-center gap-3 mb-3">
-          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-prieska-terracotta to-prieska-river flex items-center justify-center text-white font-bold">
+          <div className="w-10 h-10 rounded-full bg-gradient-to-br from-prieska-terracotta to-prieska-river flex items-center justify-center text-white font-bold text-sm">
             P
           </div>
           <input
@@ -78,46 +78,57 @@ const MainFeed = ({ className = '' }) => {
         </div>
       </div>
 
-      {/* Activity Feed */}
+      {/* Activity Feed Posts */}
       <div className="space-y-3">
         {activities.map(activity => (
           <div 
             key={activity.id} 
-            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4"
+            className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden"
           >
-            <div className="flex items-start gap-3">
-              <div className={`p-2 rounded-lg ${activity.color}`}>
-                {getIcon(activity.type)}
-              </div>
-              <div className="flex-1 min-w-0">
-                <div className="flex items-center gap-2 mb-1">
-                  <span className="text-xs font-medium text-gray-500 dark:text-gray-400">
-                    {getTypeLabel(activity.type)}
-                  </span>
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">•</span>
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">
-                    {getTimeAgo(activity.date)}
-                  </span>
+            {/* Post Header */}
+            <div className="p-4 pb-2">
+              <div className="flex items-start gap-3">
+                <div className={`p-2 rounded-lg ${activity.color}`}>
+                  {getIcon(activity.type)}
                 </div>
-                <h4 className="font-semibold text-gray-800 dark:text-white text-sm mb-1">
-                  {activity.title}
-                </h4>
-                <p className="text-gray-600 dark:text-gray-300 text-xs">
-                  {activity.description}
-                </p>
-                {/* Interaction Buttons */}
-                <div className="flex items-center gap-4 mt-3 pt-3 border-t border-gray-100 dark:border-gray-700">
-                  <button className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition">
-                    👍 Like
-                  </button>
-                  <button className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition">
-                    💬 Comment
-                  </button>
-                  <button className="flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400 hover:text-prieska-terracotta transition">
-                    ↗️ Share
-                  </button>
+                <div className="flex-1">
+                  <div className="flex items-center gap-2">
+                    <span className="text-sm font-medium text-gray-800 dark:text-white">
+                      {getTypeLabel(activity.type)}
+                    </span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500">•</span>
+                    <span className="text-[10px] text-gray-400 dark:text-gray-500">
+                      {getTimeAgo(activity.date)}
+                    </span>
+                  </div>
                 </div>
               </div>
+            </div>
+
+            {/* Post Content */}
+            <div className="px-4 pb-3">
+              <h4 className="font-semibold text-gray-800 dark:text-white text-sm mb-1">
+                {activity.title}
+              </h4>
+              <p className="text-gray-600 dark:text-gray-300 text-xs">
+                {activity.description}
+              </p>
+            </div>
+
+            {/* Post Actions */}
+            <div className="flex items-center gap-0 border-t border-gray-100 dark:border-gray-700">
+              <button className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <Heart className="w-4 h-4" />
+                Like
+              </button>
+              <button className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition border-x border-gray-100 dark:border-gray-700">
+                <MessageCircle className="w-4 h-4" />
+                Comment
+              </button>
+              <button className="flex-1 flex items-center justify-center gap-1.5 py-2 text-xs text-gray-500 dark:text-gray-400 hover:bg-gray-50 dark:hover:bg-gray-700/50 transition">
+                <Share2 className="w-4 h-4" />
+                Share
+              </button>
             </div>
           </div>
         ))}
