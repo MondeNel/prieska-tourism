@@ -3,6 +3,7 @@ import { useState, useEffect } from 'react'
 import LeftSidebar from '../components/layout/LeftSidebar'
 import RightSidebar from '../components/layout/RightSidebar'
 import MainFeed from '../components/layout/MainFeed'
+import AdBanner from '../components/sections/AdBanner'
 import { getQuickStats } from '../data/activityFeed'
 
 import History from '../components/sections/History'
@@ -116,6 +117,13 @@ const Home = () => {
         </div>
       </div>
 
+      {/* Mobile Ad Banner - Only visible on small screens */}
+      <div className="lg:hidden flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 pb-2">
+        <div className="max-w-2xl mx-auto">
+          <AdBanner />
+        </div>
+      </div>
+
       {/* Scrollable Content */}
       <div className="flex-1 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 h-full">
@@ -128,6 +136,7 @@ const Home = () => {
               {renderMainContent()}
             </div>
             
+            {/* Right Sidebar - Desktop only, contains ads */}
             <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
               <RightSidebar />
             </div>
