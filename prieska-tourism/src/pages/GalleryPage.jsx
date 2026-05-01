@@ -1,7 +1,11 @@
 // src/pages/GalleryPage.jsx
 import { useState } from 'react'
+import LeftSidebar from '../components/layout/LeftSidebar'
+import RightSidebar from '../components/layout/RightSidebar'
 import SectionTitle from '../components/ui/SectionTitle'
 import { X } from 'lucide-react'
+import { getQuickStats } from '../data/activityFeed'
+import { Newspaper, Calendar, Megaphone } from 'lucide-react'
 
 const galleryImages = [
   { id: 1, src: 'https://images.unsplash.com/photo-1580060839134-75a5edca2e99?w=800', alt: 'Orange River sunset', caption: 'Orange River at golden hour' },
@@ -18,51 +22,93 @@ const GalleryPage = () => {
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [currentImage, setCurrentImage] = useState(null)
 
+  const stats = getQuickStats()
+
   return (
-    <div className="py-8 md:py-16 px-4 max-w-7xl mx-auto min-h-screen bg-white dark:bg-gray-900 transition-colors duration-200">
-      <SectionTitle subtitle="VISUAL JOURNEY" title="Prieska Gallery" />
-      
-      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-3 md:gap-4">
-        {galleryImages.map((img) => (
-          <div
-            key={img.id}
-            onClick={() => { setCurrentImage(img); setLightboxOpen(true) }}
-            className="aspect-square overflow-hidden rounded-lg cursor-pointer group relative"
-          >
-            <img 
-              src={img.src} 
-              alt={img.alt} 
-              className="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
-              loading="lazy"
-            />
-            <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-end p-2 md:p-3">
-              <p className="text-white text-xs md:text-sm opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                {img.caption}
-              </p>
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950 pt-20">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Sidebar */}
+          <LeftSidebar className="lg:col-span-3" />
+          
+          {/* Main Content Area */}
+          <div id="main-feed" className="lg:col-span-6 overflow-y-auto max-h-[calc(100vh-100px)]">
+            {/* Quick Stats */}
+            <div className="sticky top-0 z-10 bg-gray-100 dark:bg-gray-950 pb-4">
+              <div className="grid grid-cols-3 gap-2">
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+                  <p className="text-lg font-bold text-blue-600 dark:text-blue-400">{stats.newsThisWeek}</p>
+                  <div className="flex items-center justify-center gap-1">
+                    <Newspaper className="w-3 h-3 text-blue-500" />
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">News</p>
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+                  <p className="text-lg font-bold text-green-600 dark:text-green-400">{stats.upcomingEvents}</p>
+                  <div className="flex items-center justify-center gap-1">
+                    <Calendar className="w-3 h-3 text-green-500" />
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">Events</p>
+                  </div>
+                </div>
+                <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm">
+                  <p className="text-lg font-bold text-purple-600 dark:text-purple-400">{stats.newNotices}</p>
+                  <div className="flex items-center justify-center gap-1">
+                    <Megaphone className="w-3 h-3 text-purple-500" />
+                    <p className="text-[10px] text-gray-500 dark:text-gray-400">Notices</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/* Gallery Content */}
+            <SectionTitle subtitle="VISUAL JOURNEY" title="Prieska Gallery" />
+            
+            <div className="grid grid-cols-2 gap-3">
+              {galleryImages.map((img) => (
+                <div
+                  key={img.id}
+                  onClick={() => { setCurrentImage(img); setLightboxOpen(true) }}
+                  className="aspect-square overflow-hidden rounded-xl cursor-pointer group relative shadow-sm hover:shadow-md transition"
+                >
+                  <img 
+                    src={img.src} 
+                    alt={img.alt} 
+                    className="w-full h-full object-cover group-hover:scale-110 transition duration-500" 
+                    loading="lazy"
+                  />
+                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/30 transition-all duration-300 flex items-end p-3">
+                    <p className="text-white text-xs opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                      {img.caption}
+                    </p>
+                  </div>
+                </div>
+              ))}
             </div>
           </div>
-        ))}
-      </div>
-
-      {lightboxOpen && currentImage && (
-        <div className="fixed inset-0 bg-black/95 dark:bg-black/95 z-50 flex items-center justify-center p-4">
-          <button 
-            onClick={() => setLightboxOpen(false)} 
-            className="absolute top-2 right-2 md:top-4 md:right-4 text-white hover:text-gray-300 p-2 z-10"
-            aria-label="Close gallery"
-          >
-            <X className="w-6 h-6 md:w-8 md:h-8" />
-          </button>
-          <img 
-            src={currentImage.src} 
-            alt={currentImage.alt} 
-            className="max-h-[85vh] max-w-full object-contain"
-          />
-          <p className="absolute bottom-4 md:bottom-8 text-white text-sm md:text-lg text-center px-4">
-            {currentImage.caption}
-          </p>
+          
+          {/* Right Sidebar */}
+          <RightSidebar className="lg:col-span-3" />
         </div>
-      )}
+
+        {lightboxOpen && currentImage && (
+          <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+            <button 
+              onClick={() => setLightboxOpen(false)} 
+              className="absolute top-4 right-4 text-white hover:text-gray-300 p-2 z-10"
+            >
+              <X className="w-6 h-6 md:w-8 md:h-8" />
+            </button>
+            <img 
+              src={currentImage.src} 
+              alt={currentImage.alt} 
+              className="max-h-[85vh] max-w-full object-contain rounded-lg"
+            />
+            <p className="absolute bottom-6 text-white text-sm md:text-lg text-center px-4">
+              {currentImage.caption}
+            </p>
+          </div>
+        )}
+      </div>
     </div>
   )
 }
