@@ -1,107 +1,127 @@
 // src/components/sections/Schools.jsx
 import SectionTitle from '../ui/SectionTitle'
 import { primarySchools, highSchools } from '../../data/schools'
-import { MapPin, Phone } from 'lucide-react'
+import { MapPin, Phone, School, GraduationCap, ChevronDown, ChevronUp } from 'lucide-react'
+import { useState } from 'react'
 
 const Schools = () => {
+  const [expandedPrimary, setExpandedPrimary] = useState(true)
+  const [expandedHigh, setExpandedHigh] = useState(true)
+
   return (
-     <section id="schools" className="py-12 md:py-16 px-4 max-w-7xl mx-auto bg-white dark:bg-gray-900">
+    <div className="space-y-4">
       <SectionTitle subtitle="EDUCATION IN PRIESKA" title="Schools & Learning" />
       
-      <p className="text-center text-gray-600 dark:text-gray-300 max-w-3xl mx-auto -mt-4 md:-mt-6 mb-8 md:mb-10 text-sm md:text-base">
-        Prieska offers quality education through several primary and high schools serving the local community.
+      <p className="text-center text-gray-600 dark:text-gray-300 text-sm">
+        Quality education through primary and high schools serving the community
       </p>
 
       {/* Primary Schools */}
-      <h3 className="text-xl md:text-2xl font-serif font-bold text-gray-800 dark:text-white mb-4 md:mb-6">
-        Primary Schools
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6 mb-10">
-        {primarySchools.map(school => {
-          const IconComponent = school.icon
-          return (
-            <div key={school.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 md:p-5 shadow-sm hover:shadow-md transition">
-              <div className="flex items-start gap-3 md:gap-4">
-                <div className="p-2 md:p-3 bg-blue-100 dark:bg-blue-900/30 rounded-lg">
-                  <IconComponent className="w-5 h-5 md:w-6 md:h-6 text-blue-600 dark:text-blue-400" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800 dark:text-white text-base md:text-lg">{school.name}</h4>
-                  <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm mt-1">{school.description}</p>
-                  <div className="flex items-center gap-1 mt-2 text-gray-500 dark:text-gray-400 text-xs">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <button
+          onClick={() => setExpandedPrimary(!expandedPrimary)}
+          className="w-full flex items-center justify-between p-4 bg-blue-500 hover:bg-blue-600 transition text-white"
+        >
+          <div className="flex items-center gap-3">
+            <School className="w-5 h-5" />
+            <div className="text-left">
+              <h3 className="font-serif font-bold text-sm">Primary Schools</h3>
+              <p className="text-xs text-white/80">{primarySchools.length} schools</p>
+            </div>
+          </div>
+          {expandedPrimary ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+        </button>
+        
+        {expandedPrimary && (
+          <div className="divide-y divide-gray-100 dark:divide-gray-700">
+            {primarySchools.map(school => (
+              <div key={school.id} className="p-4">
+                <h4 className="font-semibold text-gray-800 dark:text-white text-sm mb-1">
+                  {school.name}
+                </h4>
+                <p className="text-gray-600 dark:text-gray-300 text-xs mb-2">
+                  {school.description}
+                </p>
+                <div className="space-y-1 text-[10px] text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
                     <MapPin className="w-3 h-3 flex-shrink-0" />
                     <span>{school.location}</span>
                   </div>
                   {school.phone && (
-                    <div className="flex items-center gap-1 mt-1 text-gray-500 dark:text-gray-400 text-xs">
+                    <a 
+                      href={`tel:${school.phone.replace(/\s/g, '')}`} 
+                      className="flex items-center gap-1 text-prieska-terracotta hover:underline"
+                    >
                       <Phone className="w-3 h-3 flex-shrink-0" />
-                      <a href={`tel:${school.phone.replace(/\s/g, '')}`} className="hover:text-prieska-terracotta transition">
-                        {school.phone}
-                      </a>
-                      {school.phoneAlt && (
-                        <span> / <a href={`tel:${school.phoneAlt.replace(/\s/g, '')}`} className="hover:text-prieska-terracotta transition">{school.phoneAlt}</a></span>
-                      )}
-                      {school.whatsapp && (
-                        <span className="ml-2">
-                          <a href={`https://wa.me/${school.whatsapp.replace(/\s/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline">
-                            WhatsApp
-                          </a>
-                        </span>
-                      )}
-                    </div>
+                      <span>{school.phone}</span>
+                    </a>
                   )}
                 </div>
               </div>
-            </div>
-          )
-        })}
+            ))}
+          </div>
+        )}
       </div>
 
       {/* High Schools */}
-      <h3 className="text-xl md:text-2xl font-serif font-bold text-gray-800 dark:text-white mb-4 md:mb-6">
-        High Schools
-      </h3>
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6">
-        {highSchools.map(school => {
-          const IconComponent = school.icon
-          return (
-            <div key={school.id} className="bg-gray-50 dark:bg-gray-800 rounded-xl p-4 md:p-5 shadow-sm hover:shadow-md transition">
-              <div className="flex items-start gap-3 md:gap-4">
-                <div className="p-2 md:p-3 bg-green-100 dark:bg-green-900/30 rounded-lg">
-                  <IconComponent className="w-5 h-5 md:w-6 md:h-6 text-green-600 dark:text-green-400" />
-                </div>
-                <div className="flex-1">
-                  <h4 className="font-semibold text-gray-800 dark:text-white text-base md:text-lg">{school.name}</h4>
-                  <p className="text-gray-600 dark:text-gray-300 text-xs md:text-sm mt-1">{school.description}</p>
-                  <div className="flex items-center gap-1 mt-2 text-gray-500 dark:text-gray-400 text-xs">
+      <div className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden">
+        <button
+          onClick={() => setExpandedHigh(!expandedHigh)}
+          className="w-full flex items-center justify-between p-4 bg-green-500 hover:bg-green-600 transition text-white"
+        >
+          <div className="flex items-center gap-3">
+            <GraduationCap className="w-5 h-5" />
+            <div className="text-left">
+              <h3 className="font-serif font-bold text-sm">High Schools</h3>
+              <p className="text-xs text-white/80">{highSchools.length} schools</p>
+            </div>
+          </div>
+          {expandedHigh ? <ChevronUp className="w-5 h-5" /> : <ChevronDown className="w-5 h-5" />}
+        </button>
+        
+        {expandedHigh && (
+          <div className="divide-y divide-gray-100 dark:divide-gray-700">
+            {highSchools.map(school => (
+              <div key={school.id} className="p-4">
+                <h4 className="font-semibold text-gray-800 dark:text-white text-sm mb-1">
+                  {school.name}
+                </h4>
+                <p className="text-gray-600 dark:text-gray-300 text-xs mb-2">
+                  {school.description}
+                </p>
+                <div className="space-y-1 text-[10px] text-gray-500 dark:text-gray-400">
+                  <div className="flex items-center gap-1">
                     <MapPin className="w-3 h-3 flex-shrink-0" />
                     <span>{school.location}</span>
                   </div>
                   {school.phone && (
-                    <div className="flex items-center gap-1 mt-1 text-gray-500 dark:text-gray-400 text-xs">
+                    <a 
+                      href={`tel:${school.phone.replace(/\s/g, '')}`} 
+                      className="flex items-center gap-1 text-prieska-terracotta hover:underline"
+                    >
                       <Phone className="w-3 h-3 flex-shrink-0" />
-                      <a href={`tel:${school.phone.replace(/\s/g, '')}`} className="hover:text-prieska-terracotta transition">
-                        {school.phone}
-                      </a>
-                      {school.phoneAlt && (
-                        <span> / <a href={`tel:${school.phoneAlt.replace(/\s/g, '')}`} className="hover:text-prieska-terracotta transition">{school.phoneAlt}</a></span>
-                      )}
+                      <span>{school.phone}</span>
                       {school.whatsapp && (
-                        <span className="ml-2">
-                          <a href={`https://wa.me/${school.whatsapp.replace(/\s/g, '')}`} target="_blank" rel="noopener noreferrer" className="text-green-600 hover:underline">
-                            WhatsApp
-                          </a>
-                        </span>
+                        <span className="ml-1 text-green-600">• WhatsApp: {school.whatsapp}</span>
                       )}
-                    </div>
+                    </a>
+                  )}
+                  {school.phoneAlt && (
+                    <a 
+                      href={`tel:${school.phoneAlt.replace(/\s/g, '')}`} 
+                      className="flex items-center gap-1 text-prieska-terracotta hover:underline ml-4"
+                    >
+                      <Phone className="w-3 h-3 flex-shrink-0" />
+                      <span>{school.phoneAlt}</span>
+                    </a>
                   )}
                 </div>
               </div>
-            </div>
-          )
-        })}
+            ))}
+          </div>
+        )}
       </div>
-    </section>
+    </div>
   )
 }
 
