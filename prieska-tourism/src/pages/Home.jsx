@@ -1,23 +1,21 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react'
-import Hero from '../components/sections/Hero'
-import QuickAccess from '../components/sections/QuickAccess'
+import LeftSidebar from '../components/layout/LeftSidebar'
+import RightSidebar from '../components/layout/RightSidebar'
+import MainFeed from '../components/layout/MainFeed'
 import AdBanner from '../components/sections/AdBanner'
-import WeatherWidget from '../components/sections/WeatherWidget'
-import EmergencyNumbers from '../components/sections/EmergencyNumbers'
 import FuelPriceTracker from '../components/sections/FuelPriceTracker'
-import BusinessesPreview from '../components/sections/BusinessesPreview'
 import Schools from '../components/sections/Schools'
 import Accommodation from '../components/sections/Accommodation'
 import InteractiveMap from '../components/sections/InteractiveMap'
-import RecentActivity from '../components/sections/RecentActivity'
+import EmergencyNumbers from '../components/sections/EmergencyNumbers'
+import MunicipalUpdates from '../components/sections/MunicipalUpdates'
 
 import ContentHubModal from '../components/ui/ContentHubModal'
 import History from '../components/sections/History'
 import CommunityNoticeBoard from '../components/sections/CommunityNoticeBoard'
 import LocalNews from '../components/sections/LocalNews'
 import IssueReporting from '../components/sections/IssueReporting'
-import MunicipalUpdates from '../components/sections/MunicipalUpdates'
 import CommunityGroups from '../components/sections/CommunityGroups'
 import EventsCalendar from '../components/sections/EventsCalendar'
 import Attractions from '../components/sections/Attractions'
@@ -46,21 +44,35 @@ const Home = () => {
   }
 
   return (
-    <>
-      <Hero />
-      <QuickAccess openModal={openModal} />
-      <RecentActivity />
-      <AdBanner />
+    <div className="min-h-screen bg-gray-100 dark:bg-gray-950">
+      <div className="max-w-7xl mx-auto px-4 py-6">
+        {/* 3-Column Grid Layout */}
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
+          {/* Left Sidebar - 3 columns on desktop */}
+          <LeftSidebar openModal={openModal} className="lg:col-span-3" />
+          
+          {/* Main Feed - 6 columns on desktop */}
+          <div className="lg:col-span-6">
+            <MainFeed />
+            
+            {/* Below the feed, keep essential sections */}
+            <div className="mt-6">
+              <AdBanner />
+              <MunicipalUpdates />
+              <InteractiveMap />
+              <FuelPriceTracker />
+              <Schools />
+              <Accommodation />
+              <EmergencyNumbers />
+            </div>
+          </div>
+          
+          {/* Right Sidebar - 3 columns on desktop */}
+          <RightSidebar className="lg:col-span-3" />
+        </div>
+      </div>
       
-      <WeatherWidget />
-      <EmergencyNumbers />
-      <MunicipalUpdates />
-      <InteractiveMap />
-      <FuelPriceTracker />
-      <BusinessesPreview openModal={openModal} />
-      <Schools />
-      <Accommodation />
-      
+      {/* Modals */}
       <ContentHubModal isOpen={activeModal === 'history'} onClose={closeModal} title="A Land of Legends & Legacy">
         <History />
       </ContentHubModal>
@@ -88,7 +100,7 @@ const Home = () => {
       <ContentHubModal isOpen={activeModal === 'businesses'} onClose={closeModal} title="Local Businesses & Amenities">
         <BusinessesDirectory />
       </ContentHubModal>
-    </>
+    </div>
   )
 }
 
