@@ -24,10 +24,8 @@ const Services = () => {
     <div className="min-h-screen bg-gray-100 dark:bg-gray-950 pt-20">
       <div className="max-w-7xl mx-auto px-4 py-6">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-          {/* Left Sidebar */}
           <LeftSidebar className="lg:col-span-3" />
           
-          {/* Main Content Area */}
           <div id="main-feed" className="lg:col-span-6 overflow-y-auto max-h-[calc(100vh-100px)]">
             {/* Quick Stats */}
             <div className="sticky top-0 z-10 bg-gray-100 dark:bg-gray-950 pb-4">
@@ -58,43 +56,43 @@ const Services = () => {
 
             {/* Services Content */}
             <SectionTitle subtitle="WHAT WE OFFER" title="Our Services & Experiences" />
-            <p className="text-center text-sm text-gray-600 dark:text-gray-300 -mt-4 mb-6">
-              From historical tours to river adventures, let us help you create unforgettable memories.
+            <p className="text-center text-xs text-gray-600 dark:text-gray-300 -mt-4 mb-4">
+              From historical tours to river adventures — unforgettable memories in Prieska.
             </p>
 
-            <div className="space-y-3">
+            <div className="space-y-2">
               {services.map((service) => {
                 const IconComponent = service.icon
                 return (
                   <div 
                     key={service.id} 
-                    className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-5 hover:shadow-md transition group"
+                    className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4 hover:shadow-md transition group"
                   >
-                    <div className="flex items-start gap-4">
-                      <div className="p-3 bg-prieska-terracotta/10 dark:bg-prieska-terracotta/20 rounded-xl group-hover:scale-105 transition-transform">
-                        <IconComponent className="w-6 h-6 text-prieska-terracotta" />
+                    <div className="flex items-start gap-3">
+                      <div className="p-2 bg-prieska-terracotta/10 dark:bg-prieska-terracotta/20 rounded-lg flex-shrink-0">
+                        <IconComponent className="w-5 h-5 text-prieska-terracotta" />
                       </div>
-                      <div className="flex-1">
-                        <h3 className="text-lg font-serif font-bold text-gray-800 dark:text-white mb-1">
+                      <div className="flex-1 min-w-0">
+                        <h3 className="text-sm font-serif font-bold text-gray-800 dark:text-white mb-0.5">
                           {service.title}
                         </h3>
-                        <p className="text-gray-600 dark:text-gray-300 text-sm mb-3 leading-relaxed">
+                        <p className="text-gray-600 dark:text-gray-300 text-xs leading-relaxed mb-2 line-clamp-2">
                           {service.description}
                         </p>
                         <div className="flex items-center justify-between">
-                          <div className="flex items-center gap-3 text-xs text-gray-500 dark:text-gray-400">
-                            <span className="font-semibold text-prieska-terracotta">{service.price}</span>
+                          <div className="flex items-center gap-2 text-[10px] text-gray-500 dark:text-gray-400">
+                            <span className="font-semibold text-prieska-terracotta text-xs">{service.price}</span>
                             <span className="flex items-center gap-1">
-                              <Clock className="w-3.5 h-3.5" />
+                              <Clock className="w-3 h-3" />
                               {service.duration}
                             </span>
                           </div>
                           <button
                             onClick={() => openQuoteModal(service)}
-                            className="flex items-center gap-1.5 text-sm font-medium text-prieska-terracotta hover:text-white bg-prieska-terracotta/10 hover:bg-prieska-terracotta px-4 py-2 rounded-lg transition"
+                            className="flex items-center gap-1 text-xs font-medium text-prieska-terracotta hover:text-white bg-prieska-terracotta/10 hover:bg-prieska-terracotta px-3 py-1.5 rounded-lg transition"
                           >
-                            Request Quote
-                            <ArrowRight className="w-4 h-4" />
+                            Quote
+                            <ArrowRight className="w-3.5 h-3.5" />
                           </button>
                         </div>
                       </div>
@@ -105,7 +103,6 @@ const Services = () => {
             </div>
           </div>
           
-          {/* Right Sidebar */}
           <RightSidebar className="lg:col-span-3" />
         </div>
       </div>
