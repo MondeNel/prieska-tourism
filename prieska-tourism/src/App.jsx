@@ -1,6 +1,6 @@
 // src/App.jsx
 import { useState, useEffect } from 'react'
-import { BrowserRouter as Router, Routes, Route, useSearchParams } from 'react-router-dom'
+import { BrowserRouter as Router, Routes, Route, useSearchParams, useLocation } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
@@ -10,26 +10,39 @@ import FAQ from './pages/FAQ'
 import Booking from './pages/Booking'
 
 function App() {
-  const [activeFeed, setActiveFeed] = useState('feed')
-
-  const switchFeed = (feedName) => {
-    setActiveFeed(feedName)
-  }
-
   return (
     <Router>
-      <AppContent activeFeed={activeFeed} switchFeed={switchFeed} />
+      <AppContent />
     </Router>
   )
 }
 
-function AppContent({ activeFeed, switchFeed }) {
-  const [searchParams] = useSearchParams()
+function AppContent() {
+  const [searchParams, setSearchParams] = useSearchParams()
+  const location = useLocation()
+  const [activeFeed, setActiveFeed] = useState(() => {
+    // Read from URL on initial load
+    const feedParam = new URLSearchParams(window.location.search).get('feed')
+    return feedParam || 'feed'
+  })
 
+  const switchFeed = (feedName) => {
+    setActiveFeed(feedName)
+    // Update URL without page reload
+    if (feedName !== 'feed') {
+      setSearchParams({ feed: feedName }, { replace: true })
+    } else {
+      setSearchParams({}, { replace: true })
+    }
+  }
+
+  // Sync state from URL when navigating back/forward
   useEffect(() => {
     const feedParam = searchParams.get('feed')
     if (feedParam && feedParam !== activeFeed) {
-      switchFeed(feedParam)
+      setActiveFeed(feedParam)
+    } else if (!feedParam && activeFeed !== 'feed') {
+      setActiveFeed('feed')
     }
   }, [searchParams])
 
