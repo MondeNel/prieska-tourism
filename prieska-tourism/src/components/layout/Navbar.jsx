@@ -8,7 +8,7 @@ import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon,
 import { useTheme } from '../../context/ThemeContext'
 import Logo from '../ui/Logo'
 
-const Navbar = ({ switchFeed, openModal }) => {
+const Navbar = ({ switchFeed, activeFeed, openModal }) => {
   const [isOpen, setIsOpen] = useState(false)
   const [scrolled, setScrolled] = useState(false)
   const navigate = useNavigate()
@@ -46,21 +46,21 @@ const Navbar = ({ switchFeed, openModal }) => {
   ]
 
   const quickLinks = [
-    { name: 'News Feed', icon: Newspaper, action: () => handleFeedNavigation('feed') },
-    { name: 'History', icon: Landmark, action: () => handleFeedNavigation('history') },
-    { name: 'Local News', icon: Newspaper, action: () => handleFeedNavigation('news') },
-    { name: 'Notice Board', icon: Bell, action: () => handleFeedNavigation('noticeboard') },
-    { name: 'Events', icon: CalendarDays, action: () => handleFeedNavigation('events') },
-    { name: 'Businesses', icon: Store, action: () => handleFeedNavigation('businesses') },
-    { name: 'Vacancies', icon: Briefcase, action: () => handleFeedNavigation('vacancies') },
-    { name: 'Guesthouses', icon: Bed, action: () => handleFeedNavigation('guesthouses') },
-    { name: 'Fuel Prices', icon: Fuel, action: () => handleFeedNavigation('fuel') },
-    { name: 'Map', icon: MapPin, action: () => handleFeedNavigation('map') },
-    { name: 'Emergency', icon: Shield, action: () => handleFeedNavigation('emergency') },
-    { name: 'Schools', icon: GraduationCap, action: () => handleFeedNavigation('schools') },
-    { name: 'Community', icon: Users, action: () => handleFeedNavigation('community') },
-    { name: 'Report Issue', icon: AlertCircle, action: () => handleFeedNavigation('report') },
-    { name: 'Municipal Updates', icon: Megaphone, action: () => handleFeedNavigation('municipal') },
+    { id: 'feed', name: 'News Feed', icon: Newspaper, action: () => handleFeedNavigation('feed') },
+    { id: 'history', name: 'History', icon: Landmark, action: () => handleFeedNavigation('history') },
+    { id: 'news', name: 'Local News', icon: Newspaper, action: () => handleFeedNavigation('news') },
+    { id: 'noticeboard', name: 'Notice Board', icon: Bell, action: () => handleFeedNavigation('noticeboard') },
+    { id: 'events', name: 'Events', icon: CalendarDays, action: () => handleFeedNavigation('events') },
+    { id: 'businesses', name: 'Businesses', icon: Store, action: () => handleFeedNavigation('businesses') },
+    { id: 'vacancies', name: 'Vacancies', icon: Briefcase, action: () => handleFeedNavigation('vacancies') },
+    { id: 'guesthouses', name: 'Guesthouses', icon: Bed, action: () => handleFeedNavigation('guesthouses') },
+    { id: 'fuel', name: 'Fuel Prices', icon: Fuel, action: () => handleFeedNavigation('fuel') },
+    { id: 'map', name: 'Map', icon: MapPin, action: () => handleFeedNavigation('map') },
+    { id: 'emergency', name: 'Emergency', icon: Shield, action: () => handleFeedNavigation('emergency') },
+    { id: 'schools', name: 'Schools', icon: GraduationCap, action: () => handleFeedNavigation('schools') },
+    { id: 'community', name: 'Community', icon: Users, action: () => handleFeedNavigation('community') },
+    { id: 'report', name: 'Report Issue', icon: AlertCircle, action: () => handleFeedNavigation('report') },
+    { id: 'municipal', name: 'Municipal Updates', icon: Megaphone, action: () => handleFeedNavigation('municipal') },
   ]
 
   return (
@@ -155,9 +155,13 @@ const Navbar = ({ switchFeed, openModal }) => {
             <h3 className="text-xs font-semibold text-gray-400 dark:text-gray-500 uppercase tracking-wider mb-2 px-2">Quick Links</h3>
             {quickLinks.map(link => (
               <button
-                key={link.name}
+                key={link.id}
                 onClick={link.action}
-                className="w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-prieska-terracotta transition-colors"
+                className={`w-full flex items-center gap-3 px-3 py-2.5 rounded-lg text-sm font-medium transition-colors ${
+                  activeFeed === link.id
+                    ? 'bg-prieska-terracotta/10 text-prieska-terracotta border-l-2 border-prieska-terracotta'
+                    : 'text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 hover:text-prieska-terracotta'
+                }`}
               >
                 <link.icon className="w-4 h-4" />
                 {link.name}

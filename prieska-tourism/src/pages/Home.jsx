@@ -1,6 +1,5 @@
 // src/pages/Home.jsx
 import { useState, useEffect } from 'react'
-import { useSearchParams } from 'react-router-dom'
 import LeftSidebar from '../components/layout/LeftSidebar'
 import RightSidebar from '../components/layout/RightSidebar'
 import MainFeed from '../components/layout/MainFeed'
@@ -28,16 +27,7 @@ import HomepageSkeleton from '../components/ui/skeletons/HomepageSkeleton'
 import { Newspaper, Calendar, Megaphone } from 'lucide-react'
 
 const Home = ({ activeFeed, switchFeed }) => {
-  const [searchParams, setSearchParams] = useSearchParams()
   const [loading, setLoading] = useState(true)
-
-  useEffect(() => {
-    const feedParam = searchParams.get('feed')
-    if (feedParam && feedParam !== activeFeed) {
-      switchFeed(feedParam)
-      setSearchParams({}, { replace: true })
-    }
-  }, [searchParams, activeFeed, switchFeed, setSearchParams])
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 800)

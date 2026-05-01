@@ -1,6 +1,6 @@
 // src/App.jsx
-import { useState } from 'react'
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom'
+import { useState, useEffect } from 'react'
+import { BrowserRouter as Router, Routes, Route, useSearchParams } from 'react-router-dom'
 import Navbar from './components/layout/Navbar'
 import Footer from './components/layout/Footer'
 import Home from './pages/Home'
@@ -18,20 +18,35 @@ function App() {
 
   return (
     <Router>
-      <div className="min-h-screen flex flex-col">
-        <Navbar switchFeed={switchFeed} />
-        <main className="flex-grow">
-          <Routes>
-            <Route path="/" element={<Home activeFeed={activeFeed} switchFeed={switchFeed} />} />
-            <Route path="/services" element={<Services />} />
-            <Route path="/gallery" element={<GalleryPage />} />
-            <Route path="/faq" element={<FAQ />} />
-            <Route path="/booking" element={<Booking />} />
-          </Routes>
-        </main>
-        <Footer />
-      </div>
+      <AppContent activeFeed={activeFeed} switchFeed={switchFeed} />
     </Router>
+  )
+}
+
+function AppContent({ activeFeed, switchFeed }) {
+  const [searchParams] = useSearchParams()
+
+  useEffect(() => {
+    const feedParam = searchParams.get('feed')
+    if (feedParam && feedParam !== activeFeed) {
+      switchFeed(feedParam)
+    }
+  }, [searchParams])
+
+  return (
+    <div className="min-h-screen flex flex-col">
+      <Navbar switchFeed={switchFeed} activeFeed={activeFeed} />
+      <main className="flex-grow">
+        <Routes>
+          <Route path="/" element={<Home activeFeed={activeFeed} switchFeed={switchFeed} />} />
+          <Route path="/services" element={<Services />} />
+          <Route path="/gallery" element={<GalleryPage />} />
+          <Route path="/faq" element={<FAQ />} />
+          <Route path="/booking" element={<Booking />} />
+        </Routes>
+      </main>
+      <Footer />
+    </div>
   )
 }
 
