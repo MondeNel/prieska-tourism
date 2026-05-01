@@ -66,9 +66,9 @@ const Home = () => {
   }
 
   return (
-    <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-950 pt-16">
-      {/* Quick Stats */}
-      <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 py-2">
+    <div className="h-screen flex flex-col bg-gray-100 dark:bg-gray-950">
+      {/* Quick Stats - Below navbar */}
+      <div className="flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 py-2 mt-16">
         <div className="max-w-7xl mx-auto">
           <div className="grid grid-cols-3 gap-2 max-w-2xl mx-auto">
             <button
@@ -117,14 +117,14 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Mobile Ad Banner - Only visible on small screens */}
+      {/* Mobile Ad Banner */}
       <div className="lg:hidden flex-shrink-0 bg-gray-100 dark:bg-gray-950 px-4 pb-2">
         <div className="max-w-2xl mx-auto">
           <AdBanner />
         </div>
       </div>
 
-      {/* Scrollable Content */}
+      {/* Scrollable Content - Takes remaining height */}
       <div className="flex-1 overflow-hidden">
         <div className="max-w-7xl mx-auto px-4 h-full">
           <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
@@ -136,7 +136,6 @@ const Home = () => {
               {renderMainContent()}
             </div>
             
-            {/* Right Sidebar - Desktop only, contains ads */}
             <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
               <RightSidebar />
             </div>
@@ -144,7 +143,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* White scrollbar styling */}
       <style>{`
         .feed-scroll::-webkit-scrollbar {
           width: 6px;
