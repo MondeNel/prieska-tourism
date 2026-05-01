@@ -20,6 +20,7 @@ import InteractiveMap from '../components/sections/InteractiveMap'
 import EmergencyNumbers from '../components/sections/EmergencyNumbers'
 import Schools from '../components/sections/Schools'
 import IssueReporting from '../components/sections/IssueReporting'
+import MobileBottomNav from '../components/layout/MobileBottomNav'
 
 import HomepageSkeleton from '../components/ui/skeletons/HomepageSkeleton'
 import { Newspaper, Calendar, Megaphone } from 'lucide-react'
@@ -124,55 +125,59 @@ const Home = () => {
         </div>
       </div>
 
-      {/* Scrollable Content - Takes remaining height */}
-      <div className="flex-1 overflow-hidden">
-        <div className="max-w-7xl mx-auto px-4 h-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
-            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
-              <LeftSidebar switchFeed={switchFeed} activeFeed={activeFeed} />
-            </div>
-            
-            <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-8 feed-scroll">
-              {renderMainContent()}
-            </div>
-            
-            <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
-              <RightSidebar />
-            </div>
+       {/* Scrollable Content - Added pb-20 for bottom nav */}
+    <div className="flex-1 overflow-hidden">
+      <div className="max-w-7xl mx-auto px-4 h-full">
+        <div className="grid grid-cols-1 lg:grid-cols-12 gap-5 h-full">
+          <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
+            <LeftSidebar switchFeed={switchFeed} activeFeed={activeFeed} />
+          </div>
+          
+          <div id="feed-scroll" className="lg:col-span-6 h-full overflow-y-auto pb-20 feed-scroll">
+            {renderMainContent()}
+          </div>
+          
+          <div className="hidden lg:block lg:col-span-3 h-full overflow-y-auto pb-4 feed-scroll">
+            <RightSidebar />
           </div>
         </div>
       </div>
-
-      <style>{`
-        .feed-scroll::-webkit-scrollbar {
-          width: 6px;
-        }
-        .feed-scroll::-webkit-scrollbar-track {
-          background: transparent;
-        }
-        .feed-scroll::-webkit-scrollbar-thumb {
-          background: #d1d5db;
-          border-radius: 3px;
-        }
-        .feed-scroll::-webkit-scrollbar-thumb:hover {
-          background: #9ca3af;
-        }
-        .dark .feed-scroll::-webkit-scrollbar-thumb {
-          background: #4b5563;
-        }
-        .dark .feed-scroll::-webkit-scrollbar-thumb:hover {
-          background: #6b7280;
-        }
-        .feed-scroll {
-          scrollbar-width: thin;
-          scrollbar-color: #d1d5db transparent;
-        }
-        .dark .feed-scroll {
-          scrollbar-color: #4b5563 transparent;
-        }
-      `}</style>
     </div>
-  )
+
+    {/* Mobile Bottom Navigation */}
+    <MobileBottomNav switchFeed={switchFeed} activeFeed={activeFeed} />
+
+    {/* Scrollbar styles */}
+    <style>{`
+      .feed-scroll::-webkit-scrollbar {
+        width: 6px;
+      }
+      .feed-scroll::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .feed-scroll::-webkit-scrollbar-thumb {
+        background: #d1d5db;
+        border-radius: 3px;
+      }
+      .feed-scroll::-webkit-scrollbar-thumb:hover {
+        background: #9ca3af;
+      }
+      .dark .feed-scroll::-webkit-scrollbar-thumb {
+        background: #4b5563;
+      }
+      .dark .feed-scroll::-webkit-scrollbar-thumb:hover {
+        background: #6b7280;
+      }
+      .feed-scroll {
+        scrollbar-width: thin;
+        scrollbar-color: #d1d5db transparent;
+      }
+      .dark .feed-scroll {
+        scrollbar-color: #4b5563 transparent;
+      }
+    `}</style>
+  </div>
+)
 }
 
 export default Home
