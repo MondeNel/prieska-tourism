@@ -15,14 +15,14 @@ const IssueReporting = () => {
     return categoryMatch && statusMatch
   })
 
-  const getCategoryIcon = (categoryId) => {
-    const category = issueCategories.find(c => c.id === categoryId)
-    return category?.icon || AlertCircle
-  }
-
   const getCategoryLabel = (categoryId) => {
     const category = issueCategories.find(c => c.id === categoryId)
     return category?.label || categoryId
+  }
+
+  const getCategoryIcon = (categoryId) => {
+    const category = issueCategories.find(c => c.id === categoryId)
+    return category?.icon || AlertCircle
   }
 
   const getStatusIcon = (status) => {
@@ -43,36 +43,36 @@ const IssueReporting = () => {
 
   return (
     <div className="space-y-4">
-      {/* Header with Report Button */}
+      {/* Report Button */}
       <div className="flex items-center justify-between">
         <p className="text-sm text-gray-600 dark:text-gray-300">
           Report potholes, water leaks, and other municipal issues
         </p>
         <button
           onClick={() => setShowReportModal(true)}
-          className="flex items-center gap-1.5 bg-prieska-terracotta text-white px-4 py-2 rounded-full text-sm font-medium hover:bg-opacity-90 transition"
+          className="flex items-center gap-1.5 bg-prieska-terracotta text-white px-3 py-1.5 rounded-full text-xs font-medium hover:bg-opacity-90 transition"
         >
-          <Plus className="w-4 h-4" />
+          <Plus className="w-3.5 h-3.5" />
           Report Issue
         </button>
       </div>
 
       {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-2">
-        <div className="bg-yellow-50 dark:bg-yellow-900/20 rounded-lg p-3 text-center">
-          <p className="text-2xl font-bold text-yellow-600 dark:text-yellow-400">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm border border-yellow-200 dark:border-yellow-800">
+          <p className="text-xl font-bold text-yellow-600 dark:text-yellow-400">
             {mockReports.filter(r => r.status === 'reported').length}
           </p>
           <p className="text-[10px] text-yellow-700 dark:text-yellow-300">Reported</p>
         </div>
-        <div className="bg-blue-50 dark:bg-blue-900/20 rounded-lg p-3 text-center">
-          <p className="text-2xl font-bold text-blue-600 dark:text-blue-400">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm border border-blue-200 dark:border-blue-800">
+          <p className="text-xl font-bold text-blue-600 dark:text-blue-400">
             {mockReports.filter(r => r.status === 'in-progress').length}
           </p>
           <p className="text-[10px] text-blue-700 dark:text-blue-300">In Progress</p>
         </div>
-        <div className="bg-green-50 dark:bg-green-900/20 rounded-lg p-3 text-center">
-          <p className="text-2xl font-bold text-green-600 dark:text-green-400">
+        <div className="bg-white dark:bg-gray-800 rounded-lg p-3 text-center shadow-sm border border-green-200 dark:border-green-800">
+          <p className="text-xl font-bold text-green-600 dark:text-green-400">
             {mockReports.filter(r => r.status === 'resolved').length}
           </p>
           <p className="text-[10px] text-green-700 dark:text-green-300">Resolved</p>
@@ -81,14 +81,13 @@ const IssueReporting = () => {
 
       {/* Filters */}
       <div className="flex flex-col gap-2">
-        {/* Category Filter */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex gap-1.5 overflow-x-auto pb-1">
           <button
             onClick={() => setSelectedCategory('all')}
-            className={`px-3 py-1.5 rounded-full text-xs font-medium transition ${
+            className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition ${
               selectedCategory === 'all'
                 ? 'bg-prieska-terracotta text-white'
-                : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-prieska-terracotta'
             }`}
           >
             All Categories
@@ -99,10 +98,10 @@ const IssueReporting = () => {
               <button
                 key={cat.id}
                 onClick={() => setSelectedCategory(cat.id)}
-                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium transition ${
+                className={`flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition ${
                   selectedCategory === cat.id
                     ? 'bg-prieska-terracotta text-white'
-                    : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                    : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700 hover:border-prieska-terracotta'
                 }`}
               >
                 <Icon className="w-3.5 h-3.5" />
@@ -112,16 +111,15 @@ const IssueReporting = () => {
           })}
         </div>
 
-        {/* Status Filter */}
-        <div className="flex flex-wrap gap-1.5">
+        <div className="flex gap-1.5 overflow-x-auto">
           {statuses.map(status => (
             <button
               key={status.id}
               onClick={() => setSelectedStatus(status.id)}
-              className={`px-3 py-1.5 rounded-full text-xs font-medium transition ${
+              className={`px-3 py-1.5 rounded-full text-xs font-medium whitespace-nowrap transition ${
                 selectedStatus === status.id
                   ? 'bg-gray-700 dark:bg-gray-300 text-white dark:text-gray-800'
-                  : 'bg-gray-100 dark:bg-gray-700 text-gray-700 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-600'
+                  : 'bg-white dark:bg-gray-800 text-gray-600 dark:text-gray-400 border border-gray-200 dark:border-gray-700'
               }`}
             >
               {status.label}
@@ -138,26 +136,26 @@ const IssueReporting = () => {
           return (
             <div 
               key={report.id} 
-              className="bg-gray-50 dark:bg-gray-800/50 rounded-xl p-4 border border-gray-100 dark:border-gray-700"
+              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 p-4"
             >
               <div className="flex items-start gap-3">
-                <div className="p-2 bg-white dark:bg-gray-700 rounded-lg">
+                <div className="p-2 bg-gray-100 dark:bg-gray-700 rounded-lg">
                   <CategoryIcon className="w-4 h-4 text-prieska-terracotta" />
                 </div>
                 <div className="flex-1 min-w-0">
-                  <div className="flex items-start justify-between gap-2">
+                  <div className="flex items-center justify-between mb-1">
                     <h4 className="font-semibold text-gray-800 dark:text-white text-sm">
                       {report.title}
                     </h4>
-                    <span className={`flex items-center gap-1 text-[10px] font-medium px-1.5 py-0.5 rounded-full ${statusColors[report.status]}`}>
+                    <span className={`flex items-center gap-1 text-[10px] font-medium px-2 py-0.5 rounded-full ${statusColors[report.status]}`}>
                       {getStatusIcon(report.status)}
                       {statusLabels[report.status]}
                     </span>
                   </div>
-                  <p className="text-gray-600 dark:text-gray-300 text-xs mt-1 line-clamp-2">
+                  <p className="text-gray-600 dark:text-gray-300 text-xs mb-2">
                     {report.description}
                   </p>
-                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 mt-2 text-[10px] text-gray-500 dark:text-gray-400">
+                  <div className="flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-gray-500 dark:text-gray-400">
                     <span className="flex items-center gap-1">
                       <MapPin className="w-3 h-3" />
                       {report.location}

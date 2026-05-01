@@ -31,7 +31,7 @@ const LeftSidebar = ({ openModal, switchFeed, activeFeed, className = '' }) => {
     { id: 'emergency', label: 'Emergency', icon: Shield, action: () => switchFeed('emergency') },
     { id: 'schools', label: 'Schools', icon: GraduationCap, action: () => switchFeed('schools') },
     { id: 'community', label: 'Community', icon: Users, action: () => switchFeed('community') },
-    { id: 'report', label: 'Report Issue', icon: AlertCircle, action: () => openModal?.('report') },
+    { id: 'report', label: 'Report Issue', icon: AlertCircle, action: () => switchFeed('report') },
   ]
 
   return (
