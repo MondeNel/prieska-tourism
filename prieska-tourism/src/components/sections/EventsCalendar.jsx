@@ -1,12 +1,17 @@
 // src/components/sections/EventsCalendar.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { events, eventCategories, formatDate, formatTime, isToday, isTomorrow } from '../../data/events'
 import { MapPin, Clock, Users, Phone, X, Heart, MessageCircle, Share2 } from 'lucide-react'
+import EventsSkeleton from '../ui/skeletons/EventsSkeleton'
 
 const EventsCalendar = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [loading, setLoading] = useState(true)
   const [postText, setPostText] = useState('')
   const [showComposer, setShowComposer] = useState(false)
+
+  useEffect(() => { const timer = setTimeout(() => setLoading(false), 1200); return () => clearTimeout(timer) }, [])
+  if (loading) return <EventsSkeleton />
 
   const filteredEvents = selectedCategory === 'all' ? events : events.filter(e => e.category === selectedCategory)
   const sortedEvents = [...filteredEvents].sort((a, b) => a.date.localeCompare(b.date))

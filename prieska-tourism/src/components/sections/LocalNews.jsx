@@ -10,7 +10,7 @@ const LocalNews = () => {
   const [postText, setPostText] = useState('')
   const [showComposer, setShowComposer] = useState(false)
 
-  useEffect(() => { const timer = setTimeout(() => setLoading(false), 500); return () => clearTimeout(timer) }, [])
+  useEffect(() => { const timer = setTimeout(() => setLoading(false), 1200); return () => clearTimeout(timer) }, [])
   if (loading) return <NewsSkeleton />
 
   const filteredArticles = selectedCategory === 'all' ? newsArticles : newsArticles.filter(a => a.category === selectedCategory)
