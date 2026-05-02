@@ -1,12 +1,17 @@
 // src/components/sections/CommunityNoticeBoard.jsx
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { notices, noticeCategories, getRelativeTime } from '../../data/noticeBoard'
 import { MapPin, Phone, X, Heart, MessageCircle, Share2, Megaphone } from 'lucide-react'
+import NoticeBoardSkeleton from '../ui/skeletons/NoticeBoardSkeleton'
 
 const CommunityNoticeBoard = () => {
   const [selectedCategory, setSelectedCategory] = useState('all')
+  const [loading, setLoading] = useState(true)
   const [postText, setPostText] = useState('')
   const [showComposer, setShowComposer] = useState(false)
+
+  useEffect(() => { const timer = setTimeout(() => setLoading(false), 1200); return () => clearTimeout(timer) }, [])
+  if (loading) return <NoticeBoardSkeleton />
 
   const filteredNotices = selectedCategory === 'all' ? notices : notices.filter(n => n.category === selectedCategory)
   const sortedNotices = [...filteredNotices].sort((a, b) => new Date(b.postedDate) - new Date(a.postedDate))
