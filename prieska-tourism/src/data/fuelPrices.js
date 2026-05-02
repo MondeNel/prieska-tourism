@@ -16,7 +16,7 @@ export const fuelPrices = [
   {
     id: 2,
     station: 'OVK Fuel Station',
-    location: 'N10 Highway, Prieska',
+    location: 'Main Road, Prieska',
     prices: {
       petrol93: 23.52,
       petrol95: 23.95,
