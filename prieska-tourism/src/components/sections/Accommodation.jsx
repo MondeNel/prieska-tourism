@@ -1,6 +1,6 @@
 // src/components/sections/Accommodation.jsx
 import { useState, useEffect } from 'react'
-import { MapPin, Phone, MessageCircle, Facebook, Instagram, Camera, Star, Plus } from 'lucide-react'
+import { MapPin, Phone, MessageCircle, Facebook, Instagram, Camera, Star, Plus, Navigation } from 'lucide-react'
 import SectionTitle from '../ui/SectionTitle'
 import GalleryModal from '../ui/GalleryModal'
 import AddReviewModal from '../ui/AddReviewModal'
@@ -17,10 +17,7 @@ const AccommodationSkeleton = () => (
       <div key={i} className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden animate-pulse">
         <div className="h-44 bg-gray-200 dark:bg-gray-700" />
         <div className="p-4 space-y-3">
-          <div className="flex justify-between">
-            <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-1/2" />
-            <div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-16" />
-          </div>
+          <div className="flex justify-between"><div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-1/2" /><div className="h-5 bg-gray-200 dark:bg-gray-700 rounded w-16" /></div>
           <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-1/3" />
           <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-full" />
           <div className="h-3 bg-gray-200 dark:bg-gray-700 rounded w-2/3" />
@@ -45,6 +42,7 @@ const Accommodation = () => {
   const openGallery = (accommodation) => { setSelectedAccommodation(accommodation); setGalleryOpen(true) }
   const openReview = (accommodation) => { setSelectedAccommodation(accommodation); setReviewOpen(true) }
   const toggleReviews = (id) => { const el = document.getElementById(`reviews-${id}`); if (el) el.classList.toggle('hidden') }
+  const getDirections = (name) => { window.open(`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(name + ' Prieska')}`, '_blank') }
 
   const renderStars = (rating, size = '3') => {
     const sizeClass = size === '2.5' ? 'w-2.5 h-2.5' : 'w-3 h-3'
@@ -76,10 +74,17 @@ const Accommodation = () => {
               <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs mb-2"><MapPin className="w-3.5 h-3.5 mr-1 text-prieska-terracotta" /><span>Prieska, Northern Cape</span></div>
               <p className="text-gray-600 dark:text-gray-300 text-xs mb-3">{place.description}</p>
               <div className="flex flex-wrap gap-1.5 mb-3">{place.features.map((feat, idx) => (<span key={idx} className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full">{feat}</span>))}</div>
-              <div className="flex gap-2 mb-3">
+              
+              {/* Contact Buttons */}
+              <div className="flex gap-2 mb-2">
                 <button className="flex-1 border border-prieska-terracotta text-prieska-terracotta hover:bg-prieska-terracotta hover:text-white font-medium py-2 rounded-lg transition text-xs flex items-center justify-center gap-1.5"><Phone className="w-3.5 h-3.5" />Call</button>
                 <button onClick={() => openWhatsApp(place.whatsapp)} className="flex-1 bg-green-600 text-white hover:bg-green-700 font-medium py-2 rounded-lg transition text-xs flex items-center justify-center gap-1.5"><MessageCircle className="w-3.5 h-3.5" />WhatsApp</button>
               </div>
+              
+              {/* Directions Button */}
+              <button onClick={() => getDirections(place.name)} className="w-full border border-blue-500 text-blue-600 dark:text-blue-400 dark:border-blue-400 py-2 rounded-lg text-xs font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition flex items-center justify-center gap-1.5 mb-2">
+                <Navigation className="w-3.5 h-3.5" />Get Directions
+              </button>
               
               {/* View Reviews Button */}
               <button onClick={() => toggleReviews(place.id)} className="w-full border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 py-2 rounded-lg text-xs font-medium hover:border-prieska-terracotta hover:text-prieska-terracotta transition flex items-center justify-center gap-1.5 mb-2">
@@ -90,10 +95,7 @@ const Accommodation = () => {
               <div id={`reviews-${place.id}`} className="hidden mb-2 space-y-2">
                 {place.reviews?.length > 0 ? place.reviews.map((review) => (
                   <div key={review.id} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
-                    <div className="flex items-center justify-between mb-1">
-                      <span className="text-xs font-medium text-gray-800 dark:text-white">{review.user}</span>
-                      <div className="flex">{renderStars(review.rating, '2.5')}</div>
-                    </div>
+                    <div className="flex items-center justify-between mb-1"><span className="text-xs font-medium text-gray-800 dark:text-white">{review.user}</span><div className="flex">{renderStars(review.rating, '2.5')}</div></div>
                     <p className="text-[10px] text-gray-600 dark:text-gray-300">{review.text}</p>
                     <p className="text-[8px] text-gray-400 dark:text-gray-500 mt-1">{review.date}</p>
                   </div>
