@@ -51,7 +51,8 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center text-xs border-t border-white/10 mt-8 pt-6">
-          © {currentYear} Karoo Horizons — Where the Karoo breathes. All rights reserved.
+          <p>© {currentYear} Karoo Horizons — Where the Karoo breathes. All rights reserved.</p>
+          <p className="mt-2 text-[10px] text-gray-400">Created by Monde Nel - 072 789 3200, email: mondenel1996@gmail.com</p>
         </div>
       </div>
     </footer>
