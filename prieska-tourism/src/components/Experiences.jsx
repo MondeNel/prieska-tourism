@@ -2,12 +2,12 @@ import { useState } from 'react';
 import BookingModal from './BookingModal';
 
 const experiencesData = [
-  { id: 1, title: "Karoo Safari & Game Drives", category: "wildlife", icon: "fa-paw", desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.", duration: "3-4 hours", price: "ZAR 1,250", image: "wildlife" },
+  { id: 1, title: "Karoo Safari", category: "wildlife", icon: "fa-paw", desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.", duration: "3-4 hrs", price: "ZAR 1,250", image: "wildlife" },
   { id: 2, title: "Orange River Rafting", category: "adventure", icon: "fa-water", desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi-day expeditions available.", duration: "Full day", price: "ZAR 950", image: "adventure" },
-  { id: 3, title: "San Rock Art Tours", category: "culture", icon: "fa-paintbrush", desc: "10,000-year-old Bushman paintings in situ. Cultural storytelling by local San descendants.", duration: "2-3 hours", price: "ZAR 600", image: "culture" },
-  { id: 4, title: "Dark Sky Observatory", category: "stargazing", icon: "fa-star", desc: "One of Africa's clearest skies — view galaxies, planets with powerful telescopes.", duration: "Evening (2hrs)", price: "ZAR 450", image: "stargazing" },
-  { id: 5, title: "Diamond Fields Heritage", category: "heritage", icon: "fa-gem", desc: "Uncover the diamond rush stories. Visit historic mines and museums.", duration: "2 hours", price: "ZAR 380", image: "heritage" },
-  { id: 6, title: "Namaqualand Wildflowers", category: "nature", icon: "fa-seedling", desc: "World's greatest floral spectacle each spring (Aug-Sep). Vibrant carpets of daisies.", duration: "Seasonal", price: "ZAR 520", image: "nature" }
+  { id: 3, title: "San Rock Art Tours", category: "culture", icon: "fa-paintbrush", desc: "10,000-year-old Bushman paintings in situ. Cultural storytelling by local San descendants.", duration: "2-3 hrs", price: "ZAR 600", image: "culture" },
+  { id: 4, title: "Dark Sky Observatory", category: "stargazing", icon: "fa-star", desc: "One of Africa's clearest skies — view galaxies, planets with powerful telescopes.", duration: "Evening", price: "ZAR 450", image: "stargazing" },
+  { id: 5, title: "Diamond Fields", category: "heritage", icon: "fa-gem", desc: "Uncover the diamond rush stories. Visit historic mines and museums.", duration: "2 hrs", price: "ZAR 380", image: "heritage" },
+  { id: 6, title: "Namaqualand Flowers", category: "nature", icon: "fa-seedling", desc: "World's greatest floral spectacle each spring (Aug-Sep). Vibrant carpets of daisies.", duration: "Seasonal", price: "ZAR 520", image: "nature" }
 ];
 
 const filters = ["all", "wildlife", "adventure", "culture", "stargazing", "heritage", "nature"];
@@ -28,53 +28,60 @@ const Experiences = () => {
 
   return (
     <>
-      <div id="experiences" className="container mx-auto px-6 py-20">
-        <div className="flex flex-wrap justify-between items-center mb-12">
-          <div>
-            <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#2C3E2F] mb-4">
+      <div id="experiences" className="container mx-auto px-4 py-12 md:py-20">
+        <div className="flex flex-col sm:flex-row justify-between items-center mb-8 md:mb-12">
+          <div className="text-center sm:text-left mb-4 sm:mb-0">
+            <h2 className="section-title">
               Unforgettable <span className="text-[#B87333]">Experiences</span>
             </h2>
-            <div className="h-1 w-20 bg-[#E6B17E] rounded-full"></div>
+            <div className="h-1 w-20 bg-[#E6B17E] rounded-full mx-auto sm:mx-0"></div>
           </div>
-          <div className="flex gap-2 flex-wrap mt-4 md:mt-0">
+          <div className="flex gap-1.5 md:gap-2 flex-wrap justify-center">
             {filters.map(filter => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
+                className={`px-2.5 md:px-5 py-1 md:py-2 rounded-full text-[10px] md:text-sm font-medium transition-all capitalize ${
                   activeFilter === filter
                     ? 'bg-[#B87333] text-white shadow-md'
                     : 'bg-white border border-gray-200 text-[#3D2B1A] hover:bg-[#E6B17E]/20'
                 }`}
               >
-                {filter}
+                {filter === 'all' ? 'All' : filter.slice(0, 4)}
               </button>
             ))}
           </div>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
           {filtered.map(exp => (
-            <div key={exp.id} className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
-              <div className="relative h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+            <div key={exp.id} className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+              <div className="relative h-44 md:h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
                 style={{ backgroundImage: `url(https://source.unsplash.com/featured/600x400?${exp.image},southafrica&sig=${exp.id})` }}>
-                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-bold text-[#B87333]">
-                  <i className={`fas ${exp.icon} mr-1`}></i> {exp.category}
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 md:px-3 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-[#B87333]">
+                  <i className={`fas ${exp.icon} mr-1 text-[8px] md:text-xs`}></i> {exp.category}
                 </div>
               </div>
-              <div className="p-6">
-                <h3 className="text-xl font-bold text-[#2C3E2F] mb-2 group-hover:text-[#B87333] transition">{exp.title}</h3>
-                <p className="text-gray-600 text-sm leading-relaxed mb-4">{exp.desc}</p>
-                <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+              <div className="p-4 md:p-6">
+                <h3 className="text-base md:text-xl font-bold text-[#2C3E2F] mb-1 md:mb-2 group-hover:text-[#B87333] transition line-clamp-1">
+                  {exp.title}
+                </h3>
+                <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2">
+                  {exp.desc}
+                </p>
+                <div className="flex justify-between items-center border-t border-gray-100 pt-3 md:pt-4">
                   <div>
-                    <span className="text-xs text-gray-400"><i className="far fa-clock"></i> {exp.duration}</span>
-                    <p className="font-bold text-[#B87333] text-lg mt-1">{exp.price}</p>
+                    <span className="text-[9px] md:text-xs text-gray-400">
+                      <i className="far fa-clock"></i> {exp.duration}
+                    </span>
+                    <p className="font-bold text-[#B87333] text-sm md:text-lg mt-0.5 md:mt-1">{exp.price}</p>
                   </div>
                   <button
                     onClick={() => handleBook(exp.title)}
-                    className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all"
+                    className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-3 md:px-5 py-1.5 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-sm font-semibold flex items-center gap-1 md:gap-2 transition-all"
                   >
-                    <i className="fas fa-calendar-check"></i> Book Now
+                    <i className="fas fa-calendar-check text-[8px] md:text-xs"></i> 
+                    <span>Book</span>
                   </button>
                 </div>
               </div>

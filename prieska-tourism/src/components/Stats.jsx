@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 
-// Simple Counter Component
 const CountUpNumber = ({ end, suffix = '', startCounting }) => {
   const [count, setCount] = useState(0);
   
@@ -24,7 +23,10 @@ const CountUpNumber = ({ end, suffix = '', startCounting }) => {
     }
   }, [startCounting, end]);
   
-  return <>{count}{suffix}</>;
+  // Format for mobile - smaller numbers
+  const displayCount = typeof count === 'number' ? count.toFixed(end % 1 !== 0 ? 1 : 0) : count;
+  
+  return <>{displayCount}{suffix}</>;
 };
 
 const Stats = () => {
@@ -46,21 +48,23 @@ const Stats = () => {
   }, []);
 
   const stats = [
-    { value: 340, label: "SUNNY DAYS/YEAR", suffix: "+" },
-    { value: 12, label: "UNIQUE EXPERIENCES", suffix: "" },
-    { value: 4.9, label: "AVG. GUEST RATING", suffix: "" },
+    { value: 340, label: "SUNNY DAYS", suffix: "+" },
+    { value: 12, label: "EXPERIENCES", suffix: "" },
+    { value: 4.9, label: "RATING", suffix: "" },
     { value: 1864, label: "FOUNDED", suffix: "" }
   ];
 
   return (
-    <div id="stats-section" className="container mx-auto px-6 pt-28 pb-16">
-      <div className="bg-white rounded-3xl shadow-xl p-8 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+    <div id="stats-section" className="container mx-auto px-4 pt-20 md:pt-28 pb-10 md:pb-16">
+      <div className="bg-white rounded-2xl md:rounded-3xl shadow-xl p-4 md:p-8 grid grid-cols-2 md:grid-cols-4 gap-4 md:gap-6 text-center">
         {stats.map((stat, idx) => (
-          <div key={idx}>
-            <div className="text-3xl md:text-4xl font-bold text-[#B87333]">
+          <div key={idx} className="group">
+            <div className="text-xl md:text-3xl lg:text-4xl font-bold text-[#B87333]">
               <CountUpNumber end={stat.value} suffix={stat.suffix} startCounting={startCounting} />
             </div>
-            <div className="text-gray-600 text-sm uppercase tracking-wide mt-2">{stat.label}</div>
+            <div className="text-[10px] md:text-xs text-gray-600 uppercase tracking-wide mt-1 md:mt-2 group-hover:text-[#B87333] transition">
+              {stat.label}
+            </div>
           </div>
         ))}
       </div>
