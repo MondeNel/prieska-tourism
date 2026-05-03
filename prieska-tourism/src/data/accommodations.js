@@ -15,7 +15,6 @@ export const accommodations = [
     instagram: "https://instagram.com/riverviewlodge",
     images: [
       "/riverviewlodge1.jpg",
-      "/riverviewlodge2.jpg",
       "/riverviewlodge3.jpg",
       "/riverviewlodge4.jpg"
     ]
@@ -39,8 +38,7 @@ export const accommodations = [
     images: [
       "/gariep-guesthouse2.jpg",
       "/gariep-guesthouse3.jpg",
-      "/gariep-guesthouse4.jpg",
-      "/gariep-guesthouse5.jpg"
+      "/gariep-guesthouse4.jpeg",
     ]
   },
   {
@@ -59,6 +57,8 @@ export const accommodations = [
     instagram: "https://instagram.com/bokaroboutique",
     images: [
       "/guesthouse_room.jpg",
+      "/guesthouse_room2.jpg",
+      "/guesthouse_room3.jpg",
     ]
   }
 ];
