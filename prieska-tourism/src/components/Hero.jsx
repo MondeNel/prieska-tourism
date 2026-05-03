@@ -15,7 +15,7 @@ const Hero = () => {
       <div 
         className="relative h-screen min-h-[600px] bg-cover bg-center"
         style={{ 
-          backgroundImage: "url('https://images.pexels.com/photos/1670187/pexels-photo-1670187.jpeg?auto=compress&cs=tinysrgb&w=1600')",
+          backgroundImage: "url('/orange_river.jpg')",
         }}
       >
         <div className="absolute inset-0 bg-gradient-to-br from-black/55 to-black/25"></div>

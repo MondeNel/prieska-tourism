@@ -106,22 +106,23 @@ const Accommodation = () => {
               key={place.id}
               className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
             >
-              {/* Image Section */}
-              <div className="relative h-52 bg-gradient-to-r from-orange-600 to-orange-800 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
-                <i className="fas fa-building text-6xl text-white/40"></i>
-                <div className="absolute top-4 left-4">
-                  <span className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
-                    {place.type}
-                  </span>
-                </div>
-                <button
-                  onClick={() => openGallery(place)}
-                  className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-black/80 transition-all duration-300 hover:scale-105"
-                >
-                  <i className="fas fa-camera"></i>
-                  <span>View Photos</span>
-                </button>
-              </div>
+             {/* Image Section */}
+<div className="relative h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+  style={{ backgroundImage: `url(${place.images?.[0] || 'https://images.pexels.com/photos/258117/pexels-photo-258117.jpeg?auto=compress&cs=tinysrgb&w=800'})` }}>
+  <div className="absolute inset-0 bg-black/20 group-hover:bg-black/10 transition"></div>
+  <div className="absolute top-4 left-4">
+    <span className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
+      {place.type}
+    </span>
+  </div>
+  <button
+    onClick={() => openGallery(place)}
+    className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-black/80 transition-all duration-300 hover:scale-105"
+  >
+    <i className="fas fa-camera"></i>
+    <span>View Photos</span>
+  </button>
+</div>
               
               {/* Content Section */}
               <div className="p-6">
