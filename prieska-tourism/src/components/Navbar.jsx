@@ -62,11 +62,11 @@ const Navbar = () => {
                   isScrolled ? 'text-[#2C3E2F]' : 'text-white'
                 }`}
               >
-                Prieska Karoo
+                Prieska Karoo Horizons
               </span>
             </div>
 
-            {/* Desktop nav */}
+            {/* Desktop navigation */}
             <div className="hidden md:flex space-x-6 lg:space-x-8">
               {navLinks.map((link) => (
                 <a
@@ -83,6 +83,7 @@ const Navbar = () => {
               ))}
             </div>
 
+            {/* Desktop Book Now button */}
             <button
               onClick={() => setIsBookingOpen(true)}
               className={`hidden md:block font-semibold px-5 lg:px-6 py-1.5 lg:py-2 rounded-full transition-all duration-300 shadow-lg text-sm lg:text-base ${
@@ -94,7 +95,7 @@ const Navbar = () => {
               Book Now
             </button>
 
-            {/* Mobile hamburger */}
+            {/* Mobile hamburger button */}
             <button
               onClick={toggleMenu}
               className="md:hidden relative z-[60] p-2 rounded-lg focus:outline-none"
@@ -133,7 +134,7 @@ const Navbar = () => {
           </div>
         </div>
 
-        {/* Backdrop overlay */}
+        {/* Backdrop overlay (darkens the page behind the menu) */}
         <div
           className={`fixed inset-0 bg-black/50 z-40 md:hidden transition-all duration-300 ${
             isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
@@ -141,7 +142,7 @@ const Navbar = () => {
           onClick={closeMenu}
         ></div>
 
-        {/* Menu panel - ensure it has h-full and content is visible */}
+        {/* Mobile sliding panel – no duplicate X button inside */}
         <div
           className={`fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-[#FDF8F2] z-50 md:hidden shadow-2xl transform transition-transform duration-300 ease-out ${
             isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
@@ -149,27 +150,17 @@ const Navbar = () => {
           style={{ height: '100vh', overflowY: 'auto' }}
         >
           <div className="flex flex-col min-h-full">
-            {/* Close button */}
-            <div className="flex justify-end p-4">
-              <button
-                onClick={closeMenu}
-                className="w-10 h-10 rounded-full bg-gray-100 flex items-center justify-center hover:bg-gray-200 transition"
-              >
-                <i className="fas fa-times text-gray-600"></i>
-              </button>
-            </div>
-
-            {/* Logo in menu */}
-            <div className="flex flex-col items-center mb-8 px-6">
+            {/* Logo area – the hamburger icon outside serves as the close button */}
+            <div className="flex flex-col items-center pt-8 px-6">
               <div className="flex items-center space-x-2 mb-2">
                 <i className="fas fa-tree text-2xl text-[#B87333]"></i>
-                <span className="font-serif text-xl font-bold text-[#2C3E2F]">Prieska Karoo</span>
+                <span className="font-serif text-xl font-bold text-[#2C3E2F]">Prieska Karoo Horizons</span>
               </div>
               <p className="text-xs text-gray-400 text-center">Where the Karoo Breathes</p>
             </div>
 
-            {/* Navigation Links - ensure they take space */}
-            <div className="flex flex-col space-y-3 px-6">
+            {/* Navigation links */}
+            <div className="flex flex-col space-y-3 px-6 mt-8">
               {navLinks.map((link) => (
                 <a
                   key={link.name}
@@ -199,7 +190,7 @@ const Navbar = () => {
                 </div>
               </div>
 
-              {/* Book Now button */}
+              {/* Book Now button inside menu */}
               <button
                 onClick={() => {
                   setIsBookingOpen(true);
@@ -213,7 +204,7 @@ const Navbar = () => {
               </button>
             </div>
 
-            {/* Footer */}
+            {/* Footer area */}
             <div className="text-center pt-8 pb-6 px-6 mt-auto">
               <p className="text-[10px] text-gray-400">© 2025 Prieska Karoo Horizons</p>
               <div className="flex justify-center gap-6 mt-4">

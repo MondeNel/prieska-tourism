@@ -8,7 +8,7 @@ const Footer = () => {
           <div>
             <div className="flex items-center space-x-2 mb-3">
               <i className="fas fa-tree text-2xl text-[#E6B17E]"></i>
-              <h4 className="font-serif text-xl font-bold text-white">Karoo Horizons</h4>
+              <h4 className="font-serif text-xl font-bold text-white">Prieska Karoo Horizons</h4>
             </div>
             <p className="text-sm leading-relaxed">Authentic Northern Cape experiences since 1864. Discover the magic of the Karoo.</p>
           </div>
@@ -51,7 +51,7 @@ const Footer = () => {
           </div>
         </div>
         <div className="text-center text-xs border-t border-white/10 mt-8 pt-6">
-          <p>© {currentYear} Karoo Horizons — Where the Karoo breathes. All rights reserved.</p>
+          <p>© {currentYear} Prieska Karoo Horizons — Where the Karoo breathes. All rights reserved.</p>
           <p className="mt-2 text-[10px] text-gray-400">Created by Monde Nel - 072 789 3200, email: mondenel1996@gmail.com</p>
         </div>
       </div>
