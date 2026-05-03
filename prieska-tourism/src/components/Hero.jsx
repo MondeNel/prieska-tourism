@@ -49,29 +49,29 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* Mobile Booking Widget - Stacked vertically on mobile */}
-        <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 px-4 md:px-10 z-20">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-4 md:p-6 max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-3 md:gap-4">
+        {/* Booking Widget - Hidden on mobile, visible on tablet/desktop */}
+        <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 px-4 md:px-10 z-20 hidden md:block">
+          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 max-w-5xl mx-auto">
+            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
               <div>
-                <label className="block text-[10px] md:text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-calendar-alt mr-1 text-xs"></i> CHECK IN
+                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
+                  <i className="far fa-calendar-alt mr-1"></i> CHECK IN
                 </label>
                 <input
                   type="date"
                   value={checkIn}
                   onChange={(e) => setCheckIn(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-sm focus:border-[#B87333] outline-none transition"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition"
                 />
               </div>
               <div>
-                <label className="block text-[10px] md:text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-user mr-1 text-xs"></i> GUESTS
+                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
+                  <i className="far fa-user mr-1"></i> GUESTS
                 </label>
                 <select
                   value={guests}
                   onChange={(e) => setGuests(Number(e.target.value))}
-                  className="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-sm focus:border-[#B87333] outline-none transition"
+                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition"
                 >
                   {[1, 2, 3, 4, 5, 6].map(num => (
                     <option key={num}>{num} Adult{num !== 1 ? 's' : ''}</option>
@@ -79,25 +79,35 @@ const Hero = () => {
                 </select>
               </div>
               <div>
-                <label className="block text-[10px] md:text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-tag mr-1 text-xs"></i> EXPERIENCE
+                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
+                  <i className="far fa-tag mr-1"></i> EXPERIENCE
                 </label>
-                <select className="w-full border border-gray-200 rounded-xl px-3 md:px-4 py-2 md:py-2.5 text-sm focus:border-[#B87333] outline-none transition">
-                  <option>All</option>
-                  <option>Safari</option>
-                  <option>Adventure</option>
-                  <option>Culture</option>
+                <select className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition">
+                  <option>All Experiences</option>
+                  <option>Safari & Wildlife</option>
+                  <option>Adventure & River</option>
+                  <option>Culture & Heritage</option>
                 </select>
               </div>
               <button
                 onClick={handleSearch}
-                className="bg-[#2C3E2F] hover:bg-[#2C3E2F]/80 text-white font-bold py-2 md:py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2 text-sm md:text-base"
+                className="bg-[#2C3E2F] hover:bg-[#2C3E2F]/80 text-white font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"
               >
-                <i className="fas fa-search text-xs md:text-sm"></i> 
-                <span className="hidden sm:inline">Search</span>
+                <i className="fas fa-search"></i> Search
               </button>
             </div>
           </div>
+        </div>
+        
+        {/* Mobile Quick CTA - Visible only on mobile */}
+        <div className="absolute bottom-0 left-0 right-0 px-4 pb-6 z-20 md:hidden">
+          <button
+            onClick={() => setIsBookingOpen(true)}
+            className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 text-sm"
+          >
+            <i className="fas fa-calendar-check"></i>
+            Book Your Stay Now
+          </button>
         </div>
       </div>
       
