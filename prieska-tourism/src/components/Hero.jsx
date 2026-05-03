@@ -121,16 +121,20 @@ const Hero = () => {
           </div>
         </div>
         
-        {/* Mobile Quick CTA - Visible only on mobile */}
-        <div className="absolute bottom-0 left-0 right-0 px-4 pb-6 z-20 md:hidden">
-          <button
-            onClick={() => setIsBookingOpen(true)}
-            className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 text-sm"
-          >
-            <i className="fas fa-calendar-check"></i>
-            Book Your Stay Now
-          </button>
-        </div>
+       {/* Mobile Quick CTA - Visible only on mobile */}
+<div className="absolute bottom-0 left-0 right-0 px-4 pb-6 z-20 md:hidden">
+  <a
+    href="#accommodation"
+    onClick={(e) => {
+      e.preventDefault();
+      document.getElementById('accommodation')?.scrollIntoView({ behavior: 'smooth' });
+    }}
+    className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 text-sm"
+  >
+    <i className="fas fa-calendar-check"></i>
+    Book Your Stay Now
+  </a>
+</div>
       </div>
       
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
