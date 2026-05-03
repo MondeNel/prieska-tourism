@@ -10,7 +10,7 @@ const experiencesData = [
     desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.",
     duration: "3-4 hrs",
     price: "ZAR 1,250",
-    image: "/karoo_image1.jpg",        // local image
+    image: "/karoo_image1.jpg",
     fallback: "/karoo_image1.jpg"
   },
   {
@@ -21,7 +21,7 @@ const experiencesData = [
     desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi‑day expeditions available.",
     duration: "Full day",
     price: "ZAR 950",
-    image: "/karoo_river-rafting.jpg",  // local image – note the hyphen
+    image: "/karoo_river-rafting.jpg",
     fallback: "/karoo_river-rafting.jpg"
   },
   {
@@ -37,41 +37,40 @@ const experiencesData = [
   },
   {
     id: 4,
-    title: "Dark Sky Observatory",
-    category: "stargazing",
-    icon: "fa-star",
-    desc: "One of Africa's clearest skies — view galaxies, planets with powerful telescopes.",
-    duration: "Evening",
-    price: "ZAR 450",
+    title: "Wild Animal Hunting",
+    category: "wildlife",
+    icon: "fa-paw",
+    desc: "Experience the thrill of ethical, guided hunting excursions in the vast Karoo plains. Professional trackers ensure a safe and respectful adventure.",
+    duration: "Full day",
+    price: "ZAR 2,500",
     image: "/karoo_image3.jpg",
     fallback: "/karoo_image3.jpg"
   },
   {
     id: 5,
-    title: "Diamond Fields",
+    title: "Prieska Heritage",
     category: "heritage",
     icon: "fa-gem",
-    desc: "Uncover the diamond rush stories. Visit historic mines and museums.",
-    duration: "2 hrs",
+    desc: "Uncover the rich diamond rush stories, visit historic mines, and explore the cultural legacy of Prieska.",
+    duration: "2-3 hrs",
     price: "ZAR 380",
-    image: "/prieska-koppie.jpg",      // using the koppie image for heritage
+    image: "/prieska-koppie.jpg",
     fallback: "/prieska-koppie.jpg"
   },
   {
     id: 6,
-    title: "Namaqualand Flowers",
+    title: "Prieska Town",
     category: "nature",
     icon: "fa-seedling",
-    desc: "World's greatest floral spectacle each spring (Aug‑Sep). Vibrant carpets of daisies.",
-    duration: "Seasonal",
-    price: "ZAR 520",
-    // We don't have a dedicated flower image yet, so reuse karoo_image1 or keep previous
-    image: "/karoo_image1.jpg",
-    fallback: "/karoo_image1.jpg"
+    desc: "Discover the charm of Prieska town – stroll through local markets, enjoy Karoo hospitality, and experience daily life in the Northern Cape.",
+    duration: "Flexible",
+    price: "ZAR 250",
+    image: "/prieska-town.jpg",
+    fallback: "/prieska-town.jpg"
   }
 ];
 
-const filters = ["all", "wildlife", "adventure", "culture", "stargazing", "heritage", "nature"];
+const filters = ["all", "wildlife", "adventure", "culture", "heritage", "nature"];
 
 const ExperienceCard = ({ experience, onBook }) => {
   const [imgSrc, setImgSrc] = useState(experience.image);
