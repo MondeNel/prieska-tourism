@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import BookingModal from './BookingModal';
 
 const experiencesData = [
   { id: 1, title: "Karoo Safari & Game Drives", category: "wildlife", icon: "fa-paw", desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.", duration: "3-4 hours", price: "ZAR 1,250", image: "wildlife" },
@@ -13,79 +14,84 @@ const filters = ["all", "wildlife", "adventure", "culture", "stargazing", "herit
 
 const Experiences = () => {
   const [activeFilter, setActiveFilter] = useState("all");
-  const [bookingMessage, setBookingMessage] = useState(null);
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [selectedExperience, setSelectedExperience] = useState(null);
 
   const filtered = activeFilter === "all"
     ? experiencesData
     : experiencesData.filter(exp => exp.category === activeFilter);
 
-  const handleBook = (title) => {
-    setBookingMessage(`✨ "${title}" requested! Our team will contact you within 24 hours.`);
-    setTimeout(() => setBookingMessage(null), 3000);
+  const handleBook = (experience) => {
+    setSelectedExperience(experience);
+    setIsBookingOpen(true);
   };
 
   return (
-    <div id="experiences" className="container mx-auto px-6 py-20">
-      <div className="flex flex-wrap justify-between items-center mb-12">
-        <div>
-          <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#2C3E2F] mb-4">
-            Unforgettable <span className="text-[#B87333]">Experiences</span>
-          </h2>
-          <div className="h-1 w-20 bg-[#E6B17E] rounded-full"></div>
+    <>
+      <div id="experiences" className="container mx-auto px-6 py-20">
+        <div className="flex flex-wrap justify-between items-center mb-12">
+          <div>
+            <h2 className="font-serif text-3xl md:text-4xl font-bold text-[#2C3E2F] mb-4">
+              Unforgettable <span className="text-[#B87333]">Experiences</span>
+            </h2>
+            <div className="h-1 w-20 bg-[#E6B17E] rounded-full"></div>
+          </div>
+          <div className="flex gap-2 flex-wrap mt-4 md:mt-0">
+            {filters.map(filter => (
+              <button
+                key={filter}
+                onClick={() => setActiveFilter(filter)}
+                className={`px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
+                  activeFilter === filter
+                    ? 'bg-[#B87333] text-white shadow-md'
+                    : 'bg-white border border-gray-200 text-[#3D2B1A] hover:bg-[#E6B17E]/20'
+                }`}
+              >
+                {filter}
+              </button>
+            ))}
+          </div>
         </div>
-        <div className="flex gap-2 flex-wrap mt-4 md:mt-0">
-          {filters.map(filter => (
-            <button
-              key={filter}
-              onClick={() => setActiveFilter(filter)}
-              className={`px-5 py-2 rounded-full text-sm font-medium transition-all capitalize ${
-                activeFilter === filter
-                  ? 'bg-[#B87333] text-white shadow-md'
-                  : 'bg-white border border-gray-200 text-[#3D2B1A] hover:bg-[#E6B17E]/20'
-              }`}
-            >
-              {filter}
-            </button>
+
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {filtered.map(exp => (
+            <div key={exp.id} className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+              <div className="relative h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
+                style={{ backgroundImage: `url(https://source.unsplash.com/featured/600x400?${exp.image},southafrica&sig=${exp.id})` }}>
+                <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-bold text-[#B87333]">
+                  <i className={`fas ${exp.icon} mr-1`}></i> {exp.category}
+                </div>
+              </div>
+              <div className="p-6">
+                <h3 className="text-xl font-bold text-[#2C3E2F] mb-2 group-hover:text-[#B87333] transition">{exp.title}</h3>
+                <p className="text-gray-600 text-sm leading-relaxed mb-4">{exp.desc}</p>
+                <div className="flex justify-between items-center border-t border-gray-100 pt-4">
+                  <div>
+                    <span className="text-xs text-gray-400"><i className="far fa-clock"></i> {exp.duration}</span>
+                    <p className="font-bold text-[#B87333] text-lg mt-1">{exp.price}</p>
+                  </div>
+                  <button
+                    onClick={() => handleBook(exp.title)}
+                    className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all"
+                  >
+                    <i className="fas fa-calendar-check"></i> Book Now
+                  </button>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
-
-      {bookingMessage && (
-        <div className="fixed bottom-6 left-1/2 transform -translate-x-1/2 z-50 bg-[#2C3E2F] text-white px-6 py-3 rounded-full shadow-xl flex items-center gap-3 animate-bounce">
-          <i className="fas fa-check-circle text-[#E6B17E]"></i>
-          <span className="font-medium">{bookingMessage}</span>
-        </div>
-      )}
-
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-        {filtered.map(exp => (
-          <div key={exp.id} className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
-            <div className="relative h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-              style={{ backgroundImage: `url(https://source.unsplash.com/featured/600x400?${exp.image},southafrica&sig=${exp.id})` }}>
-              <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm rounded-full px-3 py-1 text-xs font-bold text-[#B87333]">
-                <i className={`fas ${exp.icon} mr-1`}></i> {exp.category}
-              </div>
-            </div>
-            <div className="p-6">
-              <h3 className="text-xl font-bold text-[#2C3E2F] mb-2 group-hover:text-[#B87333] transition">{exp.title}</h3>
-              <p className="text-gray-600 text-sm leading-relaxed mb-4">{exp.desc}</p>
-              <div className="flex justify-between items-center border-t border-gray-100 pt-4">
-                <div>
-                  <span className="text-xs text-gray-400"><i className="far fa-clock"></i> {exp.duration}</span>
-                  <p className="font-bold text-[#B87333] text-lg mt-1">{exp.price}</p>
-                </div>
-                <button
-                  onClick={() => handleBook(exp.title)}
-                  className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-5 py-2 rounded-xl text-sm font-semibold flex items-center gap-2 transition-all"
-                >
-                  <i className="fas fa-calendar-check"></i> Book Now
-                </button>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-    </div>
+      
+      <BookingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => {
+          setIsBookingOpen(false);
+          setSelectedExperience(null);
+        }}
+        preselectedExperience={selectedExperience}
+      />
+    </>
   );
 };
 
