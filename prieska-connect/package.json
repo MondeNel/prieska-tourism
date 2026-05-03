@@ -1,0 +1,33 @@
+{
+  "name": "prieska-tourism",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "leaflet": "^1.9.4",
+    "lucide-react": "^0.344.0",
+    "react": "^18.2.0",
+    "react-calendar": "^6.0.1",
+    "react-datepicker": "^9.1.0",
+    "react-dom": "^18.2.0",
+    "react-intersection-observer": "^9.8.1",
+    "react-leaflet": "^4.2.1",
+    "react-router-dom": "^7.14.1",
+    "react-slick": "^0.31.0",
+    "slick-carousel": "^1.8.1"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "vite": "^5.1.0"
+  }
+}
