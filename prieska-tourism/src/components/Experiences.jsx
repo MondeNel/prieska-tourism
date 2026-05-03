@@ -2,15 +2,124 @@ import { useState } from 'react';
 import BookingModal from './BookingModal';
 
 const experiencesData = [
-  { id: 1, title: "Karoo Safari", category: "wildlife", icon: "fa-paw", desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.", duration: "3-4 hrs", price: "ZAR 1,250", image: "wildlife" },
-  { id: 2, title: "Orange River Rafting", category: "adventure", icon: "fa-water", desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi-day expeditions available.", duration: "Full day", price: "ZAR 950", image: "adventure" },
-  { id: 3, title: "San Rock Art Tours", category: "culture", icon: "fa-paintbrush", desc: "10,000-year-old Bushman paintings in situ. Cultural storytelling by local San descendants.", duration: "2-3 hrs", price: "ZAR 600", image: "culture" },
-  { id: 4, title: "Dark Sky Observatory", category: "stargazing", icon: "fa-star", desc: "One of Africa's clearest skies — view galaxies, planets with powerful telescopes.", duration: "Evening", price: "ZAR 450", image: "stargazing" },
-  { id: 5, title: "Diamond Fields", category: "heritage", icon: "fa-gem", desc: "Uncover the diamond rush stories. Visit historic mines and museums.", duration: "2 hrs", price: "ZAR 380", image: "heritage" },
-  { id: 6, title: "Namaqualand Flowers", category: "nature", icon: "fa-seedling", desc: "World's greatest floral spectacle each spring (Aug-Sep). Vibrant carpets of daisies.", duration: "Seasonal", price: "ZAR 520", image: "nature" }
+  {
+    id: 1,
+    title: "Karoo Safari",
+    category: "wildlife",
+    icon: "fa-paw",
+    desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks.",
+    duration: "3-4 hrs",
+    price: "ZAR 1,250",
+    image: "/karoo_image1.jpg",        // local image
+    fallback: "/karoo_image1.jpg"
+  },
+  {
+    id: 2,
+    title: "Orange River Rafting",
+    category: "adventure",
+    icon: "fa-water",
+    desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi‑day expeditions available.",
+    duration: "Full day",
+    price: "ZAR 950",
+    image: "/karoo_river-rafting.jpg",  // local image – note the hyphen
+    fallback: "/karoo_river-rafting.jpg"
+  },
+  {
+    id: 3,
+    title: "San Rock Art Tours",
+    category: "culture",
+    icon: "fa-paintbrush",
+    desc: "10,000‑year‑old Bushman paintings in situ. Cultural storytelling by local San descendants.",
+    duration: "2-3 hrs",
+    price: "ZAR 600",
+    image: "/karoo_image2.jpg",
+    fallback: "/karoo_image2.jpg"
+  },
+  {
+    id: 4,
+    title: "Dark Sky Observatory",
+    category: "stargazing",
+    icon: "fa-star",
+    desc: "One of Africa's clearest skies — view galaxies, planets with powerful telescopes.",
+    duration: "Evening",
+    price: "ZAR 450",
+    image: "/karoo_image3.jpg",
+    fallback: "/karoo_image3.jpg"
+  },
+  {
+    id: 5,
+    title: "Diamond Fields",
+    category: "heritage",
+    icon: "fa-gem",
+    desc: "Uncover the diamond rush stories. Visit historic mines and museums.",
+    duration: "2 hrs",
+    price: "ZAR 380",
+    image: "/prieska-koppie.jpg",      // using the koppie image for heritage
+    fallback: "/prieska-koppie.jpg"
+  },
+  {
+    id: 6,
+    title: "Namaqualand Flowers",
+    category: "nature",
+    icon: "fa-seedling",
+    desc: "World's greatest floral spectacle each spring (Aug‑Sep). Vibrant carpets of daisies.",
+    duration: "Seasonal",
+    price: "ZAR 520",
+    // We don't have a dedicated flower image yet, so reuse karoo_image1 or keep previous
+    image: "/karoo_image1.jpg",
+    fallback: "/karoo_image1.jpg"
+  }
 ];
 
 const filters = ["all", "wildlife", "adventure", "culture", "stargazing", "heritage", "nature"];
+
+const ExperienceCard = ({ experience, onBook }) => {
+  const [imgSrc, setImgSrc] = useState(experience.image);
+
+  const handleImageError = () => {
+    setImgSrc(experience.fallback);
+  };
+
+  return (
+    <div className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
+      <div className="relative h-44 md:h-52 overflow-hidden bg-gray-100">
+        <img
+          src={imgSrc}
+          alt={experience.title}
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+          loading="lazy"
+          onError={handleImageError}
+        />
+        <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 md:px-3 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-[#B87333] z-10">
+          <i className={`fas ${experience.icon} mr-1 text-[8px] md:text-xs`}></i> {experience.category}
+        </div>
+      </div>
+      <div className="p-4 md:p-6">
+        <h3 className="text-base md:text-xl font-bold text-[#2C3E2F] mb-1 md:mb-2 group-hover:text-[#B87333] transition line-clamp-1">
+          {experience.title}
+        </h3>
+        <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2">
+          {experience.desc}
+        </p>
+        <div className="flex justify-between items-center border-t border-gray-100 pt-3 md:pt-4">
+          <div>
+            <span className="text-[9px] md:text-xs text-gray-400">
+              <i className="far fa-clock"></i> {experience.duration}
+            </span>
+            <p className="font-bold text-[#B87333] text-sm md:text-lg mt-0.5 md:mt-1">{experience.price}</p>
+          </div>
+          <button
+            onClick={() => onBook(experience.title)}
+            className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-3 md:px-5 py-1.5 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-sm font-semibold flex items-center gap-1 md:gap-2 transition-all"
+          >
+            <i className="fas fa-calendar-check text-[8px] md:text-xs"></i>
+            <span>Book</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const Experiences = () => {
   const [activeFilter, setActiveFilter] = useState("all");
@@ -21,8 +130,8 @@ const Experiences = () => {
     ? experiencesData
     : experiencesData.filter(exp => exp.category === activeFilter);
 
-  const handleBook = (experience) => {
-    setSelectedExperience(experience);
+  const handleBook = (experienceTitle) => {
+    setSelectedExperience(experienceTitle);
     setIsBookingOpen(true);
   };
 
@@ -55,43 +164,13 @@ const Experiences = () => {
 
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 md:gap-8">
           {filtered.map(exp => (
-            <div key={exp.id} className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
-              <div className="relative h-44 md:h-52 bg-cover bg-center group-hover:scale-105 transition-transform duration-500"
-                style={{ backgroundImage: `url(https://source.unsplash.com/featured/600x400?${exp.image},southafrica&sig=${exp.id})` }}>
-                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 md:px-3 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-[#B87333]">
-                  <i className={`fas ${exp.icon} mr-1 text-[8px] md:text-xs`}></i> {exp.category}
-                </div>
-              </div>
-              <div className="p-4 md:p-6">
-                <h3 className="text-base md:text-xl font-bold text-[#2C3E2F] mb-1 md:mb-2 group-hover:text-[#B87333] transition line-clamp-1">
-                  {exp.title}
-                </h3>
-                <p className="text-gray-600 text-[11px] md:text-sm leading-relaxed mb-3 md:mb-4 line-clamp-2">
-                  {exp.desc}
-                </p>
-                <div className="flex justify-between items-center border-t border-gray-100 pt-3 md:pt-4">
-                  <div>
-                    <span className="text-[9px] md:text-xs text-gray-400">
-                      <i className="far fa-clock"></i> {exp.duration}
-                    </span>
-                    <p className="font-bold text-[#B87333] text-sm md:text-lg mt-0.5 md:mt-1">{exp.price}</p>
-                  </div>
-                  <button
-                    onClick={() => handleBook(exp.title)}
-                    className="bg-[#2C3E2F] hover:bg-[#B87333] text-white px-3 md:px-5 py-1.5 md:py-2 rounded-lg md:rounded-xl text-[10px] md:text-sm font-semibold flex items-center gap-1 md:gap-2 transition-all"
-                  >
-                    <i className="fas fa-calendar-check text-[8px] md:text-xs"></i> 
-                    <span>Book</span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <ExperienceCard key={exp.id} experience={exp} onBook={handleBook} />
           ))}
         </div>
       </div>
-      
-      <BookingModal 
-        isOpen={isBookingOpen} 
+
+      <BookingModal
+        isOpen={isBookingOpen}
         onClose={() => {
           setIsBookingOpen(false);
           setSelectedExperience(null);
