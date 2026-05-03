@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import SectionTitle from './ui/SectionTitle';
 import GalleryModal from './ui/GalleryModal';
 import AddReviewModal from './ui/AddReviewModal';
+import BookingModal from './BookingModal';
 import { accommodations } from '../data/accommodations';
 
 // Star Rating Component using pure SVG
@@ -24,25 +25,12 @@ const StarRating = ({ rating, size = '3' }) => {
   );
 };
 
-// Icon Components using Font Awesome
-const MapPinIcon = () => <i className="fas fa-map-marker-alt w-3.5 h-3.5"></i>;
-const PhoneIcon = () => <i className="fas fa-phone"></i>;
-const MessageCircleIcon = () => <i className="fab fa-whatsapp"></i>;
-const CameraIcon = () => <i className="fas fa-camera"></i>;
-const PlusIcon = () => <i className="fas fa-plus"></i>;
-const NavigationIcon = () => <i className="fas fa-directions"></i>;
-
 const AccommodationSkeleton = () => (
-  <div className="space-y-6">
-    <div className="text-center">
-      <div className="h-3 bg-gray-200 rounded w-32 mx-auto mb-2 animate-pulse" />
-      <div className="h-6 bg-gray-200 rounded w-64 mx-auto animate-pulse" />
-      <div className="h-0.5 bg-gray-200 w-16 mx-auto mt-2 animate-pulse" />
-    </div>
+  <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
     {[1, 2, 3].map((i) => (
-      <div key={i} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden animate-pulse">
-        <div className="h-44 bg-gray-200" />
-        <div className="p-4 space-y-3">
+      <div key={i} className="bg-white rounded-2xl overflow-hidden shadow-md animate-pulse">
+        <div className="h-52 bg-gray-200" />
+        <div className="p-6 space-y-3">
           <div className="flex justify-between">
             <div className="h-5 bg-gray-200 rounded w-1/2" />
             <div className="h-5 bg-gray-200 rounded w-16" />
@@ -69,6 +57,7 @@ const Accommodation = () => {
   const [selectedAccommodation, setSelectedAccommodation] = useState(null);
   const [galleryOpen, setGalleryOpen] = useState(false);
   const [reviewOpen, setReviewOpen] = useState(false);
+  const [bookingOpen, setBookingOpen] = useState(false);
   const [loading, setLoading] = useState(true);
   const [visibleReviews, setVisibleReviews] = useState({});
 
@@ -93,6 +82,11 @@ const Accommodation = () => {
     setReviewOpen(true);
   };
 
+  const openBooking = (accommodation) => {
+    setSelectedAccommodation(accommodation);
+    setBookingOpen(true);
+  };
+
   const toggleReviews = (id) => {
     setVisibleReviews(prev => ({ ...prev, [id]: !prev[id] }));
   };
@@ -102,131 +96,169 @@ const Accommodation = () => {
   };
 
   return (
-    <div id="accommodation" className="container mx-auto px-6 py-20 bg-gray-50 dark:bg-gray-900">
-      <div className="max-w-6xl mx-auto">
+    <>
+      <div id="accommodation" className="container mx-auto px-6 py-20">
         <SectionTitle subtitle="STAY IN COMFORT" title="Prieska Guesthouses & Lodges" />
         
-        <div className="grid grid-cols-1 gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
           {accommodations.map((place) => (
             <div
               key={place.id}
-              className="bg-white dark:bg-gray-800 rounded-xl shadow-sm border border-gray-100 dark:border-gray-700 overflow-hidden hover:shadow-md transition-shadow"
+              className="bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group"
             >
-              <div className="relative h-44 bg-gradient-to-r from-orange-600 to-orange-800 flex items-center justify-center">
-                <i className="fas fa-building text-5xl text-white/60"></i>
-                <div className="absolute top-3 left-3">
-                  <span className="bg-orange-600 text-white text-[10px] font-bold px-2 py-0.5 rounded-full">
+              {/* Image Section */}
+              <div className="relative h-52 bg-gradient-to-r from-orange-600 to-orange-800 flex items-center justify-center group-hover:scale-105 transition-transform duration-500">
+                <i className="fas fa-building text-6xl text-white/40"></i>
+                <div className="absolute top-4 left-4">
+                  <span className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">
                     {place.type}
                   </span>
                 </div>
                 <button
                   onClick={() => openGallery(place)}
-                  className="absolute bottom-3 right-3 bg-black/60 text-white text-[10px] px-2 py-1 rounded-full flex items-center gap-1 hover:bg-black/80 transition"
+                  className="absolute bottom-4 right-4 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-black/80 transition-all duration-300 hover:scale-105"
                 >
-                  <CameraIcon />
+                  <i className="fas fa-camera"></i>
                   <span>View Photos</span>
                 </button>
               </div>
               
-              <div className="p-4">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="text-lg font-serif font-bold text-gray-800 dark:text-white">{place.name}</h3>
-                  <span className="text-orange-600 font-semibold text-xs bg-orange-50 dark:bg-orange-900/20 px-2 py-0.5 rounded">
+              {/* Content Section */}
+              <div className="p-6">
+                {/* Title and Price */}
+                <div className="flex items-start justify-between mb-3">
+                  <h3 className="text-xl font-serif font-bold text-[#2C3E2F] group-hover:text-[#B87333] transition-colors duration-300">
+                    {place.name}
+                  </h3>
+                  <span className="text-amber-600 font-semibold text-xs bg-amber-50 px-2 py-1 rounded-full">
                     {place.priceRange}
                   </span>
                 </div>
                 
-                <div className="flex items-center gap-2 mb-2">
+                {/* Rating */}
+                <div className="flex items-center gap-2 mb-3">
                   <StarRating rating={place.rating} />
-                  <span className="text-xs text-gray-500 dark:text-gray-400">
+                  <span className="text-xs text-gray-500">
                     {place.rating} ({place.reviewCount} reviews)
                   </span>
                 </div>
                 
-                <div className="flex items-center text-gray-500 dark:text-gray-400 text-xs mb-2">
-                  <MapPinIcon />
-                  <span className="ml-1">Prieska, Northern Cape</span>
+                {/* Location */}
+                <div className="flex items-center text-gray-500 text-xs mb-3">
+                  <i className="fas fa-map-marker-alt text-amber-500 mr-1.5 text-xs"></i>
+                  <span>Prieska, Northern Cape</span>
                 </div>
                 
-                <p className="text-gray-600 dark:text-gray-300 text-xs mb-3">{place.description}</p>
+                {/* Description */}
+                <p className="text-gray-600 text-sm leading-relaxed mb-4 line-clamp-2">
+                  {place.description}
+                </p>
                 
-                <div className="flex flex-wrap gap-1.5 mb-3">
-                  {place.features.map((feat, idx) => (
+                {/* Features */}
+                <div className="flex flex-wrap gap-1.5 mb-4">
+                  {place.features.slice(0, 4).map((feat, idx) => (
                     <span
                       key={idx}
-                      className="inline-flex items-center gap-1 text-[10px] text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-0.5 rounded-full"
+                      className="inline-flex items-center gap-1 text-[10px] text-gray-500 bg-gray-100 px-2 py-1 rounded-full"
                     >
+                      <i className="fas fa-check-circle text-amber-500 text-[8px]"></i>
                       {feat}
                     </span>
                   ))}
+                  {place.features.length > 4 && (
+                    <span className="inline-flex text-[10px] text-gray-400">
+                      +{place.features.length - 4} more
+                    </span>
+                  )}
                 </div>
                 
-                <div className="flex gap-2 mb-2">
-                  <button className="flex-1 border border-orange-600 text-orange-600 hover:bg-orange-600 hover:text-white font-medium py-2 rounded-lg transition text-xs flex items-center justify-center gap-1.5">
-                    <PhoneIcon />
+                {/* Action Buttons */}
+                <div className="flex gap-2 mb-3">
+                  <button 
+                    onClick={() => window.location.href = `tel:${place.contact}`}
+                    className="flex-1 border border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white font-medium py-2 rounded-xl transition-all duration-300 text-xs flex items-center justify-center gap-1.5"
+                  >
+                    <i className="fas fa-phone-alt"></i>
                     Call
                   </button>
                   <button
                     onClick={() => openWhatsApp(place.whatsapp)}
-                    className="flex-1 bg-green-600 text-white hover:bg-green-700 font-medium py-2 rounded-lg transition text-xs flex items-center justify-center gap-1.5"
+                    className="flex-1 bg-green-600 text-white hover:bg-green-700 font-medium py-2 rounded-xl transition-all duration-300 text-xs flex items-center justify-center gap-1.5"
                   >
-                    <MessageCircleIcon />
+                    <i className="fab fa-whatsapp"></i>
                     WhatsApp
                   </button>
                 </div>
                 
+                {/* Directions Button */}
                 <button
                   onClick={() => getDirections(place.name)}
-                  className="w-full border border-blue-500 text-blue-600 dark:text-blue-400 py-2 rounded-lg text-xs font-medium hover:bg-blue-50 dark:hover:bg-blue-900/20 transition flex items-center justify-center gap-1.5 mb-2"
+                  className="w-full border border-blue-500 text-blue-600 py-2 rounded-xl text-xs font-medium hover:bg-blue-50 transition-all duration-300 flex items-center justify-center gap-1.5 mb-2"
                 >
-                  <NavigationIcon />
+                  <i className="fas fa-directions"></i>
                   Get Directions
                 </button>
                 
+                {/* Book Now Button */}
+                <button
+                  onClick={() => openBooking(place)}
+                  className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:from-amber-600 hover:to-yellow-700 transition-all duration-300 flex items-center justify-center gap-2 shadow-md hover:shadow-lg mb-2"
+                >
+                  <i className="fas fa-calendar-check"></i>
+                  Book Now
+                </button>
+                
+                {/* Reviews Toggle */}
                 <button
                   onClick={() => toggleReviews(place.id)}
-                  className="w-full border border-gray-300 dark:border-gray-600 text-gray-600 dark:text-gray-400 py-2 rounded-lg text-xs font-medium hover:border-orange-600 hover:text-orange-600 transition flex items-center justify-center gap-1.5 mb-2"
+                  className="w-full border border-gray-300 text-gray-600 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition-all duration-300 flex items-center justify-center gap-1.5 mb-2"
                 >
-                  <i className="fas fa-star text-xs"></i>
+                  <i className="fas fa-star"></i>
                   View Reviews ({place.reviewCount})
                 </button>
                 
+                {/* Expandable Reviews */}
                 {visibleReviews[place.id] && (
-                  <div className="mb-2 space-y-2">
+                  <div className="mb-3 space-y-2 animate-slide-down">
                     {place.reviews?.length > 0 ? (
                       place.reviews.map((review) => (
-                        <div key={review.id} className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                        <div key={review.id} className="bg-gray-50 rounded-lg p-3 border-l-2 border-amber-400">
                           <div className="flex items-center justify-between mb-1">
-                            <span className="text-xs font-medium text-gray-800 dark:text-white">{review.user}</span>
+                            <span className="text-xs font-medium text-gray-800">{review.user}</span>
                             <StarRating rating={review.rating} size="2.5" />
                           </div>
-                          <p className="text-[10px] text-gray-600 dark:text-gray-300">{review.text}</p>
-                          <p className="text-[8px] text-gray-400 dark:text-gray-500 mt-1">{review.date}</p>
+                          <p className="text-[10px] text-gray-600">{review.text}</p>
+                          <p className="text-[8px] text-gray-400 mt-1">{review.date}</p>
                         </div>
                       ))
                     ) : (
-                      <p className="text-center text-[10px] text-gray-500 dark:text-gray-400 py-2">No reviews yet. Be the first!</p>
+                      <p className="text-center text-[10px] text-gray-500 py-2">No reviews yet. Be the first!</p>
                     )}
                   </div>
                 )}
                 
+                {/* Write a Review Button */}
                 <button
                   onClick={() => openReview(place)}
-                  className="w-full border border-dashed border-gray-300 dark:border-gray-600 text-gray-500 dark:text-gray-400 py-2 rounded-lg text-xs font-medium hover:border-orange-600 hover:text-orange-600 transition flex items-center justify-center gap-1.5 mb-3"
+                  className="w-full border border-dashed border-gray-300 text-gray-500 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition-all duration-300 flex items-center justify-center gap-1.5"
                 >
-                  <PlusIcon />
+                  <i className="fas fa-pen"></i>
                   Write a Review
                 </button>
                 
-                <div className="flex items-center justify-between pt-3 border-t border-gray-100 dark:border-gray-700">
-                  <span className="text-[10px] text-gray-400 dark:text-gray-500">{place.contact}</span>
-                  <div className="flex items-center gap-3">
+                {/* Footer with Contact and Social */}
+                <div className="flex items-center justify-between pt-3 mt-3 border-t border-gray-100">
+                  <span className="text-[10px] text-gray-400">
+                    <i className="fas fa-phone-alt mr-1"></i>
+                    {place.contact}
+                  </span>
+                  <div className="flex items-center gap-2">
                     {place.facebook && (
                       <a
                         href={place.facebook}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-blue-600 transition text-sm"
+                        className="text-gray-400 hover:text-blue-600 transition-all duration-300 hover:scale-110"
                       >
                         <i className="fab fa-facebook-f"></i>
                       </a>
@@ -236,7 +268,7 @@ const Accommodation = () => {
                         href={place.instagram}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="text-gray-400 hover:text-pink-600 transition text-sm"
+                        className="text-gray-400 hover:text-pink-600 transition-all duration-300 hover:scale-110"
                       >
                         <i className="fab fa-instagram"></i>
                       </a>
@@ -248,6 +280,7 @@ const Accommodation = () => {
           ))}
         </div>
         
+        {/* Modals */}
         <GalleryModal
           isOpen={galleryOpen}
           onClose={() => setGalleryOpen(false)}
@@ -260,8 +293,38 @@ const Accommodation = () => {
           onClose={() => setReviewOpen(false)}
           accommodation={selectedAccommodation}
         />
+        
+        <BookingModal
+          isOpen={bookingOpen}
+          onClose={() => setBookingOpen(false)}
+          preselectedExperience={selectedAccommodation?.name}
+        />
       </div>
-    </div>
+
+      <style jsx>{`
+        @keyframes slide-down {
+          from {
+            opacity: 0;
+            transform: translateY(-10px);
+          }
+          to {
+            opacity: 1;
+            transform: translateY(0);
+          }
+        }
+        
+        .animate-slide-down {
+          animation: slide-down 0.3s ease-out;
+        }
+        
+        .line-clamp-2 {
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
+          overflow: hidden;
+        }
+      `}</style>
+    </>
   );
 };
 
