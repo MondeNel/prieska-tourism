@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import SectionTitle from './ui/SectionTitle';
 import GalleryModal from './ui/GalleryModal';
 import AddReviewModal from './ui/AddReviewModal';
-import BookingModal from './BookingModal';
+import AccommodationBookingModal from './AccommodationBookingModal';
 import { accommodations } from '../data/accommodations';
 
 // Star Rating Component using pure SVG
@@ -295,11 +295,7 @@ const Accommodation = () => {
           accommodation={selectedAccommodation}
         />
         
-        <BookingModal
-          isOpen={bookingOpen}
-          onClose={() => setBookingOpen(false)}
-          preselectedExperience={selectedAccommodation?.name}
-        />
+        <AccommodationBookingModal isOpen={bookingOpen} onClose={() => setBookingOpen(false)} guesthouse={selectedAccommodation} />
       </div>
 
       <style>{`
