@@ -1,10 +1,30 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import BookingModal from './BookingModal';
 
 const Hero = () => {
   const [checkIn, setCheckIn] = useState('');
   const [guests, setGuests] = useState(2);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  
+  // Typing animation state
+  const fullText = "Ancient land of vast skies, amber Kalahari sunsets, and untouched wilderness. Every horizon tells a story millions of years in the making.";
+  const [displayedText, setDisplayedText] = useState('');
+  const [isTypingComplete, setIsTypingComplete] = useState(false);
+
+  useEffect(() => {
+    let index = 0;
+    const timer = setInterval(() => {
+      if (index < fullText.length) {
+        setDisplayedText(fullText.slice(0, index + 1));
+        index++;
+      } else {
+        clearInterval(timer);
+        setIsTypingComplete(true);
+      }
+    }, 40); // Adjust speed here (ms per character)
+
+    return () => clearInterval(timer);
+  }, []);
 
   const handleSearch = () => {
     alert(`Searching for ${guests} guests on ${checkIn || 'any date'}`);
@@ -29,9 +49,11 @@ const Hero = () => {
             <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-3 md:mb-5">
               Where the Karoo <span className="italic text-[#E6B17E]">Breathes</span>
             </h1>
-            <p className="text-sm md:text-lg text-white/90 max-w-xl mb-6 md:mb-8 leading-relaxed">
-              Ancient land of vast skies, amber Kalahari sunsets, and untouched wilderness. 
-              Every horizon tells a story millions of years in the making.
+            <p className="text-sm md:text-lg text-white/90 max-w-xl mb-6 md:mb-8 leading-relaxed min-h-[100px]">
+              {displayedText}
+              {!isTypingComplete && (
+                <span className="inline-block w-0.5 h-4 md:h-5 bg-white/70 ml-1 animate-pulse"></span>
+              )}
             </p>
             <div className="flex flex-wrap gap-3 md:gap-4">
               <a href="#experiences" className="bg-[#B87333] hover:bg-[#B87333]/80 text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 shadow-lg inline-flex items-center text-sm md:text-base">
