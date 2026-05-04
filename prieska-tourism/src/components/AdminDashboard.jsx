@@ -1,14 +1,17 @@
 import { useState, useEffect } from 'react';
 import { getExperiences, updateExperience, deleteExperience, addExperience, getAccommodations, updateAccommodation, deleteAccommodation, addAccommodation } from '../services/dataService';
+import EditItemModal from './EditItemModal';
 
 const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('experiences');
   const [experiences, setExperiences] = useState([]);
   const [accommodations, setAccommodations] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({});
   const [isAdding, setIsAdding] = useState(false);
   const [addForm, setAddForm] = useState({});
+  // Modal state
+  const [editModalOpen, setEditModalOpen] = useState(false);
+  const [editingItem, setEditingItem] = useState(null);
+  const [editingType, setEditingType] = useState(null);
 
   useEffect(() => {
     if (isOpen) loadData();
@@ -20,31 +23,21 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   };
 
   const handleEdit = (item, type) => {
-    setEditingId(item.id);
-    if (type === 'accommodations') {
-      setEditForm({ ...item, imagesInput: item.images ? item.images.join(', ') : '' });
-    } else {
-      setEditForm({ ...item });
-    }
-    setIsAdding(false);
+    setEditingItem(item);
+    setEditingType(type);
+    setEditModalOpen(true);
   };
 
-  const handleSave = (type) => {
-    let updated = { ...editForm };
-    if (type === 'accommodations') {
-      if (updated.imagesInput) {
-        updated.images = updated.imagesInput.split(',').map(s => s.trim());
-        delete updated.imagesInput;
-      }
-      updateAccommodation(editingId, updated);
+  const handleSaveFromModal = (updatedItem) => {
+    if (editingType === 'experiences') {
+      updateExperience(editingItem.id, updatedItem);
     } else {
-      const priceMatch = updated.price?.match(/\d+([\d,.]*)/);
-      if (priceMatch) updated.priceValue = parseInt(priceMatch[0].replace(/,/g, ''));
-      updateExperience(editingId, updated);
+      updateAccommodation(editingItem.id, updatedItem);
     }
-    setEditingId(null);
     loadData();
     window.dispatchEvent(new Event('storage'));
+    setEditModalOpen(false);
+    setEditingItem(null);
   };
 
   const handleDelete = (id, type) => {
@@ -57,7 +50,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
 
   const startAdd = (type) => {
     setIsAdding(true);
-    setEditingId(null);
     if (type === 'experiences') {
       setAddForm({ title: '', category: 'wildlife', icon: 'fa-paw', desc: '', duration: '', price: 'ZAR 0', image: '/fallback.jpg', timeSlots: ['09:00 AM'] });
     } else {
@@ -89,11 +81,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     window.dispatchEvent(new Event('storage'));
   };
 
-  const handleEditChange = (e) => {
-    const { name, value } = e.target;
-    setEditForm(prev => ({ ...prev, [name]: value }));
-  };
-
   const handleAddChange = (e) => {
     const { name, value } = e.target;
     setAddForm(prev => ({ ...prev, [name]: value }));
@@ -110,63 +97,25 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     </div>
   );
 
-  const renderExperienceCard = (exp) => {
-    if (editingId === exp.id) {
-      return (
-        <div className="col-span-1 bg-white rounded-xl border border-amber-200 p-4 shadow-sm">
-          <div className="space-y-2">
-            {renderField('Title', 'title', 'text', editForm.title, handleEditChange)}
-            {renderField('Price', 'price', 'text', editForm.price, handleEditChange)}
-            {renderField('Desc', 'desc', 'textarea', editForm.desc, handleEditChange)}
-            {renderField('Duration', 'duration', 'text', editForm.duration, handleEditChange)}
-            {renderField('Category', 'category', 'text', editForm.category, handleEditChange)}
-            {renderField('Image URL', 'image', 'text', editForm.image, handleEditChange)}
-            <div className="flex gap-2 pt-2">
-              <button onClick={() => handleSave('experiences')} className="flex-1 bg-blue-600 text-white py-1.5 rounded-lg text-xs">Save</button>
-              <button onClick={() => setEditingId(null)} className="flex-1 bg-gray-200 text-gray-700 py-1.5 rounded-lg text-xs">Cancel</button>
-            </div>
-          </div>
-        </div>
-      );
-    }
-    return (
-      <div className="col-span-1 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition group">
-        <div className="relative h-28 bg-gray-100">
-          <img src={exp.image || '/fallback.jpg'} alt={exp.title} className="w-full h-full object-cover" />
-          <div className="absolute top-2 left-2 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full">{exp.category}</div>
-        </div>
-        <div className="p-3">
-          <h3 className="font-serif font-bold text-sm text-[#2C3E2F] truncate">{exp.title}</h3>
-          <p className="text-[#B87333] font-semibold text-xs mt-0.5">{exp.price}</p>
-          <p className="text-gray-400 text-[10px] mt-0.5">{exp.duration}</p>
-          <div className="flex justify-end gap-2 mt-2 pt-2 border-t border-gray-100">
-            <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 text-[10px] flex items-center gap-1"><i className="fas fa-edit"></i> Edit</button>
-            <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 text-[10px] flex items-center gap-1"><i className="fas fa-trash"></i> Del</button>
-          </div>
+  const renderExperienceCard = (exp) => (
+    <div className="col-span-1 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition group">
+      <div className="relative h-28 bg-gray-100">
+        <img src={exp.image || '/fallback.jpg'} alt={exp.title} className="w-full h-full object-cover" />
+        <div className="absolute top-2 left-2 bg-black/60 text-white text-[8px] px-1.5 py-0.5 rounded-full">{exp.category}</div>
+      </div>
+      <div className="p-3">
+        <h3 className="font-serif font-bold text-sm text-[#2C3E2F] truncate">{exp.title}</h3>
+        <p className="text-[#B87333] font-semibold text-xs mt-0.5">{exp.price}</p>
+        <p className="text-gray-400 text-[10px] mt-0.5">{exp.duration}</p>
+        <div className="flex justify-end gap-2 mt-2 pt-2 border-t border-gray-100">
+          <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 text-[10px] flex items-center gap-1"><i className="fas fa-edit"></i> Edit</button>
+          <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 text-[10px] flex items-center gap-1"><i className="fas fa-trash"></i> Del</button>
         </div>
       </div>
-    );
-  };
+    </div>
+  );
 
   const renderAccommodationCard = (acc) => {
-    if (editingId === acc.id) {
-      return (
-        <div className="col-span-1 bg-white rounded-xl border border-amber-200 p-4 shadow-sm">
-          <div className="space-y-2">
-            {renderField('Name', 'name', 'text', editForm.name, handleEditChange)}
-            {renderField('Price Range', 'priceRange', 'text', editForm.priceRange, handleEditChange)}
-            {renderField('Description', 'description', 'textarea', editForm.description, handleEditChange)}
-            {renderField('Address', 'address', 'text', editForm.address, handleEditChange)}
-            {renderField('Phone', 'contact', 'text', editForm.contact, handleEditChange)}
-            {renderField('Images (comma)', 'imagesInput', 'text', editForm.imagesInput || (editForm.images ? editForm.images.join(', ') : ''), handleEditChange)}
-            <div className="flex gap-2 pt-2">
-              <button onClick={() => handleSave('accommodations')} className="flex-1 bg-blue-600 text-white py-1.5 rounded-lg text-xs">Save</button>
-              <button onClick={() => setEditingId(null)} className="flex-1 bg-gray-200 text-gray-700 py-1.5 rounded-lg text-xs">Cancel</button>
-            </div>
-          </div>
-        </div>
-      );
-    }
     const coverImage = acc.images?.[0] || '/fallback.jpg';
     return (
       <div className="col-span-1 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition group">
@@ -231,8 +180,8 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           <button onClick={onClose} className="text-white hover:text-amber-200"><i className="fas fa-times text-lg"></i></button>
         </div>
         <div className="flex border-b px-5 pt-1 gap-1">
-          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('experiences'); setIsAdding(false); setEditingId(null); }}><i className="fas fa-compass mr-1"></i>Experiences</button>
-          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('accommodations'); setIsAdding(false); setEditingId(null); }}><i className="fas fa-bed mr-1"></i>Guesthouses</button>
+          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('experiences'); setIsAdding(false); }}><i className="fas fa-compass mr-1"></i>Experiences</button>
+          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('accommodations'); setIsAdding(false); }}><i className="fas fa-bed mr-1"></i>Guesthouses</button>
         </div>
         <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
           <div className="flex justify-end mb-4">
@@ -250,6 +199,13 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           <button onClick={onLogout} className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-xs"><i className="fas fa-sign-out-alt mr-1"></i>Logout</button>
         </div>
       </div>
+      <EditItemModal
+        isOpen={editModalOpen}
+        onClose={() => setEditModalOpen(false)}
+        item={editingItem}
+        type={editingType}
+        onSave={handleSaveFromModal}
+      />
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
