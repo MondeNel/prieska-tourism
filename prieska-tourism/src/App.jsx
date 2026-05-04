@@ -1,3 +1,4 @@
+import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Stats from './components/Stats';
@@ -7,8 +8,13 @@ import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import { initData } from './services/dataService';
 
 function App() {
+  useEffect(() => {
+    initData();
+  }, []);
+
   return (
     <div className="bg-karoo-cream">
       <Navbar />
