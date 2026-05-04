@@ -8,7 +8,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [accommodations, setAccommodations] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
   const [addForm, setAddForm] = useState({});
-  // Modal state
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [editingType, setEditingType] = useState(null);
@@ -107,9 +106,13 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
         <h3 className="font-serif font-bold text-sm text-[#2C3E2F] truncate">{exp.title}</h3>
         <p className="text-[#B87333] font-semibold text-xs mt-0.5">{exp.price}</p>
         <p className="text-gray-400 text-[10px] mt-0.5">{exp.duration}</p>
-        <div className="flex justify-end gap-2 mt-2 pt-2 border-t border-gray-100">
-          <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 text-[10px] flex items-center gap-1"><i className="fas fa-edit"></i> Edit</button>
-          <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 text-[10px] flex items-center gap-1"><i className="fas fa-trash"></i> Del</button>
+        <div className="flex justify-end gap-3 mt-2 pt-2 border-t border-gray-100">
+          <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 hover:text-blue-800 text-base" title="Edit">
+            <i className="fas fa-edit"></i>
+          </button>
+          <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 hover:text-red-800 text-base" title="Delete">
+            <i className="fas fa-trash-alt"></i>
+          </button>
         </div>
       </div>
     </div>
@@ -127,9 +130,13 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           <h3 className="font-serif font-bold text-sm text-[#2C3E2F] truncate">{acc.name}</h3>
           <p className="text-[#B87333] font-semibold text-xs">{acc.priceRange}</p>
           <p className="text-gray-400 text-[10px] truncate">{acc.address}</p>
-          <div className="flex justify-end gap-2 mt-2 pt-2 border-t border-gray-100">
-            <button onClick={() => handleEdit(acc, 'accommodations')} className="text-blue-600 text-[10px] flex items-center gap-1"><i className="fas fa-edit"></i> Edit</button>
-            <button onClick={() => handleDelete(acc.id, 'accommodations')} className="text-red-600 text-[10px] flex items-center gap-1"><i className="fas fa-trash"></i> Del</button>
+          <div className="flex justify-end gap-3 mt-2 pt-2 border-t border-gray-100">
+            <button onClick={() => handleEdit(acc, 'accommodations')} className="text-blue-600 hover:text-blue-800 text-base" title="Edit">
+              <i className="fas fa-edit"></i>
+            </button>
+            <button onClick={() => handleDelete(acc.id, 'accommodations')} className="text-red-600 hover:text-red-800 text-base" title="Delete">
+              <i className="fas fa-trash-alt"></i>
+            </button>
           </div>
         </div>
       </div>
