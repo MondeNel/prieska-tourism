@@ -79,42 +79,44 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
 
   const renderField = (label, name, type = 'text') => (
     <div>
-      <label className="block text-sm font-medium text-gray-700 mb-1">{label}</label>
+      <label className="block text-xs font-medium text-gray-600 mb-1">{label}</label>
       {type === 'textarea' ? (
-        <textarea className="w-full border p-2 rounded" value={editForm[name] || ''} onChange={e => setEditForm({...editForm, [name]: e.target.value})} rows={3} />
+        <textarea className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:border-[#B87333] focus:ring-1 focus:ring-[#B87333] outline-none transition" value={editForm[name] || ''} onChange={e => setEditForm({...editForm, [name]: e.target.value})} rows={2} />
       ) : (
-        <input className="w-full border p-2 rounded" type={type} value={editForm[name] || ''} onChange={e => setEditForm({...editForm, [name]: e.target.value})} />
+        <input className="w-full border border-gray-200 rounded-lg p-2 text-sm focus:border-[#B87333] focus:ring-1 focus:ring-[#B87333] outline-none transition" type={type} value={editForm[name] || ''} onChange={e => setEditForm({...editForm, [name]: e.target.value})} />
       )}
     </div>
   );
 
   const renderExperiences = () => (
-    <div className="space-y-4">
-      <button onClick={() => handleAdd('experiences')} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add Experience</button>
+    <div className="space-y-3">
+      <button onClick={() => handleAdd('experiences')} className="w-full flex items-center justify-center gap-2 bg-[#B87333] hover:bg-[#B87333]/80 text-white text-sm font-semibold py-2.5 rounded-xl transition shadow-md mb-4">
+        <i className="fas fa-plus"></i> Add Experience
+      </button>
       {experiences.map(exp => (
-        <div key={exp.id} className="border rounded-lg p-4 bg-white shadow-sm">
+        <div key={exp.id} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition">
           {editingId === exp.id ? (
             <div className="space-y-3">
               {renderField('Title', 'title')}
-              {renderField('Price (display)', 'price')}
+              {renderField('Price', 'price')}
               {renderField('Description', 'desc', 'textarea')}
               {renderField('Duration', 'duration')}
               {renderField('Category', 'category')}
               <div className="flex gap-2 pt-2">
-                <button onClick={() => handleSave('experiences')} className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
-                <button onClick={() => setEditingId(null)} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                <button onClick={() => handleSave('experiences')} className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 transition">Save</button>
+                <button onClick={() => setEditingId(null)} className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg text-sm hover:bg-gray-400 transition">Cancel</button>
               </div>
             </div>
           ) : (
             <div className="flex justify-between items-start">
               <div>
-                <div className="font-bold text-lg">{exp.title}</div>
-                <div className="text-sm text-gray-600">{exp.price}</div>
-                <div className="text-xs text-gray-400 mt-1">{exp.duration}</div>
+                <h4 className="font-serif font-bold text-[#2C3E2F] text-base">{exp.title}</h4>
+                <p className="text-[#B87333] font-semibold text-sm mt-0.5">{exp.price}</p>
+                <p className="text-gray-400 text-xs mt-1">{exp.duration}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 hover:underline text-sm">Edit</button>
-                <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 hover:underline text-sm">Delete</button>
+                <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"><i className="fas fa-edit text-xs"></i> Edit</button>
+                <button onClick={() => handleDelete(exp.id, 'experiences')} className="text-red-600 hover:text-red-800 text-sm flex items-center gap-1"><i className="fas fa-trash-alt text-xs"></i> Delete</button>
               </div>
             </div>
           )}
@@ -124,32 +126,34 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   );
 
   const renderAccommodations = () => (
-    <div className="space-y-4">
-      <button onClick={() => handleAdd('accommodations')} className="bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700">+ Add Guesthouse</button>
+    <div className="space-y-3">
+      <button onClick={() => handleAdd('accommodations')} className="w-full flex items-center justify-center gap-2 bg-[#B87333] hover:bg-[#B87333]/80 text-white text-sm font-semibold py-2.5 rounded-xl transition shadow-md mb-4">
+        <i className="fas fa-plus"></i> Add Guesthouse
+      </button>
       {accommodations.map(acc => (
-        <div key={acc.id} className="border rounded-lg p-4 bg-white shadow-sm">
+        <div key={acc.id} className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm hover:shadow-md transition">
           {editingId === acc.id ? (
             <div className="space-y-3">
               {renderField('Name', 'name')}
               {renderField('Price Range', 'priceRange')}
               {renderField('Description', 'description', 'textarea')}
               {renderField('Address', 'address')}
-              {renderField('Contact Phone', 'contact')}
+              {renderField('Phone', 'contact')}
               <div className="flex gap-2 pt-2">
-                <button onClick={() => handleSave('accommodations')} className="bg-blue-600 text-white px-4 py-2 rounded">Save</button>
-                <button onClick={() => setEditingId(null)} className="bg-gray-500 text-white px-4 py-2 rounded">Cancel</button>
+                <button onClick={() => handleSave('accommodations')} className="flex-1 bg-blue-600 text-white py-2 rounded-lg text-sm hover:bg-blue-700 transition">Save</button>
+                <button onClick={() => setEditingId(null)} className="flex-1 bg-gray-300 text-gray-700 py-2 rounded-lg text-sm hover:bg-gray-400 transition">Cancel</button>
               </div>
             </div>
           ) : (
             <div className="flex justify-between items-start">
               <div>
-                <div className="font-bold text-lg">{acc.name}</div>
-                <div className="text-sm text-gray-600">{acc.priceRange}</div>
-                <div className="text-xs text-gray-400 mt-1">{acc.address}</div>
+                <h4 className="font-serif font-bold text-[#2C3E2F] text-base">{acc.name}</h4>
+                <p className="text-[#B87333] font-semibold text-sm mt-0.5">{acc.priceRange}</p>
+                <p className="text-gray-400 text-xs mt-1">{acc.address}</p>
               </div>
               <div className="flex gap-2">
-                <button onClick={() => handleEdit(acc, 'accommodations')} className="text-blue-600 hover:underline text-sm">Edit</button>
-                <button onClick={() => handleDelete(acc.id, 'accommodations')} className="text-red-600 hover:underline text-sm">Delete</button>
+                <button onClick={() => handleEdit(acc, 'accommodations')} className="text-blue-600 hover:text-blue-800 text-sm flex items-center gap-1"><i className="fas fa-edit text-xs"></i> Edit</button>
+                <button onClick={() => handleDelete(acc.id, 'accommodations')} className="text-red-600 hover:text-red-800 text-sm flex items-center gap-1"><i className="fas fa-trash-alt text-xs"></i> Delete</button>
               </div>
             </div>
           )}
@@ -162,24 +166,54 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
-      <div className="relative max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+      <div className="relative max-w-3xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[90vh] flex flex-col">
+        {/* Header with gold gradient */}
         <div className="bg-gradient-to-r from-amber-600 to-yellow-600 px-6 py-4 flex justify-between items-center">
           <div>
-            <h2 className="text-2xl font-serif font-bold text-white">Admin Dashboard</h2>
+            <h2 className="text-2xl font-serif font-bold text-white flex items-center gap-2">
+              <i className="fas fa-user-shield"></i>
+              Admin Dashboard
+            </h2>
             <p className="text-amber-100 text-sm">Welcome, {user.name || user.email}</p>
           </div>
           <button onClick={onClose} className="text-white hover:text-amber-200 transition"><i className="fas fa-times text-xl"></i></button>
         </div>
-        <div className="flex border-b">
-          <button className={`px-4 py-2 ${activeTab === 'experiences' ? 'border-b-2 border-amber-500 text-amber-600 font-medium' : 'text-gray-600'}`} onClick={() => setActiveTab('experiences')}>Experiences</button>
-          <button className={`px-4 py-2 ${activeTab === 'accommodations' ? 'border-b-2 border-amber-500 text-amber-600 font-medium' : 'text-gray-600'}`} onClick={() => setActiveTab('accommodations')}>Guesthouses</button>
+
+        {/* Tabs */}
+        <div className="flex border-b border-gray-200 px-6 pt-2">
+          <button
+            className={`px-4 py-2 text-sm font-medium transition-all rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500 hover:text-gray-700'}`}
+            onClick={() => setActiveTab('experiences')}
+          >
+            <i className="fas fa-compass mr-2"></i> Experiences
+          </button>
+          <button
+            className={`px-4 py-2 text-sm font-medium transition-all rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500 hover:text-gray-700'}`}
+            onClick={() => setActiveTab('accommodations')}
+          >
+            <i className="fas fa-bed mr-2"></i> Guesthouses
+          </button>
         </div>
-        <div className="p-6 overflow-y-auto flex-1">
+
+        {/* Content */}
+        <div className="p-6 overflow-y-auto flex-1 custom-scrollbar">
           {activeTab === 'experiences' ? renderExperiences() : renderAccommodations()}
         </div>
-        <button onClick={onLogout} className="m-4 mx-auto bg-red-600 text-white py-2 px-6 rounded-lg hover:bg-red-700 transition w-32">Logout</button>
-        <div className="text-center text-xs text-gray-400 pb-4">Changes are saved automatically to your browser</div>
+
+        {/* Logout button */}
+        <div className="p-4 border-t border-gray-100 flex justify-between items-center bg-gray-50">
+          <span className="text-xs text-gray-400"><i className="fas fa-save mr-1"></i> Changes saved automatically</span>
+          <button onClick={onLogout} className="bg-red-600 hover:bg-red-700 text-white px-5 py-2 rounded-lg text-sm font-medium transition flex items-center gap-2">
+            <i className="fas fa-sign-out-alt"></i> Logout
+          </button>
+        </div>
       </div>
+
+      <style jsx>{`
+        .custom-scrollbar::-webkit-scrollbar { width: 6px; }
+        .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
+        .custom-scrollbar::-webkit-scrollbar-thumb { background: #B87333; border-radius: 10px; }
+      `}</style>
     </div>
   );
 };
