@@ -1,10 +1,17 @@
 import { useState, useEffect } from 'react';
 import BookingModal from './BookingModal';
+import AdminAuthModal from './AdminAuthModal';
+import AdminDashboard from './AdminDashboard';
 
 const Navbar = () => {
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  
+  // Admin state
+  const [isAdminAuthOpen, setIsAdminAuthOpen] = useState(false);
+  const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
+  const [adminUser, setAdminUser] = useState(null);
 
   useEffect(() => {
     const handleScroll = () => {
@@ -25,12 +32,31 @@ const Navbar = () => {
     };
   }, [isMobileMenuOpen]);
 
+  // Check for existing admin session
+  useEffect(() => {
+    const storedAdmin = localStorage.getItem('admin_logged_in');
+    if (storedAdmin) {
+      setAdminUser(JSON.parse(storedAdmin));
+    }
+  }, []);
+
   const toggleMenu = () => {
     setIsMobileMenuOpen(!isMobileMenuOpen);
   };
 
   const closeMenu = () => {
     setIsMobileMenuOpen(false);
+  };
+
+  const handleAdminLoginSuccess = (user) => {
+    setAdminUser(user);
+    setIsAdminDashboardOpen(true);
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem('admin_logged_in');
+    setAdminUser(null);
+    setIsAdminDashboardOpen(false);
   };
 
   const navLinks = [
@@ -83,17 +109,36 @@ const Navbar = () => {
               ))}
             </div>
 
-            {/* Desktop Book Now button */}
-            <button
-              onClick={() => setIsBookingOpen(true)}
-              className={`hidden md:block font-semibold px-5 lg:px-6 py-1.5 lg:py-2 rounded-full transition-all duration-300 shadow-lg text-sm lg:text-base ${
-                isScrolled
-                  ? 'bg-[#B87333] hover:bg-[#B87333]/80 text-white'
-                  : 'bg-white/20 backdrop-blur-sm border border-white/40 hover:bg-white/30 text-white'
-              }`}
-            >
-              Book Now
-            </button>
+            <div className="hidden md:flex items-center gap-2">
+              {/* Desktop Book Now button */}
+              <button
+                onClick={() => setIsBookingOpen(true)}
+                className={`font-semibold px-5 lg:px-6 py-1.5 lg:py-2 rounded-full transition-all duration-300 shadow-lg text-sm lg:text-base ${
+                  isScrolled
+                    ? 'bg-[#B87333] hover:bg-[#B87333]/80 text-white'
+                    : 'bg-white/20 backdrop-blur-sm border border-white/40 hover:bg-white/30 text-white'
+                }`}
+              >
+                Book Now
+              </button>
+              
+              {/* Admin button (desktop) */}
+              {adminUser ? (
+                <button
+                  onClick={() => setIsAdminDashboardOpen(true)}
+                  className="font-semibold px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg text-sm bg-gray-700 text-white hover:bg-gray-600"
+                >
+                  <i className="fas fa-user-shield mr-1"></i> Dashboard
+                </button>
+              ) : (
+                <button
+                  onClick={() => setIsAdminAuthOpen(true)}
+                  className="font-semibold px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg text-sm bg-gray-700 text-white hover:bg-gray-600"
+                >
+                  <i className="fas fa-user-shield mr-1"></i> Admin
+                </button>
+              )}
+            </div>
 
             {/* Mobile hamburger button */}
             <button
@@ -150,7 +195,7 @@ const Navbar = () => {
           style={{ height: '100vh', overflowY: 'auto' }}
         >
           <div className="flex flex-col min-h-full">
-            {/* Logo area – the hamburger icon outside serves as the close button */}
+            {/* Logo area */}
             <div className="flex flex-col items-center pt-8 px-6">
               <div className="flex items-center space-x-2 mb-2">
                 <i className="fas fa-tree text-2xl text-[#B87333]"></i>
@@ -202,6 +247,33 @@ const Navbar = () => {
                 <span>Book Your Adventure Now</span>
                 <i className="fas fa-arrow-right"></i>
               </button>
+              
+              {/* Admin button in mobile menu */}
+              <div className="mt-2">
+                {adminUser ? (
+                  <button
+                    onClick={() => {
+                      setIsAdminDashboardOpen(true);
+                      closeMenu();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-800 text-white rounded-xl font-medium hover:bg-gray-700 transition-all duration-300"
+                  >
+                    <i className="fas fa-user-shield"></i>
+                    <span>Dashboard</span>
+                  </button>
+                ) : (
+                  <button
+                    onClick={() => {
+                      setIsAdminAuthOpen(true);
+                      closeMenu();
+                    }}
+                    className="w-full flex items-center justify-center gap-2 px-4 py-3 bg-gray-800 text-white rounded-xl font-medium hover:bg-gray-700 transition-all duration-300"
+                  >
+                    <i className="fas fa-user-shield"></i>
+                    <span>Admin Login</span>
+                  </button>
+                )}
+              </div>
             </div>
 
             {/* Footer area */}
@@ -227,6 +299,8 @@ const Navbar = () => {
       </nav>
 
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
+      <AdminAuthModal isOpen={isAdminAuthOpen} onClose={() => setIsAdminAuthOpen(false)} onLoginSuccess={handleAdminLoginSuccess} />
+      <AdminDashboard user={adminUser} onLogout={handleAdminLogout} isOpen={isAdminDashboardOpen} onClose={() => setIsAdminDashboardOpen(false)} />
     </>
   );
 };
