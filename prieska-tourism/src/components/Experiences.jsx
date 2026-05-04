@@ -10,7 +10,13 @@ const ExperienceCard = ({ experience, onBook }) => {
   return (
     <div className="bg-white rounded-xl md:rounded-2xl overflow-hidden shadow-md hover:shadow-2xl hover:-translate-y-2 transition-all duration-300 group">
       <div className="relative h-44 md:h-52 overflow-hidden bg-gray-100">
-        <img src={experience.image} alt={experience.title} className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500 loading="lazy" onError={(e) => { e.target.src = experience.fallback; }} />
+        <img 
+          src={experience.image} 
+          alt={experience.title} 
+          className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" 
+          loading="lazy" 
+          onError={(e) => { e.target.src = experience.fallback; }} 
+        />
         <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-sm rounded-full px-2 md:px-3 py-0.5 md:py-1 text-[9px] md:text-xs font-bold text-[#B87333] z-10">
           <i className={`fas ${experience.icon} mr-1`}></i> {experience.category}
         </div>
