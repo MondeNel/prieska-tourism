@@ -187,8 +187,8 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           <button onClick={onClose} className="text-white hover:text-amber-200"><i className="fas fa-times text-lg"></i></button>
         </div>
         <div className="flex border-b px-5 pt-1 gap-1">
-          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('experiences'); setIsAdding(false); }}><i className="fas fa-compass mr-1"></i>Experiences</button>
-          <button className={`px-3 py-1.5 text-xs font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('accommodations'); setIsAdding(false); }}><i className="fas fa-bed mr-1"></i>Guesthouses</button>
+          <button className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('experiences'); setIsAdding(false); }}><i className="fas fa-compass mr-1"></i>Experiences</button>
+          <button className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('accommodations'); setIsAdding(false); }}><i className="fas fa-bed mr-1"></i>Guesthouses</button>
         </div>
         <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
           <div className="flex justify-end mb-4">
