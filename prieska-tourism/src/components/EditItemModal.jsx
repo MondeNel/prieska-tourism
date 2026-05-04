@@ -2,16 +2,17 @@ import { useState, useEffect } from 'react';
 
 const EditItemModal = ({ isOpen, onClose, item, type, onSave }) => {
   const [formData, setFormData] = useState({});
+  const [imagePreview, setImagePreview] = useState('');
 
   useEffect(() => {
     if (item) {
       if (type === 'accommodations') {
-        setFormData({
-          ...item,
-          imagesInput: item.images ? item.images.join(', ') : ''
-        });
+        const imagesInput = item.images ? item.images.join(', ') : '';
+        setFormData({ ...item, imagesInput });
+        setImagePreview(item.images?.[0] || '');
       } else {
         setFormData({ ...item });
+        setImagePreview(item.image || '');
       }
     }
   }, [item, type]);
@@ -23,6 +24,19 @@ const EditItemModal = ({ isOpen, onClose, item, type, onSave }) => {
     setFormData(prev => ({ ...prev, [name]: value }));
   };
 
+  const handleFileUpload = (e, field) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      const base64String = reader.result;
+      setFormData(prev => ({ ...prev, [field]: base64String }));
+      setImagePreview(base64String);
+    };
+    reader.readAsDataURL(file);
+  };
+
   const handleSubmit = () => {
     let updated = { ...formData };
     if (type === 'accommodations') {
@@ -30,7 +44,18 @@ const EditItemModal = ({ isOpen, onClose, item, type, onSave }) => {
         updated.images = updated.imagesInput.split(',').map(s => s.trim());
         delete updated.imagesInput;
       }
+      // If a single image was uploaded, replace the first image
+      if (formData.singleImageUpload && typeof formData.singleImageUpload === 'string') {
+        if (!updated.images) updated.images = [];
+        updated.images[0] = formData.singleImageUpload;
+        delete updated.singleImageUpload;
+      }
     } else {
+      // For experiences, replace image with uploaded base64 if any
+      if (formData.uploadedImage && typeof formData.uploadedImage === 'string') {
+        updated.image = formData.uploadedImage;
+        delete updated.uploadedImage;
+      }
       const priceMatch = updated.price?.match(/\d+([\d,.]*)/);
       if (priceMatch) updated.priceValue = parseInt(priceMatch[0].replace(/,/g, ''));
     }
@@ -76,7 +101,29 @@ const EditItemModal = ({ isOpen, onClose, item, type, onSave }) => {
               {renderField('Description', 'desc', 'textarea')}
               {renderField('Duration', 'duration')}
               {renderField('Category', 'category')}
-              {renderField('Image URL', 'image')}
+              
+              {/* Image upload */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Image</label>
+                {imagePreview && (
+                  <img src={imagePreview} alt="Preview" className="w-24 h-24 object-cover rounded-lg mb-2" />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, 'uploadedImage')}
+                  className="w-full text-xs border border-gray-200 rounded-lg p-2"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Or provide URL:</p>
+                <input
+                  type="text"
+                  name="image"
+                  className="w-full border border-gray-200 rounded-lg p-2 text-xs mt-1"
+                  placeholder="https://example.com/image.jpg"
+                  value={formData.image || ''}
+                  onChange={handleChange}
+                />
+              </div>
             </>
           ) : (
             <>
@@ -85,7 +132,29 @@ const EditItemModal = ({ isOpen, onClose, item, type, onSave }) => {
               {renderField('Description', 'description', 'textarea')}
               {renderField('Address', 'address')}
               {renderField('Phone', 'contact')}
-              {renderField('Image URLs (comma separated)', 'imagesInput')}
+              
+              {/* Image upload for guesthouse (first image) */}
+              <div>
+                <label className="block text-xs font-medium text-gray-600 mb-1">Main Image (upload)</label>
+                {imagePreview && (
+                  <img src={imagePreview} alt="Preview" className="w-24 h-24 object-cover rounded-lg mb-2" />
+                )}
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={(e) => handleFileUpload(e, 'singleImageUpload')}
+                  className="w-full text-xs border border-gray-200 rounded-lg p-2"
+                />
+                <p className="text-[10px] text-gray-400 mt-1">Or enter image URLs (comma separated):</p>
+                <input
+                  type="text"
+                  name="imagesInput"
+                  className="w-full border border-gray-200 rounded-lg p-2 text-xs mt-1"
+                  placeholder="/img1.jpg, /img2.jpg"
+                  value={formData.imagesInput || ''}
+                  onChange={handleChange}
+                />
+              </div>
             </>
           )}
         </div>
