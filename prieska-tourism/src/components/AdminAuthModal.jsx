@@ -29,39 +29,39 @@ const AdminAuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
     e.preventDefault();
     setError('');
 
-    if (isLogin) {
-      // Login
-      const users = JSON.parse(localStorage.getItem('admin_users') || '[]');
-      const user = users.find(u => u.email === formData.email && u.password === formData.password);
-      if (user) {
-        localStorage.setItem('admin_logged_in', JSON.stringify({ email: user.email, name: user.name }));
-        onLoginSuccess(user);
-        onClose();
-      } else {
-        setError('Invalid email or password');
-      }
-    } else {
-      // Signup
-      if (formData.password !== formData.confirmPassword) {
-        setError('Passwords do not match');
-        return;
-      }
-      if (formData.password.length < 4) {
-        setError('Password must be at least 4 characters');
-        return;
-      }
-      const users = JSON.parse(localStorage.getItem('admin_users') || '[]');
-      if (users.find(u => u.email === formData.email)) {
-        setError('Email already registered');
-        return;
-      }
-      const newUser = { email: formData.email, password: formData.password, name: formData.name };
-      users.push(newUser);
-      localStorage.setItem('admin_users', JSON.stringify(users));
-      localStorage.setItem('admin_logged_in', JSON.stringify({ email: newUser.email, name: newUser.name }));
-      onLoginSuccess(newUser);
-      onClose();
+    // Simple validation: fields cannot be empty
+    if (!formData.email || !formData.password) {
+      setError('Please fill in email and password');
+      return;
     }
+
+    if (!isLogin && !formData.name) {
+      setError('Please fill in your name');
+      return;
+    }
+
+    if (!isLogin && formData.password !== formData.confirmPassword) {
+      setError('Passwords do not match');
+      return;
+    }
+
+    // Always succeed – just create a dummy user object
+    const dummyUser = {
+      email: formData.email,
+      name: formData.name || formData.email.split('@')[0],
+    };
+    
+    localStorage.setItem('admin_logged_in', JSON.stringify(dummyUser));
+    
+    // Also store in mock 'users' list (optional, for consistency)
+    const users = JSON.parse(localStorage.getItem('admin_users') || '[]');
+    if (!users.find(u => u.email === formData.email)) {
+      users.push({ email: formData.email, name: dummyUser.name });
+      localStorage.setItem('admin_users', JSON.stringify(users));
+    }
+    
+    onLoginSuccess(dummyUser);
+    onClose();
   };
 
   return (
@@ -75,21 +75,21 @@ const AdminAuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="John Doe" />
+              <input type="text" name="name" value={formData.name} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="Admin Name" />
             </div>
           )}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input type="email" name="email" value={formData.email} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="admin@example.com" />
+            <input type="email" name="email" value={formData.email} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="any@example.com" />
           </div>
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input type="password" name="password" value={formData.password} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="••••••" />
+            <input type="password" name="password" value={formData.password} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="anything" />
           </div>
           {!isLogin && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Confirm Password</label>
-              <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="••••••" />
+              <input type="password" name="confirmPassword" value={formData.confirmPassword} onChange={handleInputChange} required className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-[#B87333]" placeholder="anything" />
             </div>
           )}
           {error && <p className="text-red-500 text-sm">{error}</p>}
@@ -102,6 +102,7 @@ const AdminAuthModal = ({ isOpen, onClose, onLoginSuccess }) => {
               {isLogin ? 'Sign Up' : 'Login'}
             </button>
           </p>
+          <p className="text-xs text-gray-400 text-center">Any credentials work (demo mode)</p>
         </form>
       </div>
     </div>
