@@ -1,6 +1,66 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, memo } from 'react';
 import { getExperiences, updateExperience, deleteExperience, addExperience, getAccommodations, updateAccommodation, deleteAccommodation, addAccommodation } from '../services/dataService';
 import EditItemModal from './EditItemModal';
+
+// Helper: renders a form field (outside component to keep it stable)
+const renderField = (label, name, type = 'text', value, onChange, placeholder = '') => (
+  <div>
+    <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
+    {type === 'textarea' ? (
+      <textarea
+        className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+        rows={2}
+        value={value || ''}
+        onChange={onChange}
+        placeholder={placeholder}
+      />
+    ) : (
+      <input
+        className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+        type={type}
+        value={value || ''}
+        onChange={onChange}
+        placeholder={placeholder}
+        name={name}
+      />
+    )}
+  </div>
+);
+
+// Memoized AddForm to prevent unnecessary re-renders and input focus loss
+const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAdd }) => (
+  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+    <h4 className="font-semibold text-[#2C3E2F] text-sm mb-3 flex items-center gap-2">
+      <i className="fas fa-plus-circle text-[#B87333]"></i>
+      Add New {activeTab === 'experiences' ? 'Experience' : 'Guesthouse'}
+    </h4>
+    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+      {activeTab === 'experiences' ? (
+        <>
+          {renderField('Title *', 'title', 'text', addForm.title, handleAddChange)}
+          {renderField('Price', 'price', 'text', addForm.price, handleAddChange)}
+          {renderField('Description *', 'desc', 'textarea', addForm.desc, handleAddChange)}
+          {renderField('Duration', 'duration', 'text', addForm.duration, handleAddChange)}
+          {renderField('Category', 'category', 'text', addForm.category, handleAddChange)}
+          {renderField('Image URL', 'image', 'text', addForm.image, handleAddChange)}
+        </>
+      ) : (
+        <>
+          {renderField('Name *', 'name', 'text', addForm.name, handleAddChange)}
+          {renderField('Price Range', 'priceRange', 'text', addForm.priceRange, handleAddChange)}
+          {renderField('Description *', 'description', 'textarea', addForm.description, handleAddChange)}
+          {renderField('Address', 'address', 'text', addForm.address, handleAddChange)}
+          {renderField('Phone', 'contact', 'text', addForm.contact, handleAddChange)}
+          {renderField('Image URLs (comma)', 'imagesInput', 'text', addForm.imagesInput, handleAddChange)}
+        </>
+      )}
+    </div>
+    <div className="flex gap-3 mt-4">
+      <button onClick={() => submitAdd(activeTab)} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
+      <button onClick={cancelAdd} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
+    </div>
+  </div>
+));
 
 const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('experiences');
@@ -85,17 +145,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     setAddForm(prev => ({ ...prev, [name]: value }));
   };
 
-  const renderField = (label, name, type = 'text', value, onChange, placeholder = '') => (
-    <div>
-      <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
-      {type === 'textarea' ? (
-        <textarea className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none" rows={2} value={value || ''} onChange={onChange} placeholder={placeholder} />
-      ) : (
-        <input className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none" type={type} value={value || ''} onChange={onChange} placeholder={placeholder} name={name} />
-      )}
-    </div>
-  );
-
   const renderExperienceCard = (exp) => (
     <div className="col-span-1 bg-white rounded-xl border border-gray-100 overflow-hidden shadow-sm hover:shadow-md transition group">
       <div className="relative h-28 bg-gray-100">
@@ -143,37 +192,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     );
   };
 
-  const AddForm = () => (
-    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-      <h4 className="font-semibold text-[#2C3E2F] text-sm mb-3 flex items-center gap-2"><i className="fas fa-plus-circle text-[#B87333]"></i>Add New {activeTab === 'experiences' ? 'Experience' : 'Guesthouse'}</h4>
-      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-        {activeTab === 'experiences' ? (
-          <>
-            {renderField('Title *', 'title', 'text', addForm.title, handleAddChange)}
-            {renderField('Price', 'price', 'text', addForm.price, handleAddChange)}
-            {renderField('Description *', 'desc', 'textarea', addForm.desc, handleAddChange)}
-            {renderField('Duration', 'duration', 'text', addForm.duration, handleAddChange)}
-            {renderField('Category', 'category', 'text', addForm.category, handleAddChange)}
-            {renderField('Image URL', 'image', 'text', addForm.image, handleAddChange)}
-          </>
-        ) : (
-          <>
-            {renderField('Name *', 'name', 'text', addForm.name, handleAddChange)}
-            {renderField('Price Range', 'priceRange', 'text', addForm.priceRange, handleAddChange)}
-            {renderField('Description *', 'description', 'textarea', addForm.description, handleAddChange)}
-            {renderField('Address', 'address', 'text', addForm.address, handleAddChange)}
-            {renderField('Phone', 'contact', 'text', addForm.contact, handleAddChange)}
-            {renderField('Image URLs (comma)', 'imagesInput', 'text', addForm.imagesInput, handleAddChange)}
-          </>
-        )}
-      </div>
-      <div className="flex gap-3 mt-4">
-        <button onClick={() => submitAdd(activeTab)} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
-        <button onClick={cancelAdd} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
-      </div>
-    </div>
-  );
-
   if (!isOpen || !user) return null;
 
   return (
@@ -187,23 +205,48 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           <button onClick={onClose} className="text-white hover:text-amber-200"><i className="fas fa-times text-lg"></i></button>
         </div>
         <div className="flex border-b px-5 pt-1 gap-1">
-          <button className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('experiences'); setIsAdding(false); }}><i className="fas fa-compass mr-1"></i>Experiences</button>
-          <button className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`} onClick={() => { setActiveTab('accommodations'); setIsAdding(false); }}><i className="fas fa-bed mr-1"></i>Guesthouses</button>
+          <button
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'experiences' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`}
+            onClick={() => { setActiveTab('experiences'); setIsAdding(false); }}
+          >
+            <i className="fas fa-compass mr-1"></i>Experiences
+          </button>
+          <button
+            className={`px-4 py-2 text-sm font-medium rounded-t-lg ${activeTab === 'accommodations' ? 'text-[#B87333] border-b-2 border-[#B87333] bg-amber-50' : 'text-gray-500'}`}
+            onClick={() => { setActiveTab('accommodations'); setIsAdding(false); }}
+          >
+            <i className="fas fa-bed mr-1"></i>Guesthouses
+          </button>
         </div>
         <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
           <div className="flex justify-end mb-4">
             {!isAdding && (
-              <button onClick={() => startAdd(activeTab)} className="bg-[#B87333] text-white text-xs px-3 py-1.5 rounded-full shadow hover:bg-[#B87333]/80 transition flex items-center gap-1"><i className="fas fa-plus"></i> Add New</button>
+              <button onClick={() => startAdd(activeTab)} className="bg-[#B87333] text-white text-xs px-3 py-1.5 rounded-full shadow hover:bg-[#B87333]/80 transition flex items-center gap-1">
+                <i className="fas fa-plus"></i> Add New
+              </button>
             )}
           </div>
-          {isAdding && <AddForm />}
+          {isAdding && (
+            <AddForm
+              activeTab={activeTab}
+              addForm={addForm}
+              handleAddChange={handleAddChange}
+              submitAdd={submitAdd}
+              cancelAdd={cancelAdd}
+            />
+          )}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
-            {activeTab === 'experiences' ? experiences.map(exp => renderExperienceCard(exp)) : accommodations.map(acc => renderAccommodationCard(acc))}
+            {activeTab === 'experiences'
+              ? experiences.map(exp => renderExperienceCard(exp))
+              : accommodations.map(acc => renderAccommodationCard(acc))
+            }
           </div>
         </div>
         <div className="p-3 border-t bg-gray-50 flex justify-between items-center text-[10px] text-gray-500">
           <span><i className="fas fa-save mr-1"></i>All changes are saved automatically</span>
-          <button onClick={onLogout} className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-xs"><i className="fas fa-sign-out-alt mr-1"></i>Logout</button>
+          <button onClick={onLogout} className="bg-red-600 hover:bg-red-700 text-white px-4 py-1.5 rounded-lg text-xs">
+            <i className="fas fa-sign-out-alt mr-1"></i>Logout
+          </button>
         </div>
       </div>
       <EditItemModal
