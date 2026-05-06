@@ -6,6 +6,7 @@ import { Menu, X, Facebook, Instagram, Twitter, ArrowRight, Sun, Moon,
   GraduationCap, Users, Megaphone, AlertCircle, Fuel, Home, Clock, Image, HelpCircle
 } from 'lucide-react'
 import { useTheme } from '../../context/ThemeContext'
+import Logo from '../ui/Logo'  // ← Restored Logo component
 
 const Navbar = ({ switchFeed, activeFeed, openModal }) => {
   const [isOpen, setIsOpen] = useState(false)
@@ -59,12 +60,9 @@ const Navbar = ({ switchFeed, activeFeed, openModal }) => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between items-center h-12">
           
-          {/* Logo with Image + Text */}
-          <Link to="/" className="flex items-center gap-2" onClick={() => setIsOpen(false)}>
-            <img src="/prieska_connect.png" alt="Prieska Connect" className="h-8 sm:h-9 w-auto" />
-            <span className="text-lg sm:text-xl font-sans font-bold tracking-tight text-gray-900 dark:text-white">
-              Prieska<span className="text-prieska-terracotta">Connect</span>
-            </span>
+          {/* Logo – restored original connected nodes design */}
+          <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+            <Logo size="small" />
           </Link>
 
           <div className="flex items-center gap-1.5">
