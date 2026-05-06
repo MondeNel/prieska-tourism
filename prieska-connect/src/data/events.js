@@ -62,7 +62,7 @@ export const events = [
     organizer: 'Prieska Golf Club',
     contact: '082 555 7890',
     recurring: 'Last Saturday monthly',
-    image: null
+    image: '/golf.jpg'  // Added
   },
   {
     id: 4,
@@ -104,7 +104,7 @@ export const events = [
     organizer: 'Prieska Canoe Club',
     contact: '083 456 7890',
     recurring: 'Annually in June',
-    image: null
+    image: '/karoo_river-rafting.jpg'  // Added
   },
   {
     id: 7,
@@ -146,7 +146,7 @@ export const events = [
     organizer: 'Prieska Vleismark',
     contact: '079 876 5432',
     recurring: null,
-    image: null
+    image: '/boerewors_competition.jpg'  // Added
   }
 ]
 

@@ -1,6 +1,6 @@
 // src/components/ui/PostEventModal.jsx
 import { useState } from 'react'
-import { X, Calendar, MapPin, Clock, Users, Phone, FileText, Tag } from 'lucide-react'
+import { X, Calendar, MapPin, Clock, Users, Phone, Tag, ImageIcon } from 'lucide-react'
 import { eventCategories } from '../../data/events'
 
 const PostEventModal = ({ isOpen, onClose }) => {
@@ -53,10 +53,7 @@ const PostEventModal = ({ isOpen, onClose }) => {
             <h3 className="text-lg md:text-xl font-serif font-bold text-gray-800 dark:text-white">
               Post an Event
             </h3>
-            <button 
-              onClick={onClose} 
-              className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1"
-            >
+            <button onClick={onClose} className="text-gray-400 dark:text-gray-500 hover:text-gray-600 dark:hover:text-gray-300 p-1">
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -64,9 +61,7 @@ const PostEventModal = ({ isOpen, onClose }) => {
           {submitted ? (
             <div className="bg-green-50 dark:bg-green-900/20 border border-green-200 dark:border-green-800 rounded-lg p-6 text-center">
               <div className="text-green-600 dark:text-green-400 text-4xl mb-3">✓</div>
-              <h4 className="text-lg font-bold text-green-800 dark:text-green-300 mb-2">
-                Event Submitted!
-              </h4>
+              <h4 className="text-lg font-bold text-green-800 dark:text-green-300 mb-2">Event Submitted!</h4>
               <p className="text-gray-600 dark:text-gray-300 text-sm">
                 Your event will appear on the community calendar after review.
               </p>
@@ -74,18 +69,11 @@ const PostEventModal = ({ isOpen, onClose }) => {
           ) : (
             <form onSubmit={handleSubmit} className="space-y-4">
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Category *
-                </label>
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Category *</label>
                 <div className="relative">
                   <Tag className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <select
-                    name="category"
-                    required
-                    value={formData.category}
-                    onChange={handleChange}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                  >
+                  <select name="category" required value={formData.category} onChange={handleChange}
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent">
                     {eventCategories.filter(c => c.id !== 'all').map(cat => (
                       <option key={cat.id} value={cat.id}>{cat.label}</option>
                     ))}
@@ -94,159 +82,100 @@ const PostEventModal = ({ isOpen, onClose }) => {
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Event Title *
-                </label>
-                <input
-                  type="text"
-                  name="title"
-                  required
-                  value={formData.title}
-                  onChange={handleChange}
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Event Title *</label>
+                <input type="text" name="title" required value={formData.title} onChange={handleChange}
                   className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                  placeholder="e.g., Farmers Market"
-                />
+                  placeholder="e.g., Farmers Market" />
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Description *
-                </label>
-                <textarea
-                  name="description"
-                  required
-                  rows="3"
-                  value={formData.description}
-                  onChange={handleChange}
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Description *</label>
+                <textarea name="description" required rows="3" value={formData.description} onChange={handleChange}
                   className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent resize-none"
-                  placeholder="Describe the event..."
-                />
+                  placeholder="Describe the event..." />
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Location *
-                </label>
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Location *</label>
                 <div className="relative">
                   <MapPin className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="text"
-                    name="location"
-                    required
-                    value={formData.location}
-                    onChange={handleChange}
+                  <input type="text" name="location" required value={formData.location} onChange={handleChange}
                     className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                    placeholder="e.g., Die Bos Nature Reserve"
-                  />
+                    placeholder="e.g., Die Bos Nature Reserve" />
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Date *
-                </label>
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Date *</label>
                 <div className="relative">
                   <Calendar className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                  <input
-                    type="date"
-                    name="date"
-                    required
-                    value={formData.date}
-                    onChange={handleChange}
+                  <input type="date" name="date" required value={formData.date} onChange={handleChange}
                     min={new Date().toISOString().split('T')[0]}
-                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                  />
+                    className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent" />
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Start Time
-                  </label>
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Start Time</label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="time"
-                      name="startTime"
-                      value={formData.startTime}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                    />
+                    <input type="time" name="startTime" value={formData.startTime} onChange={handleChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    End Time
-                  </label>
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">End Time</label>
                   <div className="relative">
                     <Clock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="time"
-                      name="endTime"
-                      value={formData.endTime}
-                      onChange={handleChange}
-                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                    />
+                    <input type="time" name="endTime" value={formData.endTime} onChange={handleChange}
+                      className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent" />
                   </div>
                 </div>
               </div>
 
               <div>
-                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                  Recurring (Optional)
-                </label>
-                <input
-                  type="text"
-                  name="recurring"
-                  value={formData.recurring}
-                  onChange={handleChange}
+                <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Recurring (Optional)</label>
+                <input type="text" name="recurring" value={formData.recurring} onChange={handleChange}
                   className="w-full border border-gray-300 dark:border-gray-600 rounded-lg px-4 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                  placeholder="e.g., First Saturday monthly"
-                />
+                  placeholder="e.g., First Saturday monthly" />
+              </div>
+
+              {/* Photo Upload Placeholder */}
+              <div className="bg-gray-50 dark:bg-gray-700/50 rounded-lg p-3">
+                <div className="flex items-center gap-2 text-gray-600 dark:text-gray-300 text-xs mb-2">
+                  <ImageIcon className="w-4 h-4" />
+                  <span>Add Photo (Optional)</span>
+                </div>
+                <button type="button"
+                  className="w-full border-2 border-dashed border-gray-300 dark:border-gray-600 rounded-lg py-3 text-xs text-gray-500 dark:text-gray-400 hover:border-prieska-terracotta hover:text-prieska-terracotta transition">
+                  Tap to upload a photo
+                </button>
               </div>
 
               <div className="grid grid-cols-2 gap-3">
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Organizer *
-                  </label>
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Organizer *</label>
                   <div className="relative">
                     <Users className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="text"
-                      name="organizer"
-                      required
-                      value={formData.organizer}
-                      onChange={handleChange}
+                    <input type="text" name="organizer" required value={formData.organizer} onChange={handleChange}
                       className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                      placeholder="Organization name"
-                    />
+                      placeholder="Organization name" />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                    Contact *
-                  </label>
+                  <label className="block text-xs md:text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">Contact *</label>
                   <div className="relative">
                     <Phone className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" />
-                    <input
-                      type="tel"
-                      name="contact"
-                      required
-                      value={formData.contact}
-                      onChange={handleChange}
+                    <input type="tel" name="contact" required value={formData.contact} onChange={handleChange}
                       className="w-full border border-gray-300 dark:border-gray-600 rounded-lg pl-9 pr-3 py-2.5 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-white focus:ring-2 focus:ring-prieska-terracotta focus:border-transparent"
-                      placeholder="053 353 1234"
-                    />
+                      placeholder="053 353 1234" />
                   </div>
                 </div>
               </div>
 
-              <button
-                type="submit"
-                className="w-full bg-prieska-terracotta text-white py-2.5 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-opacity-90 transition"
-              >
+              <button type="submit"
+                className="w-full bg-prieska-terracotta text-white py-2.5 md:py-3 rounded-lg font-semibold text-sm md:text-base hover:bg-opacity-90 transition">
                 Submit Event
               </button>
               
