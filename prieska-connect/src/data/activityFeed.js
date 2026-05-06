@@ -12,6 +12,7 @@ export const getRecentActivity = (limit = 6) => {
       title: article.title,
       description: article.excerpt,
       date: article.publishedDate,
+      image: null,  // news currently has no image
       icon: 'newspaper',
       color: 'text-blue-600 bg-blue-100 dark:bg-blue-900/30',
       link: null
@@ -22,6 +23,7 @@ export const getRecentActivity = (limit = 6) => {
       title: notice.title,
       description: notice.description,
       date: notice.postedDate,
+      image: null,  // notices currently have no image
       icon: 'megaphone',
       color: 'text-purple-600 bg-purple-100 dark:bg-purple-900/30',
       link: null
@@ -32,6 +34,7 @@ export const getRecentActivity = (limit = 6) => {
       title: event.title,
       description: `${event.location} • ${event.startTime || 'All day'}`,
       date: event.date,
+      image: event.image || null,  // ← include event image
       icon: 'calendar',
       color: 'text-green-600 bg-green-100 dark:bg-green-900/30',
       link: null
@@ -42,6 +45,7 @@ export const getRecentActivity = (limit = 6) => {
       title: report.title,
       description: `${report.status} • ${report.location}`,
       date: report.reportedDate,
+      image: null,  // reports have no image
       icon: 'alert',
       color: 'text-orange-600 bg-orange-100 dark:bg-orange-900/30',
       link: null
@@ -52,38 +56,4 @@ export const getRecentActivity = (limit = 6) => {
   return activities
     .sort((a, b) => new Date(b.date) - new Date(a.date))
     .slice(0, limit)
-}
-
-export const getQuickStats = () => {
-  const today = new Date()
-  const todayString = today.toISOString().split('T')[0]
-  
-  const oneWeekAgo = new Date()
-  oneWeekAgo.setDate(oneWeekAgo.getDate() - 7)
-  const weekAgoString = oneWeekAgo.toISOString().split('T')[0]
-
-  return {
-    newNotices: notices.filter(n => n.postedDate >= weekAgoString).length,
-    upcomingEvents: events.filter(e => e.date >= todayString).length,
-    activeReports: mockReports.filter(r => r.status !== 'resolved').length,
-    newsThisWeek: newsArticles.filter(n => n.publishedDate >= weekAgoString).length
-  }
-}
-
-export const getTimeAgo = (dateString) => {
-  const date = new Date(dateString)
-  const now = new Date()
-  const diffMs = now - date
-  const diffMins = Math.floor(diffMs / (1000 * 60))
-  const diffHours = Math.floor(diffMs / (1000 * 60 * 60))
-  const diffDays = Math.floor(diffMs / (1000 * 60 * 60 * 24))
-
-  if (diffMins < 1) return 'Just now'
-  if (diffMins < 60) return `${diffMins} min${diffMins === 1 ? '' : 's'} ago`
-  if (diffHours < 24) return `${diffHours} hour${diffHours === 1 ? '' : 's'} ago`
-  if (diffDays === 1) return 'Yesterday'
-  if (diffDays < 7) return `${diffDays} days ago`
-  if (diffDays < 30) return `${Math.floor(diffDays / 7)} week${Math.floor(diffDays / 7) === 1 ? '' : 's'} ago`
-  if (diffDays < 365) return `${Math.floor(diffDays / 30)} month${Math.floor(diffDays / 30) === 1 ? '' : 's'} ago`
-  return `${Math.floor(diffDays / 365)} year${Math.floor(diffDays / 365) === 1 ? '' : 's'} ago`
 }

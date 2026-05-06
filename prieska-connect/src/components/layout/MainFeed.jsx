@@ -87,6 +87,19 @@ const MainFeed = () => {
               </div>
             </div>
           </div>
+
+          {/* Activity Image (if any) */}
+          {activity.image && (
+            <div className="px-2.5 sm:px-4 pb-2">
+              <img 
+                src={activity.image} 
+                alt={activity.title}
+                className="w-full h-36 sm:h-44 object-cover rounded-lg"
+                loading="lazy"
+              />
+            </div>
+          )}
+
           <div className="px-2.5 sm:px-4 pb-2 sm:pb-3">
             <h4 className="font-semibold text-gray-800 dark:text-white text-[11px] sm:text-sm mb-0.5">{activity.title}</h4>
             <p className="text-gray-600 dark:text-gray-300 text-[10px] sm:text-xs leading-relaxed">{activity.description}</p>
