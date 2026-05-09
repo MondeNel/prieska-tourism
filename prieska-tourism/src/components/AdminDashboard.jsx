@@ -1,6 +1,7 @@
 import { useState, useEffect, memo } from 'react';
 import { getExperiences, updateExperience, deleteExperience, addExperience, getAccommodations, updateAccommodation, deleteAccommodation, addAccommodation } from '../services/dataService';
 import EditItemModal from './EditItemModal';
+import ConfirmModal from './ConfirmModal';
 
 // Helper: renders a form field (outside component to keep it stable)
 const renderField = (label, name, type = 'text', value, onChange, placeholder = '') => (
@@ -71,6 +72,8 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [editingType, setEditingType] = useState(null);
+  const [confirmModalOpen, setConfirmModalOpen] = useState(false);
+  const [pendingDelete, setPendingDelete] = useState(null);
 
   useEffect(() => {
     if (isOpen) loadData();
@@ -99,13 +102,21 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     setEditingItem(null);
   };
 
-  const handleDelete = (id, type) => {
-    if (window.confirm('Delete permanently?')) {
-      type === 'experiences' ? deleteExperience(id) : deleteAccommodation(id);
-      loadData();
-      window.dispatchEvent(new Event('storage'));
-    }
-  };
+const handleDelete = (id, type) => {
+  setPendingDelete({ id, type });
+  setConfirmModalOpen(true);
+};
+
+const confirmDelete = () => {
+  if (pendingDelete) {
+    const { id, type } = pendingDelete;
+    if (type === 'experiences') deleteExperience(id);
+    else deleteAccommodation(id);
+    loadData();
+    window.dispatchEvent(new Event('storage'));
+    setPendingDelete(null);
+  }
+};
 
   const startAdd = (type) => {
     setIsAdding(true);
@@ -256,6 +267,17 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
         type={editingType}
         onSave={handleSaveFromModal}
       />
+
+      <ConfirmModal
+  isOpen={confirmModalOpen}
+  onClose={() => setConfirmModalOpen(false)}
+  onConfirm={confirmDelete}
+  title="Confirm Deletion"
+  message="Delete permanently? This action cannot be undone."
+/>
+
+
+
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
