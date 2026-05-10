@@ -3,65 +3,183 @@ import { getExperiences, updateExperience, deleteExperience, addExperience, getA
 import EditItemModal from './EditItemModal';
 import ConfirmModal from './ConfirmModal';
 
-// Helper: renders a form field (outside component to keep it stable)
-const renderField = (label, name, type = 'text', value, onChange, placeholder = '') => (
-  <div>
-    <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
-    {type === 'textarea' ? (
-      <textarea
-        className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
-        rows={2}
-        value={value || ''}
-        onChange={onChange}
-        placeholder={placeholder}
-      />
-    ) : (
-      <input
-        className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
-        type={type}
-        value={value || ''}
-        onChange={onChange}
-        placeholder={placeholder}
-        name={name}
-      />
-    )}
-  </div>
-);
+// Predefined options
+const durationOptions = ["2-3 hrs", "3-4 hrs", "Full day", "Flexible", "Evening", "Seasonal"];
+const categoryOptions = ["wildlife", "adventure", "culture", "heritage", "nature"];
+const guesthouseTypes = ["Lodge", "Boutique Guesthouse", "Country Lodge", "Bed & Breakfast", "Riverside Lodge"];
 
-// Memoized AddForm to prevent unnecessary re-renders and input focus loss
-const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAdd }) => (
-  <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
-    <h4 className="font-semibold text-[#2C3E2F] text-sm mb-3 flex items-center gap-2">
-      <i className="fas fa-plus-circle text-[#B87333]"></i>
-      Add New {activeTab === 'experiences' ? 'Experience' : 'Guesthouse'}
-    </h4>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
-      {activeTab === 'experiences' ? (
-        <>
-          {renderField('Title *', 'title', 'text', addForm.title, handleAddChange)}
-          {renderField('Price', 'price', 'text', addForm.price, handleAddChange)}
-          {renderField('Description *', 'desc', 'textarea', addForm.desc, handleAddChange)}
-          {renderField('Duration', 'duration', 'text', addForm.duration, handleAddChange)}
-          {renderField('Category', 'category', 'text', addForm.category, handleAddChange)}
-          {renderField('Image URL', 'image', 'text', addForm.image, handleAddChange)}
-        </>
+// Helper: renders a form field (supports text, textarea, select, file)
+const renderField = (label, name, type = 'text', value, onChange, placeholder = '', options = []) => {
+  if (type === 'select') {
+    return (
+      <div>
+        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
+        <select
+          className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+          value={value || ''}
+          onChange={onChange}
+          name={name}
+        >
+          <option value="">Select {label}</option>
+          {options.map(opt => <option key={opt} value={opt}>{opt}</option>)}
+        </select>
+      </div>
+    );
+  }
+  if (type === 'file') {
+    return (
+      <div>
+        <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
+        <input
+          type="file"
+          accept="image/*"
+          className="w-full border border-gray-200 rounded-lg p-1 text-xs focus:border-[#B87333] outline-none"
+          onChange={onChange}
+          name={name}
+        />
+        {value && typeof value === 'string' && value.startsWith('data:image') && (
+          <img src={value} alt="Preview" className="mt-1 w-12 h-12 object-cover rounded" />
+        )}
+      </div>
+    );
+  }
+  // text / textarea
+  return (
+    <div>
+      <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
+      {type === 'textarea' ? (
+        <textarea
+          className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+          rows={2}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+        />
       ) : (
-        <>
-          {renderField('Name *', 'name', 'text', addForm.name, handleAddChange)}
-          {renderField('Price Range', 'priceRange', 'text', addForm.priceRange, handleAddChange)}
-          {renderField('Description *', 'description', 'textarea', addForm.description, handleAddChange)}
-          {renderField('Address', 'address', 'text', addForm.address, handleAddChange)}
-          {renderField('Phone', 'contact', 'text', addForm.contact, handleAddChange)}
-          {renderField('Image URLs (comma)', 'imagesInput', 'text', addForm.imagesInput, handleAddChange)}
-        </>
+        <input
+          className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+          type={type}
+          value={value || ''}
+          onChange={onChange}
+          placeholder={placeholder}
+          name={name}
+        />
       )}
     </div>
-    <div className="flex gap-3 mt-4">
-      <button onClick={() => submitAdd(activeTab)} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
-      <button onClick={cancelAdd} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
+  );
+};
+
+// Memoized AddForm with enhanced fields
+const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAdd }) => {
+  const [isCustomCategory, setIsCustomCategory] = useState(false);
+  const [customCategory, setCustomCategory] = useState('');
+
+  const handleCategoryChange = (e) => {
+    const val = e.target.value;
+    if (val === '__custom__') {
+      setIsCustomCategory(true);
+      handleAddChange({ target: { name: 'category', value: '' } });
+    } else {
+      setIsCustomCategory(false);
+      handleAddChange({ target: { name: 'category', value: val } });
+    }
+  };
+
+  const handleCustomCategoryInput = (e) => {
+    const val = e.target.value;
+    setCustomCategory(val);
+    handleAddChange({ target: { name: 'category', value: val } });
+  };
+
+  const handlePriceChange = (e) => {
+    let val = e.target.value;
+    if (!val.startsWith('ZAR')) {
+      val = 'ZAR ' + val.replace(/^ZAR\s*/, '');
+    }
+    handleAddChange({ target: { name: 'price', value: val } });
+  };
+
+  const handleFileUpload = (e, fieldName) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      handleAddChange({ target: { name: fieldName, value: reader.result } });
+    };
+    reader.readAsDataURL(file);
+  };
+
+  return (
+    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6">
+      <h4 className="font-semibold text-[#2C3E2F] text-sm mb-3 flex items-center gap-2">
+        <i className="fas fa-plus-circle text-[#B87333]"></i>
+        Add New {activeTab === 'experiences' ? 'Experience' : 'Guesthouse'}
+      </h4>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
+        {activeTab === 'experiences' ? (
+          <>
+            {renderField('Title *', 'title', 'text', addForm.title, handleAddChange, 'e.g., Hot Air Balloon')}
+            {renderField('Price', 'price', 'text', addForm.price, handlePriceChange, 'ZAR 1,250')}
+            {renderField('Description *', 'desc', 'textarea', addForm.desc, handleAddChange, 'Describe the experience...')}
+            {renderField('Duration', 'duration', 'select', addForm.duration, handleAddChange, '', durationOptions)}
+            
+            {/* Category with custom option */}
+            <div>
+              <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">Category</label>
+              <select
+                className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
+                value={!isCustomCategory ? addForm.category : '__custom__'}
+                onChange={handleCategoryChange}
+              >
+                <option value="">Select category</option>
+                {categoryOptions.map(cat => <option key={cat} value={cat}>{cat}</option>)}
+                <option value="__custom__">+ Create new</option>
+              </select>
+              {isCustomCategory && (
+                <input
+                  type="text"
+                  className="w-full mt-1 border border-gray-200 rounded-lg p-2 text-xs"
+                  placeholder="New category name"
+                  value={customCategory}
+                  onChange={handleCustomCategoryInput}
+                />
+              )}
+            </div>
+
+            {renderField('Image (upload)', 'image', 'file', addForm.image, (e) => handleFileUpload(e, 'image'))}
+          </>
+        ) : (
+          // Guesthouse fields (with file upload for main image)
+          <>
+            {renderField('Name *', 'name', 'text', addForm.name, handleAddChange)}
+            {renderField('Type', 'type', 'select', addForm.type, handleAddChange, '', guesthouseTypes)}
+            {renderField('Price Range', 'priceRange', 'text', addForm.priceRange, handleAddChange, 'R500 - R1000')}
+            {renderField('Description *', 'description', 'textarea', addForm.description, handleAddChange)}
+            {renderField('Address', 'address', 'text', addForm.address, handleAddChange)}
+            {renderField('Phone', 'contact', 'text', addForm.contact, handleAddChange)}
+            {renderField('Image URLs (comma)', 'imagesInput', 'text', addForm.imagesInput, handleAddChange, '/img1.jpg, /img2.jpg')}
+            {renderField('Main Image (upload)', 'uploadedImage', 'file', addForm.uploadedImage, (e) => {
+              const file = e.target.files[0];
+              if (!file) return;
+              const reader = new FileReader();
+              reader.onloadend = () => {
+                // Replace first image or add as first
+                let currentImages = addForm.imagesInput ? addForm.imagesInput.split(',').map(s => s.trim()) : [];
+                currentImages.unshift(reader.result);
+                handleAddChange({ target: { name: 'imagesInput', value: currentImages.join(', ') } });
+              };
+              reader.readAsDataURL(file);
+            })}
+          </>
+        )}
+      </div>
+      <div className="flex gap-3 mt-4">
+        <button onClick={() => submitAdd(activeTab)} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
+        <button onClick={cancelAdd} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
+      </div>
     </div>
-  </div>
-));
+  );
+});
 
 const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [activeTab, setActiveTab] = useState('experiences');
@@ -102,26 +220,26 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     setEditingItem(null);
   };
 
-const handleDelete = (id, type) => {
-  setPendingDelete({ id, type });
-  setConfirmModalOpen(true);
-};
+  const handleDelete = (id, type) => {
+    setPendingDelete({ id, type });
+    setConfirmModalOpen(true);
+  };
 
-const confirmDelete = () => {
-  if (pendingDelete) {
-    const { id, type } = pendingDelete;
-    if (type === 'experiences') deleteExperience(id);
-    else deleteAccommodation(id);
-    loadData();
-    window.dispatchEvent(new Event('storage'));
-    setPendingDelete(null);
-  }
-};
+  const confirmDelete = () => {
+    if (pendingDelete) {
+      const { id, type } = pendingDelete;
+      if (type === 'experiences') deleteExperience(id);
+      else deleteAccommodation(id);
+      loadData();
+      window.dispatchEvent(new Event('storage'));
+      setPendingDelete(null);
+    }
+  };
 
   const startAdd = (type) => {
     setIsAdding(true);
     if (type === 'experiences') {
-      setAddForm({ title: '', category: 'wildlife', icon: 'fa-paw', desc: '', duration: '', price: 'ZAR 0', image: '/fallback.jpg', timeSlots: ['09:00 AM'] });
+      setAddForm({ title: '', category: 'wildlife', icon: 'fa-paw', desc: '', duration: '3-4 hrs', price: 'ZAR 0', image: '', fallback: '/fallback.jpg', timeSlots: ['09:00 AM'] });
     } else {
       setAddForm({ name: '', type: 'Lodge', priceRange: 'R0 - R0', rating: 0, reviewCount: 0, description: '', address: '', features: [], contact: '', whatsapp: '', images: [], imagesInput: '' });
     }
@@ -137,13 +255,18 @@ const confirmDelete = () => {
       if (!addForm.title || !addForm.desc) { alert('Please fill title and description'); return; }
       const priceMatch = addForm.price?.match(/\d+([\d,.]*)/);
       const priceValue = priceMatch ? parseInt(priceMatch[0].replace(/,/g, '')) : 0;
-      const newExp = { ...addForm, priceValue, fallback: addForm.image };
+      const finalImage = addForm.image || '/fallback.jpg';
+      const newExp = { ...addForm, priceValue, image: finalImage, fallback: finalImage };
+      delete newExp.uploadedImage;
       addExperience(newExp);
     } else {
       if (!addForm.name || !addForm.description) { alert('Please fill name and description'); return; }
-      const imagesArray = addForm.imagesInput ? addForm.imagesInput.split(',').map(s => s.trim()) : ['/fallback.jpg'];
+      let imagesArray = addForm.imagesInput ? addForm.imagesInput.split(',').map(s => s.trim()) : ['/fallback.jpg'];
+      // Remove any empty entries
+      imagesArray = imagesArray.filter(img => img && img !== '');
       const newAcc = { ...addForm, images: imagesArray };
       delete newAcc.imagesInput;
+      delete newAcc.uploadedImage;
       addAccommodation(newAcc);
     }
     setIsAdding(false);
@@ -267,17 +390,13 @@ const confirmDelete = () => {
         type={editingType}
         onSave={handleSaveFromModal}
       />
-
       <ConfirmModal
-  isOpen={confirmModalOpen}
-  onClose={() => setConfirmModalOpen(false)}
-  onConfirm={confirmDelete}
-  title="Confirm Deletion"
-  message="Delete permanently? This action cannot be undone."
-/>
-
-
-
+        isOpen={confirmModalOpen}
+        onClose={() => setConfirmModalOpen(false)}
+        onConfirm={confirmDelete}
+        title="Confirm Deletion"
+        message="Delete permanently? This action cannot be undone."
+      />
       <style jsx>{`
         .custom-scrollbar::-webkit-scrollbar { width: 4px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: #f1f1f1; border-radius: 10px; }
