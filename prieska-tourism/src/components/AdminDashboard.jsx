@@ -49,6 +49,7 @@ const renderField = (label, name, type = 'text', value, onChange, placeholder = 
       <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
       {type === 'textarea' ? (
         <textarea
+          name={name}   // ✅ added this line
           className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
           rows={2}
           value={value || ''}
@@ -69,34 +70,25 @@ const renderField = (label, name, type = 'text', value, onChange, placeholder = 
   );
 };
 
-// Memoized AddForm with enhanced fields
-const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAdd }) => {
+// Self‑contained AddForm – manages its own state, so parent never re‑renders while typing
+const AddForm = memo(({ activeTab, onSubmit, onCancel }) => {
+  const [formData, setFormData] = useState(
+    activeTab === 'experiences'
+      ? { title: '', price: 'ZAR 0', desc: '', duration: '3-4 hrs', category: 'wildlife', image: '' }
+      : { name: '', type: 'Lodge', priceRange: 'R0 - R0', description: '', address: '', contact: '', imagesInput: '' }
+  );
   const [isCustomCategory, setIsCustomCategory] = useState(false);
   const [customCategory, setCustomCategory] = useState('');
 
-  const handleCategoryChange = (e) => {
-    const val = e.target.value;
-    if (val === '__custom__') {
-      setIsCustomCategory(true);
-      handleAddChange({ target: { name: 'category', value: '' } });
-    } else {
-      setIsCustomCategory(false);
-      handleAddChange({ target: { name: 'category', value: val } });
-    }
-  };
-
-  const handleCustomCategoryInput = (e) => {
-    const val = e.target.value;
-    setCustomCategory(val);
-    handleAddChange({ target: { name: 'category', value: val } });
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData(prev => ({ ...prev, [name]: value }));
   };
 
   const handlePriceChange = (e) => {
     let val = e.target.value;
-    if (!val.startsWith('ZAR')) {
-      val = 'ZAR ' + val.replace(/^ZAR\s*/, '');
-    }
-    handleAddChange({ target: { name: 'price', value: val } });
+    if (!val.startsWith('ZAR')) val = 'ZAR ' + val.replace(/^ZAR\s*/, '');
+    setFormData(prev => ({ ...prev, price: val }));
   };
 
   const handleFileUpload = (e, fieldName) => {
@@ -104,9 +96,42 @@ const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAd
     if (!file) return;
     const reader = new FileReader();
     reader.onloadend = () => {
-      handleAddChange({ target: { name: fieldName, value: reader.result } });
+      setFormData(prev => ({ ...prev, [fieldName]: reader.result }));
     };
     reader.readAsDataURL(file);
+  };
+
+  const handleCategoryChange = (e) => {
+    const val = e.target.value;
+    if (val === '__custom__') {
+      setIsCustomCategory(true);
+      setFormData(prev => ({ ...prev, category: '' }));
+    } else {
+      setIsCustomCategory(false);
+      setFormData(prev => ({ ...prev, category: val }));
+    }
+  };
+
+  const handleCustomCategoryInput = (e) => {
+    const val = e.target.value;
+    setCustomCategory(val);
+    setFormData(prev => ({ ...prev, category: val }));
+  };
+
+  const handleGuesthouseFileUpload = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      let currentImages = formData.imagesInput ? formData.imagesInput.split(',').map(s => s.trim()) : [];
+      currentImages.unshift(reader.result);
+      setFormData(prev => ({ ...prev, imagesInput: currentImages.join(', ') }));
+    };
+    reader.readAsDataURL(file);
+  };
+
+  const handleSubmit = () => {
+    onSubmit(activeTab, formData);
   };
 
   return (
@@ -118,17 +143,17 @@ const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAd
       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
         {activeTab === 'experiences' ? (
           <>
-            {renderField('Title *', 'title', 'text', addForm.title, handleAddChange, 'e.g., Hot Air Balloon')}
-            {renderField('Price', 'price', 'text', addForm.price, handlePriceChange, 'ZAR 1,250')}
-            {renderField('Description *', 'desc', 'textarea', addForm.desc, handleAddChange, 'Describe the experience...')}
-            {renderField('Duration', 'duration', 'select', addForm.duration, handleAddChange, '', durationOptions)}
+            {renderField('Title *', 'title', 'text', formData.title, handleChange, 'e.g., Hot Air Balloon')}
+            {renderField('Price', 'price', 'text', formData.price, handlePriceChange, 'ZAR 1,250')}
+            {renderField('Description *', 'desc', 'textarea', formData.desc, handleChange, 'Describe the experience...')}
+            {renderField('Duration', 'duration', 'select', formData.duration, handleChange, '', durationOptions)}
             
             {/* Category with custom option */}
             <div>
               <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">Category</label>
               <select
                 className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
-                value={!isCustomCategory ? addForm.category : '__custom__'}
+                value={!isCustomCategory ? formData.category : '__custom__'}
                 onChange={handleCategoryChange}
               >
                 <option value="">Select category</option>
@@ -146,36 +171,24 @@ const AddForm = memo(({ activeTab, addForm, handleAddChange, submitAdd, cancelAd
               )}
             </div>
 
-            {renderField('Image (upload)', 'image', 'file', addForm.image, (e) => handleFileUpload(e, 'image'))}
+            {renderField('Image (upload)', 'image', 'file', formData.image, (e) => handleFileUpload(e, 'image'))}
           </>
         ) : (
-          // Guesthouse fields (with file upload for main image)
           <>
-            {renderField('Name *', 'name', 'text', addForm.name, handleAddChange)}
-            {renderField('Type', 'type', 'select', addForm.type, handleAddChange, '', guesthouseTypes)}
-            {renderField('Price Range', 'priceRange', 'text', addForm.priceRange, handleAddChange, 'R500 - R1000')}
-            {renderField('Description *', 'description', 'textarea', addForm.description, handleAddChange)}
-            {renderField('Address', 'address', 'text', addForm.address, handleAddChange)}
-            {renderField('Phone', 'contact', 'text', addForm.contact, handleAddChange)}
-            {renderField('Image URLs (comma)', 'imagesInput', 'text', addForm.imagesInput, handleAddChange, '/img1.jpg, /img2.jpg')}
-            {renderField('Main Image (upload)', 'uploadedImage', 'file', addForm.uploadedImage, (e) => {
-              const file = e.target.files[0];
-              if (!file) return;
-              const reader = new FileReader();
-              reader.onloadend = () => {
-                // Replace first image or add as first
-                let currentImages = addForm.imagesInput ? addForm.imagesInput.split(',').map(s => s.trim()) : [];
-                currentImages.unshift(reader.result);
-                handleAddChange({ target: { name: 'imagesInput', value: currentImages.join(', ') } });
-              };
-              reader.readAsDataURL(file);
-            })}
+            {renderField('Name *', 'name', 'text', formData.name, handleChange)}
+            {renderField('Type', 'type', 'select', formData.type, handleChange, '', guesthouseTypes)}
+            {renderField('Price Range', 'priceRange', 'text', formData.priceRange, handleChange, 'R500 - R1000')}
+            {renderField('Description *', 'description', 'textarea', formData.description, handleChange)}
+            {renderField('Address', 'address', 'text', formData.address, handleChange)}
+            {renderField('Phone', 'contact', 'text', formData.contact, handleChange)}
+            {renderField('Image URLs (comma)', 'imagesInput', 'text', formData.imagesInput, handleChange, '/img1.jpg, /img2.jpg')}
+            {renderField('Main Image (upload)', 'uploadedImage', 'file', null, handleGuesthouseFileUpload)}
           </>
         )}
       </div>
       <div className="flex gap-3 mt-4">
-        <button onClick={() => submitAdd(activeTab)} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
-        <button onClick={cancelAdd} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
+        <button onClick={handleSubmit} className="bg-green-600 text-white px-4 py-1.5 rounded-lg text-xs font-semibold hover:bg-green-700">Create</button>
+        <button onClick={onCancel} className="bg-gray-300 text-gray-700 px-4 py-1.5 rounded-lg text-xs hover:bg-gray-400">Cancel</button>
       </div>
     </div>
   );
@@ -186,7 +199,6 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
   const [experiences, setExperiences] = useState([]);
   const [accommodations, setAccommodations] = useState([]);
   const [isAdding, setIsAdding] = useState(false);
-  const [addForm, setAddForm] = useState({});
   const [editModalOpen, setEditModalOpen] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [editingType, setEditingType] = useState(null);
@@ -236,47 +248,26 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
     }
   };
 
-  const startAdd = (type) => {
-    setIsAdding(true);
+  const submitAdd = (type, formData) => {
     if (type === 'experiences') {
-      setAddForm({ title: '', category: 'wildlife', icon: 'fa-paw', desc: '', duration: '3-4 hrs', price: 'ZAR 0', image: '', fallback: '/fallback.jpg', timeSlots: ['09:00 AM'] });
-    } else {
-      setAddForm({ name: '', type: 'Lodge', priceRange: 'R0 - R0', rating: 0, reviewCount: 0, description: '', address: '', features: [], contact: '', whatsapp: '', images: [], imagesInput: '' });
-    }
-  };
-
-  const cancelAdd = () => {
-    setIsAdding(false);
-    setAddForm({});
-  };
-
-  const submitAdd = (type) => {
-    if (type === 'experiences') {
-      if (!addForm.title || !addForm.desc) { alert('Please fill title and description'); return; }
-      const priceMatch = addForm.price?.match(/\d+([\d,.]*)/);
+      if (!formData.title || !formData.desc) { alert('Please fill title and description'); return; }
+      const priceMatch = formData.price?.match(/\d+([\d,.]*)/);
       const priceValue = priceMatch ? parseInt(priceMatch[0].replace(/,/g, '')) : 0;
-      const finalImage = addForm.image || '/fallback.jpg';
-      const newExp = { ...addForm, priceValue, image: finalImage, fallback: finalImage };
+      const finalImage = formData.image || '/fallback.jpg';
+      const newExp = { ...formData, priceValue, image: finalImage, fallback: finalImage };
       delete newExp.uploadedImage;
       addExperience(newExp);
     } else {
-      if (!addForm.name || !addForm.description) { alert('Please fill name and description'); return; }
-      let imagesArray = addForm.imagesInput ? addForm.imagesInput.split(',').map(s => s.trim()) : ['/fallback.jpg'];
-      // Remove any empty entries
+      if (!formData.name || !formData.description) { alert('Please fill name and description'); return; }
+      let imagesArray = formData.imagesInput ? formData.imagesInput.split(',').map(s => s.trim()) : ['/fallback.jpg'];
       imagesArray = imagesArray.filter(img => img && img !== '');
-      const newAcc = { ...addForm, images: imagesArray };
+      const newAcc = { ...formData, images: imagesArray };
       delete newAcc.imagesInput;
       delete newAcc.uploadedImage;
       addAccommodation(newAcc);
     }
-    setIsAdding(false);
     loadData();
     window.dispatchEvent(new Event('storage'));
-  };
-
-  const handleAddChange = (e) => {
-    const { name, value } = e.target;
-    setAddForm(prev => ({ ...prev, [name]: value }));
   };
 
   const renderExperienceCard = (exp) => (
@@ -355,7 +346,7 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
         <div className="p-5 overflow-y-auto flex-1 custom-scrollbar">
           <div className="flex justify-end mb-4">
             {!isAdding && (
-              <button onClick={() => startAdd(activeTab)} className="bg-[#B87333] text-white text-xs px-3 py-1.5 rounded-full shadow hover:bg-[#B87333]/80 transition flex items-center gap-1">
+              <button onClick={() => setIsAdding(true)} className="bg-[#B87333] text-white text-xs px-3 py-1.5 rounded-full shadow hover:bg-[#B87333]/80 transition flex items-center gap-1">
                 <i className="fas fa-plus"></i> Add New
               </button>
             )}
@@ -363,10 +354,11 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
           {isAdding && (
             <AddForm
               activeTab={activeTab}
-              addForm={addForm}
-              handleAddChange={handleAddChange}
-              submitAdd={submitAdd}
-              cancelAdd={cancelAdd}
+              onSubmit={(type, data) => {
+                submitAdd(type, data);
+                setIsAdding(false);
+              }}
+              onCancel={() => setIsAdding(false)}
             />
           )}
           <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-3">
