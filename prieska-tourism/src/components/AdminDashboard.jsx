@@ -7,6 +7,7 @@ import ConfirmModal from './ConfirmModal';
 const durationOptions = ["2-3 hrs", "3-4 hrs", "Full day", "Flexible", "Evening", "Seasonal"];
 const categoryOptions = ["wildlife", "adventure", "culture", "heritage", "nature"];
 const guesthouseTypes = ["Lodge", "Boutique Guesthouse", "Country Lodge", "Bed & Breakfast", "Riverside Lodge"];
+const timeSlotOptions = ["07:00 AM", "08:00 AM", "09:00 AM", "10:00 AM", "11:00 AM", "12:00 PM", "01:00 PM", "02:00 PM", "03:00 PM"];
 
 // Helper: renders a form field (supports text, textarea, select, file)
 const renderField = (label, name, type = 'text', value, onChange, placeholder = '', options = []) => {
@@ -49,7 +50,7 @@ const renderField = (label, name, type = 'text', value, onChange, placeholder = 
       <label className="block text-[10px] font-medium text-gray-500 uppercase tracking-wide mb-1">{label}</label>
       {type === 'textarea' ? (
         <textarea
-          name={name}   // ✅ added this line
+          name={name}
           className="w-full border border-gray-200 rounded-lg p-2 text-xs focus:border-[#B87333] outline-none"
           rows={2}
           value={value || ''}
@@ -74,7 +75,7 @@ const renderField = (label, name, type = 'text', value, onChange, placeholder = 
 const AddForm = memo(({ activeTab, onSubmit, onCancel }) => {
   const [formData, setFormData] = useState(
     activeTab === 'experiences'
-      ? { title: '', price: 'ZAR 0', desc: '', duration: '3-4 hrs', category: 'wildlife', image: '' }
+      ? { title: '', price: 'ZAR 0', desc: '', duration: '3-4 hrs', category: 'wildlife', image: '', timeSlots: '09:00 AM' }
       : { name: '', type: 'Lodge', priceRange: 'R0 - R0', description: '', address: '', contact: '', imagesInput: '' }
   );
   const [isCustomCategory, setIsCustomCategory] = useState(false);
@@ -147,6 +148,7 @@ const AddForm = memo(({ activeTab, onSubmit, onCancel }) => {
             {renderField('Price', 'price', 'text', formData.price, handlePriceChange, 'ZAR 1,250')}
             {renderField('Description *', 'desc', 'textarea', formData.desc, handleChange, 'Describe the experience...')}
             {renderField('Duration', 'duration', 'select', formData.duration, handleChange, '', durationOptions)}
+            {renderField('Preferred time', 'timeSlots', 'select', formData.timeSlots, handleChange, '', timeSlotOptions)}
             
             {/* Category with custom option */}
             <div>
@@ -174,6 +176,7 @@ const AddForm = memo(({ activeTab, onSubmit, onCancel }) => {
             {renderField('Image (upload)', 'image', 'file', formData.image, (e) => handleFileUpload(e, 'image'))}
           </>
         ) : (
+          // Guesthouse fields
           <>
             {renderField('Name *', 'name', 'text', formData.name, handleChange)}
             {renderField('Type', 'type', 'select', formData.type, handleChange, '', guesthouseTypes)}
@@ -254,7 +257,9 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
       const priceMatch = formData.price?.match(/\d+([\d,.]*)/);
       const priceValue = priceMatch ? parseInt(priceMatch[0].replace(/,/g, '')) : 0;
       const finalImage = formData.image || '/fallback.jpg';
-      const newExp = { ...formData, priceValue, image: finalImage, fallback: finalImage };
+      // Convert timeSlots from string to array (required by experience card)
+      const timeSlotsArray = [formData.timeSlots];
+      const newExp = { ...formData, priceValue, image: finalImage, fallback: finalImage, timeSlots: timeSlotsArray };
       delete newExp.uploadedImage;
       addExperience(newExp);
     } else {
@@ -280,6 +285,9 @@ const AdminDashboard = ({ user, onLogout, isOpen, onClose }) => {
         <h3 className="font-serif font-bold text-sm text-[#2C3E2F] truncate">{exp.title}</h3>
         <p className="text-[#B87333] font-semibold text-xs mt-0.5">{exp.price}</p>
         <p className="text-gray-400 text-[10px] mt-0.5">{exp.duration}</p>
+        {exp.timeSlots && exp.timeSlots[0] && (
+          <p className="text-gray-400 text-[10px] mt-0.5">⏰ {exp.timeSlots[0]}</p>
+        )}
         <div className="flex justify-end gap-3 mt-2 pt-2 border-t border-gray-100">
           <button onClick={() => handleEdit(exp, 'experiences')} className="text-blue-600 hover:text-blue-800 text-base" title="Edit">
             <i className="fas fa-edit"></i>
