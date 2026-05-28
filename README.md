@@ -9,7 +9,7 @@
 
 A modern, responsive tourism web application showcasing the beauty and experiences of **Prieska**, located in the **Northern Cape, South Africa**. This platform allows visitors to explore unique travel experiences, book activities, and discover the ancient land of vast skies, amber Kalahari sunsets, and untouched wilderness.
 
-🔗 **Live Demo:** [View Demo](#) *(Add your deployed URL here)*
+🔗 **Live Demo:** [View Demo](#) *https://prieska-tourism.netlify.app/*
 
 ---
 
