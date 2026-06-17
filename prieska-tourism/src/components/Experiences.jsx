@@ -4,12 +4,15 @@ import { getExperiences } from '../services/dataService';
 
 const filters = ["all", "wildlife", "adventure", "culture", "heritage", "nature"];
 
-// Featured Card – large hero card
+// Featured Card – large hero card with background image
 const FeaturedCard = ({ experience, onBook }) => {
   return (
-    <div className="relative rounded-lg overflow-hidden cursor-pointer group min-h-[320px] flex flex-col justify-end p-8 bg-[#1A1F2E]">
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0E1A] to-[#3D5080]"></div>
-      <div className="absolute inset-0 bg-gradient-to-t from-black/75 to-transparent"></div>
+    <div 
+      className="relative rounded-lg overflow-hidden cursor-pointer group min-h-[320px] flex flex-col justify-end p-8 bg-cover bg-center"
+      style={{ backgroundImage: `url(${experience.image || '/fallback.jpg'})` }}
+    >
+      <div className="absolute inset-0 bg-gradient-to-br from-black/70 via-black/50 to-black/70"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
       <div className="relative z-10">
         <span className="inline-block bg-[#E8A020] text-white text-[10px] font-bold px-3 py-1 rounded uppercase tracking-wider mb-3">
           ⭐ Signature Experience
@@ -27,14 +30,15 @@ const FeaturedCard = ({ experience, onBook }) => {
   );
 };
 
-// Mini Featured Card – smaller side card
-const MiniFeaturedCard = ({ experience, onBook, gradient }) => {
+// Mini Featured Card – smaller side card with background image
+const MiniFeaturedCard = ({ experience, onBook }) => {
   return (
     <div 
-      className={`relative rounded-lg overflow-hidden cursor-pointer group min-h-[148px] flex flex-col justify-end p-4 ${gradient}`}
+      className="relative rounded-lg overflow-hidden cursor-pointer group min-h-[148px] flex flex-col justify-end p-4 bg-cover bg-center"
+      style={{ backgroundImage: `url(${experience.image || '/fallback.jpg'})` }}
       onClick={() => onBook(experience.title)}
     >
-      <div className="absolute inset-0 bg-gradient-to-t from-black/65 to-transparent"></div>
+      <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
       <div className="relative z-10">
         <h4 className="font-serif text-lg font-bold text-white">{experience.title}</h4>
         <p className="text-xs text-white/70">{experience.duration}</p>
@@ -43,7 +47,7 @@ const MiniFeaturedCard = ({ experience, onBook, gradient }) => {
   );
 };
 
-// Standard Card
+// Standard Card (unchanged)
 const StandardCard = ({ experience, onBook }) => {
   const [selectedTimeSlot, setSelectedTimeSlot] = useState(experience.timeSlots?.[0] || '');
 
@@ -102,12 +106,6 @@ const Experiences = () => {
     setIsBookingOpen(true);
   };
 
-  // Gradient classes for mini featured cards
-  const miniGradients = [
-    "bg-gradient-to-br from-[#4A2810] to-[#C8780A]",
-    "bg-gradient-to-br from-[#2A4A10] to-[#7AAA50]",
-  ];
-
   return (
     <>
       <div id="experiences" className="container mx-auto px-4 py-12 md:py-16">
@@ -131,12 +129,11 @@ const Experiences = () => {
               </div>
               {/* Two mini cards */}
               <div className="flex flex-col gap-4">
-                {featured.slice(1, 3).map((exp, idx) => (
+                {featured.slice(1, 3).map((exp) => (
                   <MiniFeaturedCard
                     key={exp.id}
                     experience={exp}
                     onBook={handleBook}
-                    gradient={miniGradients[idx % miniGradients.length]}
                   />
                 ))}
               </div>
