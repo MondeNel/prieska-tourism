@@ -11,232 +11,173 @@ const Navbar = () => {
   const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
   const [adminUser, setAdminUser] = useState(null);
 
+  // Categories aligned exactly with your main ExploreCategories data schema
+  const categories = [
+    { id: 'places', icon: 'fa-map-marked-alt', label: 'Places to Go' },
+    { id: 'stay', icon: 'fa-bed', label: 'Where to Stay' },
+    { id: 'things', icon: 'fa-compass', label: 'Things to Do' },
+    { id: 'plan', icon: 'fa-calendar-check', label: 'Plan Your Trip' },
+    { id: 'wise', icon: 'fa-lightbulb', label: 'TravelWise' },
+  ];
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    if (isMobileMenuOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = '';
-    }
-    return () => {
-      document.body.style.overflow = '';
-    };
+    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
+    return () => { document.body.style.overflow = ''; };
   }, [isMobileMenuOpen]);
 
   useEffect(() => {
-    const storedAdmin = localStorage.getItem('admin_logged_in');
-    if (storedAdmin) {
-      setAdminUser(JSON.parse(storedAdmin));
-    }
+    const stored = localStorage.getItem('admin_logged_in');
+    if (stored) setAdminUser(JSON.parse(stored));
   }, []);
 
   const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
   const closeMenu = () => setIsMobileMenuOpen(false);
-
-  const handleAdminLoginSuccess = (user) => {
-    setAdminUser(user);
-    setIsAdminDashboardOpen(true);
-  };
-
-  const handleAdminLogout = () => {
-    localStorage.removeItem('admin_logged_in');
-    setAdminUser(null);
-    setIsAdminDashboardOpen(false);
-  };
-
-  const navLinks = [
-    { name: 'Experiences', href: '#experiences', icon: 'fa-compass' },
-    { name: 'Stay', href: '#accommodation', icon: 'fa-bed' },
-    { name: 'Gallery', href: '#gallery', icon: 'fa-image' },
-    { name: 'Stories', href: '#testimonials', icon: 'fa-comment' },
-    { name: 'FAQ', href: '#faq', icon: 'fa-question-circle' },
-  ];
+  const handleAdminLogin = (user) => { setAdminUser(user); setIsAdminDashboardOpen(true); };
+  const handleAdminLogout = () => { localStorage.removeItem('admin_logged_in'); setAdminUser(null); setIsAdminDashboardOpen(false); };
 
   return (
     <>
-      <nav className="fixed top-0 left-0 right-0 z-50 bg-[#1A1F2E] shadow-lg">
-        <div className="container mx-auto px-4 py-3 md:py-4">
-          <div className="flex justify-between items-center">
-            {/* Logo */}
-            <div className="flex items-center space-x-2 cursor-pointer group z-20">
-              <i className="fas fa-tree text-xl md:text-2xl text-[#E8A020] group-hover:scale-110 transition"></i>
-              <span className="font-serif text-sm md:text-xl font-bold text-white">
-                PRIESKA <span className="text-[#E8A020]">TOURISM</span>
-              </span>
-            </div>
+      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled ? 'bg-white shadow-md py-3' : 'bg-transparent py-5'
+      }`}>
+        <div className="container mx-auto px-6 flex items-center justify-between">
+          
+          {/* Brand Logo */}
+          <div className="flex items-center space-x-2 cursor-pointer group">
+            <span className={`font-sans tracking-widest text-base md:text-xl font-black transition-colors ${
+              isScrolled ? 'text-[#1A1F2E]' : 'text-white'
+            }`}>
+              PRIESKA<span className="text-[#E8A020] font-light">TOURISM</span>
+            </span>
+          </div>
 
-            {/* Desktop navigation */}
-            <div className="hidden md:flex space-x-6 lg:space-x-8">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  className="text-white hover:text-[#E8A020] transition font-medium duration-300 text-sm lg:text-base uppercase tracking-wider"
-                >
-                  {link.name}
-                </a>
-              ))}
-            </div>
+          {/* Desktop Search Input */}
+          <div className={`hidden md:flex items-center rounded-full px-4 py-2 border transition-all duration-300 flex-1 max-w-xs mx-4 ${
+            isScrolled 
+              ? 'bg-gray-50 border-gray-200 focus-within:bg-white focus-within:border-[#E8A020]' 
+              : 'bg-white/10 border-white/20 focus-within:bg-white/25 focus-within:border-white'
+          }`}>
+            <i className={`fas fa-search text-sm mr-2 ${isScrolled ? 'text-gray-400' : 'text-white/60'}`}></i>
+            <input
+              type="text"
+              placeholder="Search destination..."
+              className={`bg-transparent border-none text-sm outline-none w-full placeholder-current opacity-80 ${
+                isScrolled ? 'text-[#1A1F2E]' : 'text-white'
+              }`}
+            />
+          </div>
 
-            <div className="hidden md:flex items-center gap-2">
-              {/* Desktop Book Now button */}
-              <button
-                onClick={() => setIsBookingOpen(true)}
-                className="font-semibold px-5 lg:px-6 py-1.5 lg:py-2 rounded-full transition-all duration-300 shadow-lg text-sm lg:text-base bg-[#7A3215] hover:bg-[#7A3215]/80 text-white"
-              >
-                Book Now
-              </button>
-
-              {/* List Your Business button */}
-              <button
-                onClick={() => {
-                  if (adminUser) {
-                    setIsAdminDashboardOpen(true);
-                  } else {
-                    setIsAdminAuthOpen(true);
-                  }
-                }}
-                className="font-semibold px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg text-sm border border-[#E8A020] text-[#E8A020] hover:bg-[#E8A020] hover:text-[#1A1F2E]"
-              >
-                <i className="fas fa-plus mr-1"></i> List Your Business
-              </button>
-
-              {/* Admin button (desktop) – keep for super admin */}
-              {adminUser && (
-                <button
-                  onClick={() => setIsAdminDashboardOpen(true)}
-                  className="font-semibold px-4 py-1.5 rounded-full transition-all duration-300 shadow-lg text-sm bg-gray-700 text-white hover:bg-gray-600"
-                >
-                  <i className="fas fa-user-shield mr-1"></i> Dashboard
-                </button>
-              )}
-            </div>
-
-            {/* Mobile hamburger button */}
+          {/* Action Buttons */}
+          <div className="flex items-center gap-3">
             <button
-              onClick={toggleMenu}
-              className="md:hidden relative z-[60] p-2 rounded-lg focus:outline-none"
-              aria-label="Menu"
+              onClick={() => setIsBookingOpen(true)}
+              className="hidden md:block font-bold px-6 py-2 rounded-full bg-[#E8A020] hover:bg-[#1A1F2E] text-white text-xs uppercase tracking-wider transition-colors duration-300"
             >
-              <div className="w-6 h-5 flex flex-col justify-between">
-                <span className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-2 bg-[#E8A020]' : 'bg-white'}`}></span>
-                <span className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : 'bg-white'}`}></span>
-                <span className={`w-6 h-0.5 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2 bg-[#E8A020]' : 'bg-white'}`}></span>
+              Book Now
+            </button>
+            <button
+              onClick={() => adminUser ? setIsAdminDashboardOpen(true) : setIsAdminAuthOpen(true)}
+              className={`hidden md:block font-bold px-5 py-2 rounded-full border text-xs uppercase tracking-wider transition-all duration-300 ${
+                isScrolled 
+                  ? 'border-gray-300 text-gray-700 hover:border-[#1A1F2E] hover:text-[#1A1F2E]' 
+                  : 'border-white/30 text-white hover:bg-white hover:text-[#1A1F2E]'
+              }`}
+            >
+              List Your Business
+            </button>
+            
+            {/* Mobile Burger Menu Icon */}
+            <button onClick={toggleMenu} className="md:hidden p-2 focus:outline-none" aria-label="Toggle Menu">
+              <div className="w-6 h-4 flex flex-col justify-between">
+                <span className={`w-full h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'rotate-45 translate-y-1.5' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-[#1A1F2E]' : 'bg-white'}`}></span>
+                <span className={`w-full h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-[#1A1F2E]' : 'bg-white'}`}></span>
+                <span className={`w-full h-0.5 transition-all duration-300 ${isMobileMenuOpen ? '-rotate-45 -translate-y-2' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-[#1A1F2E]' : 'bg-white'}`}></span>
               </div>
             </button>
           </div>
         </div>
 
-        {/* Mobile backdrop overlay */}
-        <div
-          className={`fixed inset-0 bg-black/50 z-40 md:hidden transition-all duration-300 ${
-            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible pointer-events-none'
-          }`}
-          onClick={closeMenu}
-        ></div>
-
-        {/* Mobile sliding panel */}
-        <div
-          className={`fixed top-0 right-0 bottom-0 w-[85%] max-w-sm bg-[#1A1F2E] z-50 md:hidden shadow-2xl transform transition-transform duration-300 ease-out ${
-            isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-          }`}
-          style={{ height: '100vh', overflowY: 'auto' }}
-        >
-          <div className="flex flex-col min-h-full p-6">
-            {/* Close button (hamburger transformed) – already outside, but we also add a close icon at the top of the panel for clarity */}
-            <div className="flex justify-end mb-4">
-              <button onClick={closeMenu} className="text-white hover:text-[#E8A020] text-xl">
-                <i className="fas fa-times"></i>
-              </button>
+        {/* Backdrop for mobile drawer */}
+        <div className={`fixed inset-0 bg-black/40 backdrop-blur-sm z-40 md:hidden transition-opacity duration-300 ${isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'}`} onClick={closeMenu}></div>
+        
+        {/* Mobile Navigation Drawer */}
+        <div className={`fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 md:hidden shadow-2xl transform transition-transform duration-300 ease-in-out ${isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+          <div className="flex flex-col h-full bg-white overflow-y-auto">
+            
+            {/* Drawer Header */}
+            <div className="flex items-center justify-between p-6 border-b border-gray-100 bg-gray-50/50">
+              <span className="font-sans tracking-widest text-lg font-black text-[#1A1F2E]">PRIESKA<span className="text-[#E8A020] font-light">TOURISM</span></span>
+              <button onClick={closeMenu} className="text-gray-500 hover:text-[#E8A020] text-xl p-2"><i className="fas fa-times"></i></button>
             </div>
-
-            {/* Logo in menu */}
-            <div className="flex flex-col items-center mb-8">
-              <div className="flex items-center space-x-2">
-                <i className="fas fa-tree text-2xl text-[#E8A020]"></i>
-                <span className="font-serif text-xl font-bold text-white">PRIESKA <span className="text-[#E8A020]">TOURISM</span></span>
+            
+            {/* Main Menu Content */}
+            <div className="p-6 flex flex-col gap-6">
+              
+              {/* SECTION: Explore Categories (Cape Town Style Layout Inside Drawer) */}
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3 px-1">Explore Categories</p>
+                <div className="flex flex-col space-y-2">
+                  {categories.map((cat) => (
+                    <a 
+                      key={cat.id} 
+                      href={`#${cat.id}`} 
+                      onClick={closeMenu} 
+                      className="flex items-center gap-4 px-4 py-3 bg-gray-50 border border-gray-100 rounded-xl hover:border-gray-200 text-[#1A1F2E] font-semibold transition-all shadow-sm group"
+                    >
+                      <div className="w-9 h-9 rounded-full bg-white text-[#1A1F2E] border border-gray-100 flex items-center justify-center transition-colors group-hover:bg-[#E8A020] group-hover:text-white group-hover:border-transparent shadow-sm">
+                        <i className={`fas ${cat.icon} text-xs`}></i>
+                      </div>
+                      <span className="text-xs uppercase tracking-wider">{cat.label}</span>
+                      <i className="fas fa-chevron-right ml-auto text-gray-300 text-[10px] transition-transform group-hover:translate-x-0.5 group-hover:text-[#E8A020]"></i>
+                    </a>
+                  ))}
+                </div>
               </div>
-            </div>
 
-            {/* Navigation links */}
-            <div className="flex flex-col space-y-4">
-              {navLinks.map((link) => (
-                <a
-                  key={link.name}
-                  href={link.href}
-                  onClick={closeMenu}
-                  className="group flex items-center gap-3 px-4 py-3 bg-[#252C3F] rounded-xl hover:bg-[#E8A020]/20 transition-all duration-300 text-white"
-                >
-                  <i className={`fas ${link.icon} text-[#E8A020] text-sm`}></i>
-                  <span className="font-medium">{link.name}</span>
-                  <i className="fas fa-chevron-right ml-auto text-gray-500 group-hover:text-[#E8A020] transition"></i>
-                </a>
-              ))}
-
-              <div className="border-t border-gray-700 my-4"></div>
-
-              {/* Book Now button inside menu */}
-              <button
-                onClick={() => {
-                  setIsBookingOpen(true);
-                  closeMenu();
-                }}
-                className="w-full bg-[#7A3215] text-white py-3 rounded-xl font-semibold hover:bg-[#7A3215]/80 transition"
-              >
-                Book Now
-              </button>
-
-              {/* List Your Business */}
-              <button
-                onClick={() => {
-                  if (adminUser) {
-                    setIsAdminDashboardOpen(true);
-                  } else {
-                    setIsAdminAuthOpen(true);
-                  }
-                  closeMenu();
-                }}
-                className="w-full border border-[#E8A020] text-[#E8A020] py-3 rounded-xl font-semibold hover:bg-[#E8A020] hover:text-[#1A1F2E] transition"
-              >
-                List Your Business
-              </button>
-
-              {adminUser && (
-                <button
-                  onClick={() => {
-                    setIsAdminDashboardOpen(true);
-                    closeMenu();
-                  }}
-                  className="w-full bg-gray-700 text-white py-3 rounded-xl font-semibold hover:bg-gray-600 transition"
-                >
-                  <i className="fas fa-user-shield mr-2"></i> Dashboard
+              {/* SECTION: Utility Page Links */}
+              <div>
+                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-3 px-1">More Information</p>
+                <div className="grid grid-cols-2 gap-2">
+                  {['Gallery', 'Stories', 'FAQ', 'Contact Us'].map((item, idx) => (
+                    <a 
+                      key={idx} 
+                      href={`#${item.toLowerCase().replace(' ', '-')}`} 
+                      onClick={closeMenu} 
+                      className="px-4 py-3 rounded-xl border border-gray-100 text-gray-600 font-medium text-xs hover:bg-gray-50 text-center transition-all"
+                    >
+                      {item}
+                    </a>
+                  ))}
+                </div>
+              </div>
+              
+              {/* SECTION: Primary Actions */}
+              <div className="pt-2 flex flex-col gap-2">
+                <button onClick={() => { setIsBookingOpen(true); closeMenu(); }} className="w-full bg-[#E8A020] hover:bg-[#1A1F2E] text-white py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs shadow-md transition-colors">
+                  Book Your Stay Now
                 </button>
-              )}
-            </div>
-
-            {/* Footer in menu */}
-            <div className="text-center pt-8 mt-auto">
-              <p className="text-xs text-gray-400">© 2025 Prieska Tourism</p>
-              <div className="flex justify-center gap-6 mt-4">
-                <a href="#" className="text-gray-400 hover:text-[#E8A020] transition"><i className="fab fa-facebook-f"></i></a>
-                <a href="#" className="text-gray-400 hover:text-[#E8A020] transition"><i className="fab fa-instagram"></i></a>
-                <a href="#" className="text-gray-400 hover:text-[#E8A020] transition"><i className="fab fa-twitter"></i></a>
+                <button onClick={() => { (adminUser ? setIsAdminDashboardOpen(true) : setIsAdminAuthOpen(true)); closeMenu(); }} className="w-full bg-white border border-gray-200 text-gray-700 py-3.5 rounded-xl font-bold uppercase tracking-wider text-xs hover:bg-gray-50 transition-colors">
+                  List Your Business
+                </button>
               </div>
+            </div>
+            
+            {/* Drawer Footer */}
+            <div className="mt-auto p-6 bg-gray-50 text-center text-[10px] text-gray-400 font-medium tracking-wide border-t border-gray-100">
+              © 2026 Prieska Tourism
             </div>
           </div>
         </div>
       </nav>
 
-      {/* Modals */}
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-      <AdminAuthModal isOpen={isAdminAuthOpen} onClose={() => setIsAdminAuthOpen(false)} onLoginSuccess={handleAdminLoginSuccess} />
+      <AdminAuthModal isOpen={isAdminAuthOpen} onClose={() => setIsAdminAuthOpen(false)} onLoginSuccess={handleAdminLogin} />
       <AdminDashboard user={adminUser} onLogout={handleAdminLogout} isOpen={isAdminDashboardOpen} onClose={() => setIsAdminDashboardOpen(false)} />
     </>
   );
