@@ -11,6 +11,7 @@ import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import { initData } from './services/dataService';
 import MapSection from './components/MapSection';
+import EventsAndAI from './components/EventsAndAI';
 
 function App() {
   useEffect(() => {
@@ -25,6 +26,7 @@ function App() {
       <Stats />
       <Experiences />
       <MapSection />
+      <EventsAndAI />
       <Accommodation />
       <Gallery />
       <Testimonials />
