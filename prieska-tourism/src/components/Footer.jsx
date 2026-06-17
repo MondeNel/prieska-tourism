@@ -2,57 +2,59 @@ const Footer = () => {
   const currentYear = new Date().getFullYear();
 
   return (
-    <footer className="bg-[#1E2A22] text-white/80 pt-12 pb-6 mt-10">
-      <div className="container mx-auto px-6">
-        <div className="grid md:grid-cols-4 gap-8">
+    <footer className="bg-[#1A1F2E] text-white/80 pt-12 pb-6">
+      <div className="container mx-auto px-4">
+        <div className="grid grid-cols-1 md:grid-cols-4 gap-8 mb-8">
           <div>
-            <div className="flex items-center space-x-2 mb-3">
-              <i className="fas fa-tree text-2xl text-[#E6B17E]"></i>
-              <h4 className="font-serif text-xl font-bold text-white">Prieska Karoo Horizons</h4>
+            <div className="font-serif text-xl font-bold text-white mb-2">
+              PRIESKA <span className="text-[#E8A020]">TOURISM</span>
             </div>
-            <p className="text-sm leading-relaxed">Authentic Northern Cape experiences since 1864. Discover the magic of the Karoo.</p>
+            <p className="text-sm text-white/45 leading-relaxed">
+              The official digital home for tourism in the Siyathemba Municipal area — Prieska, Marydale & Niekerkshoop.
+            </p>
+            <div className="flex gap-3 mt-4">
+              <a href="#" className="w-8 h-8 rounded bg-white/10 border border-white/15 flex items-center justify-center hover:bg-[#E8A020]/20 transition">
+                <i className="fab fa-facebook-f text-white/60"></i>
+              </a>
+              <a href="#" className="w-8 h-8 rounded bg-white/10 border border-white/15 flex items-center justify-center hover:bg-[#E8A020]/20 transition">
+                <i className="fab fa-instagram text-white/60"></i>
+              </a>
+              <a href="#" className="w-8 h-8 rounded bg-white/10 border border-white/15 flex items-center justify-center hover:bg-[#E8A020]/20 transition">
+                <i className="fab fa-twitter text-white/60"></i>
+              </a>
+              <a href="#" className="w-8 h-8 rounded bg-white/10 border border-white/15 flex items-center justify-center hover:bg-[#E8A020]/20 transition">
+                <i className="fab fa-youtube text-white/60"></i>
+              </a>
+            </div>
           </div>
           <div>
-            <h5 className="font-semibold mb-3 text-white">Explore</h5>
+            <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3">Explore</div>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-[#E6B17E] cursor-pointer transition flex items-center gap-2"><i className="fas fa-paw text-xs"></i> Safaris</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition flex items-center gap-2"><i className="fas fa-water text-xs"></i> Rafting</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition flex items-center gap-2"><i className="fas fa-paintbrush text-xs"></i> Rock Art</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition flex items-center gap-2"><i className="fas fa-star text-xs"></i> Stargazing</li>
+              {['Attractions', 'Accommodation', 'Adventures', 'Dining', 'Events', 'Tourism Routes'].map((item) => (
+                <li key={item}><a href="#" className="text-white/50 hover:text-[#E8A020] transition">{item}</a></li>
+              ))}
             </ul>
           </div>
           <div>
-            <h5 className="font-semibold mb-3 text-white">Support</h5>
+            <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3">Discover</div>
             <ul className="space-y-2 text-sm">
-              <li className="hover:text-[#E6B17E] cursor-pointer transition">FAQs</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition">Booking Policy</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition">Travel Guide</li>
-              <li className="hover:text-[#E6B17E] cursor-pointer transition">Contact Us</li>
+              {['Prieska', 'Marydale', 'Niekerkshoop', 'Dark Sky Experience', 'Orange River', 'Plan Your Visit'].map((item) => (
+                <li key={item}><a href="#" className="text-white/50 hover:text-[#E8A020] transition">{item}</a></li>
+              ))}
             </ul>
           </div>
           <div>
-            <h5 className="font-semibold mb-3 text-white">Newsletter</h5>
-            <div className="flex mb-4">
-              <input
-                type="email"
-                placeholder="Your email"
-                className="px-3 py-2 rounded-l-lg w-full text-black text-sm outline-none focus:ring-1 focus:ring-[#B87333]"
-              />
-              <button className="bg-[#B87333] px-4 rounded-r-lg hover:bg-[#B87333]/80 transition">
-                <i className="fas fa-paper-plane"></i>
-              </button>
-            </div>
-            <div className="flex gap-4 text-lg">
-              <i className="fab fa-instagram hover:text-[#E6B17E] cursor-pointer transition-transform hover:scale-110"></i>
-              <i className="fab fa-facebook hover:text-[#E6B17E] cursor-pointer transition-transform hover:scale-110"></i>
-              <i className="fab fa-twitter hover:text-[#E6B17E] cursor-pointer transition-transform hover:scale-110"></i>
-              <i className="fab fa-youtube hover:text-[#E6B17E] cursor-pointer transition-transform hover:scale-110"></i>
-            </div>
+            <div className="text-[10px] font-bold text-white/40 uppercase tracking-widest mb-3">Business</div>
+            <ul className="space-y-2 text-sm">
+              {['List Your Business', 'Premium Listings', 'Business Login', 'Advertise', 'Contact Us'].map((item) => (
+                <li key={item}><a href="#" className="text-white/50 hover:text-[#E8A020] transition">{item}</a></li>
+              ))}
+            </ul>
           </div>
         </div>
-        <div className="text-center text-xs border-t border-white/10 mt-8 pt-6">
-          <p>© {currentYear} Prieska Karoo Horizons — Where the Karoo breathes. All rights reserved.</p>
-          <p className="mt-2 text-[10px] text-gray-400">Created by Monde Nel - 072 789 3200, email: mondenel1996@gmail.com</p>
+        <div className="border-t border-white/10 pt-4 flex flex-col md:flex-row justify-between items-center text-xs text-white/30">
+          <span>© {currentYear} Prieska Tourism. A Siyathemba Local Municipality initiative.</span>
+          <span className="mt-1 md:mt-0 text-[#E8A020]/70 font-bold tracking-wider">Siyathemba Local Municipality</span>
         </div>
       </div>
     </footer>

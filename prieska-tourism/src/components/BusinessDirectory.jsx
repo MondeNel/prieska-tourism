@@ -1,18 +1,19 @@
 const BusinessDirectory = () => {
   const categories = [
-    { id: 1, name: 'Accommodation', icon: 'fa-bed', count: '16 listed', premium: true },
-    { id: 2, name: 'Restaurants & Cafés', icon: 'fa-utensils', count: '9 listed', premium: false },
-    { id: 3, name: 'Adventure Operators', icon: 'fa-fire', count: '8 listed', premium: false },
-    { id: 4, name: 'Hunting & Game Farms', icon: 'fa-crosshairs', count: '11 listed', premium: true },
-    { id: 5, name: 'Heritage Sites', icon: 'fa-landmark', count: '14 listed', premium: false },
-    { id: 6, name: 'Agri-Tourism', icon: 'fa-seedling', count: '6 listed', premium: false },
-    { id: 7, name: 'Events & Venues', icon: 'fa-calendar-alt', count: '7 listed', premium: false },
+    { name: 'Accommodation', icon: 'fa-bed', count: 16, premium: true },
+    { name: 'Restaurants & Cafés', icon: 'fa-utensils', count: 9, premium: false },
+    { name: 'Adventure Operators', icon: 'fa-fire', count: 8, premium: false },
+    { name: 'Hunting & Game Farms', icon: 'fa-bullseye', count: 11, premium: true },
+    { name: 'Heritage Sites', icon: 'fa-landmark', count: 14, premium: false },
+    { name: 'Agri-Tourism', icon: 'fa-seedling', count: 6, premium: false },
+    { name: 'Events & Venues', icon: 'fa-calendar-alt', count: 7, premium: false },
+    { name: 'List Your Business', icon: 'fa-plus', count: '', premium: false, isCta: true },
   ];
 
   return (
     <div className="bg-[#FBF6EE] py-12 md:py-16">
       <div className="container mx-auto px-4">
-        <div className="flex flex-wrap justify-between items-center mb-8">
+        <div className="flex justify-between items-end mb-8">
           <div>
             <div className="text-[#C8780A] text-xs font-bold uppercase tracking-widest">Local Business Directory</div>
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-[#1A1F2E]">Find & Book</h2>
@@ -22,35 +23,33 @@ const BusinessDirectory = () => {
           </span>
         </div>
 
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-4">
-          {categories.map((cat) => (
+        <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
+          {categories.map((cat, idx) => (
             <div
-              key={cat.id}
-              className={`bg-white rounded-lg p-5 flex flex-col items-center text-center gap-2 cursor-pointer hover:border-[#7A3215] transition border ${
-                cat.premium ? 'border-[#C8780A]' : 'border-[#7A3215]/15'
+              key={idx}
+              className={`bg-white rounded-lg p-4 text-center cursor-pointer hover:shadow-md transition border ${
+                cat.premium ? 'border-[#C8780A]' : cat.isCta ? 'border-dashed border-[#7A3215]/15 bg-transparent' : 'border-[#7A3215]/15'
               }`}
             >
-              <div className={`w-11 h-11 rounded-lg flex items-center justify-center ${
-                cat.premium ? 'bg-[#FDF6E3]' : 'bg-[#F2E8D5]'
-              }`}>
-                <i className={`fas ${cat.icon} text-xl ${cat.premium ? 'text-[#C8780A]' : 'text-[#7A3215]'}`}></i>
+              <div
+                className={`w-10 h-10 rounded-lg mx-auto flex items-center justify-center ${
+                  cat.isCta ? 'bg-[#7A3215]' : 'bg-[#F2E8D5]'
+                }`}
+              >
+                <i className={`fas ${cat.icon} ${cat.isCta ? 'text-white' : 'text-[#7A3215]'} text-xl`}></i>
               </div>
-              <div className="font-serif font-bold text-sm text-[#1A1F2E]">{cat.name}</div>
-              <div className="text-xs font-bold text-[#5A4A3A]">{cat.count}</div>
+              <div className="font-serif font-bold text-sm text-[#1A1F2E] mt-2">{cat.name}</div>
+              {!cat.isCta && <div className="text-xs text-[#5A4A3A] font-bold">{cat.count} listed</div>}
               {cat.premium && (
-                <span className="text-[9px] font-bold bg-[#C8780A] text-white px-2 py-0.5 rounded-full uppercase tracking-wider">✦ Premium</span>
+                <span className="inline-block mt-1 text-[9px] font-bold bg-[#C8780A] text-white px-2 py-0.5 rounded uppercase tracking-wider">
+                  ✦ Premium
+                </span>
+              )}
+              {cat.isCta && (
+                <div className="text-xs text-[#7A3215] font-bold mt-1">Free · Premium · Platinum</div>
               )}
             </div>
           ))}
-
-          {/* Add New Business Card */}
-          <div className="bg-transparent rounded-lg p-5 flex flex-col items-center text-center gap-2 border border-dashed border-[#7A3215]/15 cursor-pointer hover:border-[#7A3215] transition justify-center">
-            <div className="w-11 h-11 rounded-lg bg-[#7A3215] flex items-center justify-center">
-              <i className="fas fa-plus text-white text-xl"></i>
-            </div>
-            <div className="font-serif font-bold text-sm text-[#1A1F2E]">List Your Business</div>
-            <div className="text-xs font-bold text-[#7A3215]">Free · Premium · Platinum</div>
-          </div>
         </div>
       </div>
     </div>
