@@ -1,6 +1,7 @@
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
+import CategoryStrip from './components/CategoryStrip';
 import Stats from './components/Stats';
 import Experiences from './components/Experiences';
 import Accommodation from './components/Accommodation';
@@ -19,6 +20,7 @@ function App() {
     <div className="bg-karoo-cream">
       <Navbar />
       <Hero />
+      <CategoryStrip />
       <Stats />
       <Experiences />
       <Accommodation />
