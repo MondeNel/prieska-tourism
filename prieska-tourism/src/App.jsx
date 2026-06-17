@@ -10,6 +10,7 @@ import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
 import { initData } from './services/dataService';
+import MapSection from './components/MapSection';
 
 function App() {
   useEffect(() => {
@@ -23,6 +24,7 @@ function App() {
       <CategoryStrip />
       <Stats />
       <Experiences />
+      <MapSection />
       <Accommodation />
       <Gallery />
       <Testimonials />
