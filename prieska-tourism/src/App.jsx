@@ -12,6 +12,7 @@ import Footer from './components/Footer';
 import { initData } from './services/dataService';
 import MapSection from './components/MapSection';
 import EventsAndAI from './components/EventsAndAI';
+import BusinessDirectory from './components/BusinessDirectory';
 
 function App() {
   useEffect(() => {
@@ -28,6 +29,7 @@ function App() {
       <MapSection />
       <EventsAndAI />
       <Accommodation />
+      <BusinessDirectory />
       <Gallery />
       <Testimonials />
       <FAQ />
