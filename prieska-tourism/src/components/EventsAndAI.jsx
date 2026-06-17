@@ -1,70 +1,78 @@
-import { useState } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { getAccommodations, getExperiences } from '../services/dataService';
 
 const EventsAndAI = () => {
-  // Hardcoded events (same as before)
   const events = [
     { month: 'Aug', day: '14', title: 'Prieska Dark Sky Festival', location: 'Prieska Commonage · Free Entry', gold: false },
     { month: 'Sep', day: '02', title: 'Orange River Canoe Challenge', location: 'Orange River Launch Point · Registration Open', gold: true },
     { month: 'Oct', day: '18', title: 'Karoo Wildflower & Heritage Weekend', location: 'Marydale & Prieska · 2 Days', gold: false },
   ];
 
-  // Topics with their responses
   const topics = [
-    { id: 'accommodation', label: '🏨 Where to Stay', icon: 'fa-bed' },
-    { id: 'stargazing', label: '⭐ Stargazing', icon: 'fa-star' },
-    { id: 'events', label: '📅 Upcoming Events', icon: 'fa-calendar-alt' },
-    { id: 'river', label: '🌊 Orange River', icon: 'fa-water' },
-    { id: 'heritage', label: '🏛 Heritage', icon: 'fa-landmark' },
-    { id: 'hunting', label: '🦌 Hunting', icon: 'fa-bullseye' },
-    { id: 'routes', label: '🗺 Tourism Routes', icon: 'fa-route' },
+    { id: 'accommodation', label: 'Where to Stay', icon: 'fa-bed' },
+    { id: 'stargazing', label: 'Stargazing', icon: 'fa-star' },
+    { id: 'events', label: 'Upcoming Events', icon: 'fa-calendar-alt' },
+    { id: 'river', label: 'Orange River', icon: 'fa-water' },
+    { id: 'heritage', label: 'Heritage', icon: 'fa-landmark' },
+    { id: 'hunting', label: 'Hunting', icon: 'fa-bullseye' },
+    { id: 'routes', label: 'Tourism Routes', icon: 'fa-route' },
   ];
 
-  // Initial assistant message
   const initialMessages = [
-    { id: 1, type: 'bot', text: "👋 Welcome to Prieska Guide! I can help you find information about accommodations, stargazing, events, the Orange River, heritage, hunting, and tourism routes. Select a topic below or type your question." },
+    { id: 1, type: 'bot', text: "Welcome to Prieska Guide! I can help you find information about accommodations, stargazing, events, the Orange River, heritage, hunting, and tourism routes. Select a topic below or type your question." },
   ];
 
   const [messages, setMessages] = useState(initialMessages);
   const [input, setInput] = useState('');
   const [selectedTopic, setSelectedTopic] = useState(null);
 
-  // Generate response based on topic
+  // Ref for auto-scrolling
+  const chatContainerRef = useRef(null);
+
+  // Auto-scroll to bottom when messages change
+  useEffect(() => {
+    if (chatContainerRef.current) {
+      chatContainerRef.current.scrollTop = chatContainerRef.current.scrollHeight;
+    }
+  }, [messages]);
+
   const generateResponse = (topicId) => {
     switch (topicId) {
       case 'accommodation': {
         const accs = getAccommodations();
         if (accs.length === 0) return "We don't have any accommodations listed yet. Check back soon!";
-        const list = accs.map(a => `• **${a.name}** – ${a.priceRange} – ${a.address}`).join('\n');
+        const list = accs.map(a =>
+          `• ${a.name}\n  Price: ${a.priceRange}\n  Address: ${a.address}\n  Phone: ${a.contact}`
+        ).join('\n\n');
         return `Here are some places to stay in Prieska:\n\n${list}`;
       }
       case 'stargazing': {
         const exps = getExperiences().filter(e => e.category === 'stargazing' || e.title.toLowerCase().includes('star'));
         if (exps.length === 0) return "We don't have stargazing experiences listed yet. But Prieska is known for its dark skies!";
-        const list = exps.map(e => `• **${e.title}** – ${e.desc}`).join('\n');
+        const list = exps.map(e => `• ${e.title}\n  ${e.desc}`).join('\n\n');
         return `For stargazing, try these experiences:\n\n${list}`;
       }
       case 'events': {
         if (events.length === 0) return "There are no upcoming events at the moment.";
-        const list = events.map(e => `• **${e.month} ${e.day}** – ${e.title} – ${e.location}`).join('\n');
+        const list = events.map(e => `• ${e.month} ${e.day} – ${e.title}\n  ${e.location}`).join('\n\n');
         return `Upcoming events in Prieska:\n\n${list}`;
       }
       case 'river': {
         const exps = getExperiences().filter(e => e.category === 'adventure' || e.title.toLowerCase().includes('river'));
         if (exps.length === 0) return "We don't have Orange River activities listed yet.";
-        const list = exps.map(e => `• **${e.title}** – ${e.desc}`).join('\n');
+        const list = exps.map(e => `• ${e.title}\n  ${e.desc}`).join('\n\n');
         return `Enjoy the Orange River with these activities:\n\n${list}`;
       }
       case 'heritage': {
         const exps = getExperiences().filter(e => e.category === 'heritage');
         if (exps.length === 0) return "We don't have heritage experiences listed yet.";
-        const list = exps.map(e => `• **${e.title}** – ${e.desc}`).join('\n');
+        const list = exps.map(e => `• ${e.title}\n  ${e.desc}`).join('\n\n');
         return `Discover Prieska's rich history:\n\n${list}`;
       }
       case 'hunting': {
         const exps = getExperiences().filter(e => e.title.toLowerCase().includes('hunt'));
         if (exps.length === 0) return "We don't have hunting experiences listed yet.";
-        const list = exps.map(e => `• **${e.title}** – ${e.desc}`).join('\n');
+        const list = exps.map(e => `• ${e.title}\n  ${e.desc}`).join('\n\n');
         return `Hunting opportunities in the Karoo:\n\n${list}`;
       }
       case 'routes': {
@@ -86,10 +94,8 @@ const EventsAndAI = () => {
   const handleTopicClick = (topicId) => {
     setSelectedTopic(topicId);
     const topic = topics.find(t => t.id === topicId);
-    // Add user message
     const userMsg = { id: Date.now(), type: 'user', text: topic.label };
     setMessages(prev => [...prev, userMsg]);
-    // Generate bot response
     const responseText = generateResponse(topicId);
     const botMsg = { id: Date.now() + 1, type: 'bot', text: responseText };
     setMessages(prev => [...prev, botMsg]);
@@ -98,13 +104,10 @@ const EventsAndAI = () => {
   const handleSendMessage = () => {
     const trimmed = input.trim();
     if (!trimmed) return;
-
-    // Add user message
     const userMsg = { id: Date.now(), type: 'user', text: trimmed };
     setMessages(prev => [...prev, userMsg]);
     setInput('');
 
-    // Try to match keywords to topics
     const lower = trimmed.toLowerCase();
     let matchedTopic = null;
     if (lower.includes('stay') || lower.includes('accommodation') || lower.includes('lodge') || lower.includes('guesthouse')) {
@@ -169,19 +172,21 @@ const EventsAndAI = () => {
             <h2 className="font-serif text-2xl md:text-3xl font-bold text-white mb-4">Ask Prieska Guide</h2>
 
             <div className="bg-[#252C3F] rounded-xl p-4 md:p-5">
-              {/* Chat Header */}
               <div className="flex items-center gap-3 pb-4 border-b border-white/10">
                 <div className="w-9 h-9 rounded-full bg-[#7A3215] flex items-center justify-center">
                   <i className="fas fa-robot text-white text-lg"></i>
                 </div>
                 <div>
                   <div className="font-serif font-bold text-white text-sm">Prieska Guide</div>
-                  <div className="text-xs text-[#E8A020] font-bold">● Online 24/7</div>
+                  <div className="text-xs text-[#E8A020] font-bold"><i className="fas fa-circle text-[8px] mr-1"></i> Online 24/7</div>
                 </div>
               </div>
 
-              {/* Chat Messages */}
-              <div className="space-y-3 py-4 max-h-[300px] overflow-y-auto">
+              {/* Chat messages container with auto-scroll */}
+              <div
+                ref={chatContainerRef}
+                className="space-y-3 py-4 max-h-[300px] overflow-y-auto scroll-smooth"
+              >
                 {messages.map((msg) => (
                   <div key={msg.id} className={`flex ${msg.type === 'user' ? 'justify-end' : 'justify-start'}`}>
                     <div className={`max-w-[85%] px-3 py-2 rounded-lg text-sm whitespace-pre-line ${
