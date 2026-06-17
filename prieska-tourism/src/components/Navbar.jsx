@@ -53,25 +53,10 @@ const Navbar = () => {
             <span className={`font-sans tracking-widest text-base md:text-xl font-black transition-colors ${
               isScrolled ? 'text-[#1A1F2E]' : 'text-white'
             }`}>
-              PRIESKA<span className="text-[#E8A020] font-light">TOURISM</span>
+              SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
             </span>
           </div>
 
-          {/* Desktop Search Input */}
-          <div className={`hidden md:flex items-center rounded-full px-4 py-2 border transition-all duration-300 flex-1 max-w-xs mx-4 ${
-            isScrolled 
-              ? 'bg-gray-50 border-gray-200 focus-within:bg-white focus-within:border-[#E8A020]' 
-              : 'bg-white/10 border-white/20 focus-within:bg-white/25 focus-within:border-white'
-          }`}>
-            <i className={`fas fa-search text-sm mr-2 ${isScrolled ? 'text-gray-400' : 'text-white/60'}`}></i>
-            <input
-              type="text"
-              placeholder="Search destination..."
-              className={`bg-transparent border-none text-sm outline-none w-full placeholder-current opacity-80 ${
-                isScrolled ? 'text-[#1A1F2E]' : 'text-white'
-              }`}
-            />
-          </div>
 
           {/* Action Buttons */}
           <div className="flex items-center gap-3">

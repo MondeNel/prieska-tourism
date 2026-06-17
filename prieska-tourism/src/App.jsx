@@ -4,6 +4,7 @@ import Hero from './components/Hero';
 import ExploreCategories from './components/ExploreCategories';
 import CategoryStrip from './components/CategoryStrip';
 import Stats from './components/Stats';
+import TopAttractions from './components/TopAttractions'; 
 import Experiences from './components/Experiences';
 import MapSection from './components/MapSection';
 import EventsAndAI from './components/EventsAndAI';
@@ -42,6 +43,9 @@ function App() {
         
         {/* Destination Authority Metrics */}
         <Stats />
+        
+        {/* 2. Signature Highlights (Cape Town styled regional filtration grid) */}
+        <TopAttractions />
         
         {/* 5. Prime Focus Discovery Cards (What to see & maps) */}
         <Experiences />
