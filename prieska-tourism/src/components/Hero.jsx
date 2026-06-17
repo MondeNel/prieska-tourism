@@ -29,6 +29,16 @@ const Hero = () => {
     alert(`Searching for ${guests} guests on ${checkIn || 'any date'}`);
   };
 
+  // Tags with Font Awesome icons
+  const tags = [
+    { icon: 'fa-star', label: 'Stargazing' },
+    { icon: 'fa-water', label: 'Orange River' },
+    { icon: 'fa-campground', label: 'Camping' },
+    { icon: 'fa-bullseye', label: 'Hunting' },
+    { icon: 'fa-landmark', label: 'Heritage' },
+    { icon: 'fa-car', label: 'Self-Drive' },
+  ];
+
   return (
     <>
       <div 
@@ -37,7 +47,7 @@ const Hero = () => {
           backgroundImage: "url('/orange_river.jpg')",
         }}
       >
-        {/* Dark gradient overlay to simulate the prototype's sky/land blend */}
+        {/* Dark gradient overlay */}
         <div className="absolute inset-0 bg-gradient-to-b from-black/60 via-black/40 to-black/70"></div>
         
         <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
@@ -56,7 +66,7 @@ const Hero = () => {
               )}
             </p>
 
-            {/* Search Bar – matching the prototype */}
+            {/* Search Bar */}
             <div className="bg-white rounded-lg flex items-center gap-0 max-w-xl w-full shadow-lg overflow-hidden">
               <select className="border-none bg-[#F2E8D5] font-bold text-[#7A3215] text-sm px-4 py-3 outline-none cursor-pointer min-w-[140px]">
                 <option>All Experiences</option>
@@ -78,14 +88,14 @@ const Hero = () => {
               </button>
             </div>
 
-            {/* Tags – matching the prototype */}
+            {/* Tags with icons */}
             <div className="flex flex-wrap gap-2 mt-4">
-              {['⭐ Stargazing', '🌊 Orange River', '🏕 Camping', '🦌 Hunting', '🏛 Heritage', '🚗 Self-Drive'].map((tag) => (
+              {tags.map((tag) => (
                 <span
-                  key={tag}
-                  className="text-xs font-bold text-white/80 bg-white/10 border border-white/20 rounded-full px-3 py-1 cursor-pointer hover:bg-white/20 hover:text-white transition"
+                  key={tag.label}
+                  className="text-xs font-bold text-white/80 bg-white/10 border border-white/20 rounded-full px-3 py-1 cursor-pointer hover:bg-white/20 hover:text-white transition flex items-center gap-1.5"
                 >
-                  {tag}
+                  <i className={`fas ${tag.icon}`}></i> {tag.label}
                 </span>
               ))}
             </div>
@@ -100,7 +110,7 @@ const Hero = () => {
           </div>
         </div>
 
-        {/* Mobile Quick CTA – visible only on mobile */}
+        {/* Mobile Quick CTA */}
         <div className="absolute bottom-0 left-0 right-0 px-4 pb-6 z-20 md:hidden">
           <a
             href="#accommodation"
@@ -116,7 +126,6 @@ const Hero = () => {
         </div>
       </div>
 
-      {/* Add keyframes for scroll dot animation */}
       <style jsx>{`
         @keyframes scrolldot {
           0% { top: -50%; }
