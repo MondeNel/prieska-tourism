@@ -62,7 +62,7 @@ const Stats = () => {
               <div className="text-2xl md:text-4xl font-bold text-white">
                 <CountUpNumber end={stat.value} suffix={stat.suffix} startCounting={startCounting} />
               </div>
-              <div className="text-[10px] md:text-xs text-white/70 font-bold uppercase tracking-widest mt-1">
+              <div className="text-[10px] md:text-xs font-bold uppercase tracking-widest mt-1 text-[#E8A020]">
                 {stat.label}
               </div>
             </div>
