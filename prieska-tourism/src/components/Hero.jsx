@@ -67,26 +67,27 @@ const Hero = () => {
             </p>
 
             {/* Search Bar */}
-            <div className="bg-white rounded-lg flex items-center gap-0 max-w-xl w-full shadow-lg overflow-hidden">
-              <select className="border-none bg-[#F2E8D5] font-bold text-[#7A3215] text-sm px-4 py-3 outline-none cursor-pointer min-w-[140px]">
-                <option>All Experiences</option>
-                <option>Accommodation</option>
-                <option>Adventures</option>
-                <option>Restaurants</option>
-                <option>Heritage</option>
-              </select>
-              <input
-                type="text"
-                placeholder="Search attractions, lodges, activities…"
-                className="flex-1 border-none px-4 py-3 text-sm outline-none text-[#1A1F2E]"
-              />
-              <button
-                onClick={handleSearch}
-                className="bg-[#7A3215] text-white font-bold px-5 py-3 hover:bg-[#7A3215]/80 transition text-sm uppercase tracking-wider whitespace-nowrap"
-              >
-                Search
-              </button>
-            </div>
+            {/* Search Bar – responsive sizing */}
+<div className="bg-white rounded-lg flex items-center gap-0 max-w-xl w-full shadow-lg overflow-hidden">
+  <select className="border-none bg-[#F2E8D5] font-bold text-[#7A3215] text-xs md:text-sm px-2 md:px-4 py-2 md:py-3 outline-none cursor-pointer min-w-[100px] md:min-w-[140px]">
+    <option>All Experiences</option>
+    <option>Accommodation</option>
+    <option>Adventures</option>
+    <option>Restaurants</option>
+    <option>Heritage</option>
+  </select>
+  <input
+    type="text"
+    placeholder="Search attractions, lodges, activities…"
+    className="flex-1 border-none px-2 md:px-4 py-2 md:py-3 text-xs md:text-sm outline-none text-[#1A1F2E] placeholder:text-xs md:placeholder:text-sm"
+  />
+  <button
+    onClick={handleSearch}
+    className="bg-[#7A3215] text-white font-bold px-3 md:px-5 py-2 md:py-3 hover:bg-[#7A3215]/80 transition text-[10px] md:text-sm uppercase tracking-wider whitespace-nowrap"
+  >
+    Search
+  </button>
+</div>
 
             {/* Tags with icons */}
             <div className="flex flex-wrap gap-2 mt-4">

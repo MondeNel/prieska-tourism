@@ -13,6 +13,7 @@ import { initData } from './services/dataService';
 import MapSection from './components/MapSection';
 import EventsAndAI from './components/EventsAndAI';
 import BusinessDirectory from './components/BusinessDirectory';
+import ExploreCategories from './components/ExploreCategories';
 
 function App() {
   useEffect(() => {
@@ -24,6 +25,7 @@ function App() {
       <Navbar />
       <Hero />
       <CategoryStrip />
+      <ExploreCategories />
       <Stats />
       <Experiences />
       <MapSection />
