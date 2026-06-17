@@ -1,14 +1,25 @@
 import { MapContainer, TileLayer, Marker, Popup, Polyline } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
+import { locations } from '../data/locations';
 
-// Fix default marker icons in Leaflet (needed for webpack)
+// Fix default marker icons
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
   iconRetinaUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon-2x.png',
   iconUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-icon.png',
   shadowUrl: 'https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.7.1/images/marker-shadow.png',
 });
+
+// Custom marker colors using divIcon
+const createMarkerIcon = (color) => {
+  return L.divIcon({
+    html: `<div style="background-color:${color};width:12px;height:12px;border-radius:50%;border:2px solid white;box-shadow:0 2px 4px rgba(0,0,0,0.3);"></div>`,
+    className: '',
+    iconSize: [12, 12],
+    iconAnchor: [6, 6],
+  });
+};
 
 const InteractiveMap = () => {
   // Coordinates for towns
@@ -29,6 +40,20 @@ const InteractiveMap = () => {
 
   const center = [-29.6, 22.6];
 
+  // Category color mapping
+  const categoryColors = {
+    attraction: '#7A3215',
+    accommodation: '#C8780A',
+    adventure: '#1A1F2E',
+    river: 'rgba(60,120,200,0.7)',
+  };
+
+  // Filter locations by category
+  const attractions = locations.filter(loc => loc.category === 'attraction');
+  const accommodations = locations.filter(loc => loc.category === 'accommodation');
+  const adventures = locations.filter(loc => loc.category === 'adventure');
+  const riverPoints = locations.filter(loc => loc.category === 'river');
+
   return (
     <div className="relative rounded-lg overflow-hidden h-[260px]">
       <MapContainer
@@ -44,7 +69,8 @@ const InteractiveMap = () => {
         />
         {/* Orange River polyline */}
         <Polyline positions={riverPath} color="rgba(60,120,200,0.7)" weight={4} />
-        {/* Town markers */}
+        
+        {/* Town markers with popups */}
         {towns.map((town) => (
           <Marker key={town.name} position={[town.lat, town.lon]}>
             <Popup>
@@ -54,8 +80,76 @@ const InteractiveMap = () => {
             </Popup>
           </Marker>
         ))}
+
+        {/* Attraction markers */}
+        {attractions.map((loc) => (
+          <Marker
+            key={loc.id}
+            position={[loc.lat, loc.lon]}
+            icon={createMarkerIcon(categoryColors.attraction)}
+          >
+            <Popup>
+              <strong>{loc.name}</strong>
+              <br />
+              {loc.description}
+              <br />
+              <i className={`fas ${loc.icon}`}></i> Attraction
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* Accommodation markers */}
+        {accommodations.map((loc) => (
+          <Marker
+            key={loc.id}
+            position={[loc.lat, loc.lon]}
+            icon={createMarkerIcon(categoryColors.accommodation)}
+          >
+            <Popup>
+              <strong>{loc.name}</strong>
+              <br />
+              {loc.description}
+              <br />
+              <i className={`fas ${loc.icon}`}></i> Accommodation
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* Adventure markers */}
+        {adventures.map((loc) => (
+          <Marker
+            key={loc.id}
+            position={[loc.lat, loc.lon]}
+            icon={createMarkerIcon(categoryColors.adventure)}
+          >
+            <Popup>
+              <strong>{loc.name}</strong>
+              <br />
+              {loc.description}
+              <br />
+              <i className={`fas ${loc.icon}`}></i> Adventure
+            </Popup>
+          </Marker>
+        ))}
+
+        {/* River markers */}
+        {riverPoints.map((loc) => (
+          <Marker
+            key={loc.id}
+            position={[loc.lat, loc.lon]}
+            icon={createMarkerIcon(categoryColors.river)}
+          >
+            <Popup>
+              <strong>{loc.name}</strong>
+              <br />
+              {loc.description}
+              <br />
+              <i className={`fas ${loc.icon}`}></i> River Point
+            </Popup>
+          </Marker>
+        ))}
       </MapContainer>
-      {/* Legend Overlay (same as before, positioned on top) */}
+      {/* Legend Overlay (same as before) */}
       <div className="absolute right-4 top-1/2 transform -translate-y-1/2 bg-white rounded-lg shadow-lg p-4 min-w-[140px] z-10">
         <div className="font-serif text-sm font-bold text-[#1A1F2E] mb-2">Map Layers</div>
         <div className="space-y-1.5">
