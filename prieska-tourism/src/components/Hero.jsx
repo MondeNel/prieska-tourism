@@ -2,141 +2,119 @@ import { useState, useEffect } from 'react';
 import BookingModal from './BookingModal';
 
 const Hero = () => {
-  const [checkIn, setCheckIn] = useState('');
-  const [guests, setGuests] = useState(2);
   const [isBookingOpen, setIsBookingOpen] = useState(false);
-  
-  // Typing animation state
-  const fullText = "Ancient land of vast skies, amber Kalahari sunsets, and untouched wilderness. Every horizon tells a story millions of years in the making.";
-  const [displayedText, setDisplayedText] = useState('');
-  const [isTypingComplete, setIsTypingComplete] = useState(false);
+  const [searchQuery, setSearchQuery] = useState('');
+  const [searchCategory, setSearchCategory] = useState('All Experiences');
 
+  // Star generation for background
   useEffect(() => {
-    let index = 0;
-    const timer = setInterval(() => {
-      if (index < fullText.length) {
-        setDisplayedText(fullText.slice(0, index + 1));
-        index++;
-      } else {
-        clearInterval(timer);
-        setIsTypingComplete(true);
+    const container = document.getElementById('stars-container');
+    if (container) {
+      container.innerHTML = '';
+      for (let i = 0; i < 80; i++) {
+        const star = document.createElement('div');
+        star.className = 'star';
+        const size = Math.random() * 2 + 1;
+        star.style.cssText = `
+          width: ${size}px;
+          height: ${size}px;
+          left: ${Math.random() * 100}%;
+          top: ${Math.random() * 80}%;
+          animation-delay: ${Math.random() * 4}s;
+          animation-duration: ${2 + Math.random() * 3}s;
+        `;
+        container.appendChild(star);
       }
-    }, 40); // Adjust speed here (ms per character)
-
-    return () => clearInterval(timer);
+    }
   }, []);
 
-  const handleSearch = () => {
-    alert(`Searching for ${guests} guests on ${checkIn || 'any date'}`);
+  const handleSearch = (e) => {
+    e.preventDefault();
+    alert(`Searching for "${searchQuery}" in category "${searchCategory}"`);
+    // Later this will trigger a search results page or filter experiences
   };
 
   return (
     <>
-      <div 
-        className="relative h-screen min-h-[600px] bg-cover bg-center"
-        style={{ 
-          backgroundImage: "url('/orange_river.jpg')",
-        }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-br from-black/55 to-black/25"></div>
+      <div className="relative h-screen min-h-[600px] overflow-hidden">
+        {/* Sky background */}
+        <div className="absolute inset-0 bg-gradient-to-b from-[#0A0E1A] via-[#1A2540] to-[#3D4F7A]"></div>
         
-        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center">
-          <div className="max-w-3xl text-white">
-            <p className="text-[#E6B17E] tracking-wider text-[10px] md:text-sm font-semibold mb-2 md:mb-3 uppercase flex items-center gap-1 md:gap-2">
-              <i className="fas fa-location-dot text-xs md:text-sm"></i> 
+        {/* River */}
+        <div className="absolute bottom-[38%] left-0 right-0 h-[14%] bg-gradient-to-b from-[#3C64A0]/70 via-[#28508C]/85 to-[#1E3C6E]/60"></div>
+        
+        {/* Land */}
+        <div className="absolute bottom-0 left-0 right-0 h-[48%] bg-gradient-to-b from-[#8B4A20] via-[#6B3010] to-[#4A1E08]"></div>
+        
+        {/* Stars container */}
+        <div id="stars-container" className="absolute top-0 left-0 right-0 h-[55%]"></div>
+
+        {/* Content */}
+        <div className="relative z-10 container mx-auto px-4 h-full flex flex-col justify-center items-center text-center">
+          <div className="max-w-3xl">
+            <p className="text-[#E8A020] tracking-wider text-sm font-semibold mb-3 uppercase flex items-center justify-center gap-2">
+              <i className="fas fa-location-dot"></i> 
               <span>NORTHERN CAPE, SOUTH AFRICA</span>
             </p>
-            <h1 className="font-serif text-3xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight mb-3 md:mb-5">
-              Where the Karoo <span className="italic text-[#E6B17E]">Breathes</span>
+            <h1 className="font-serif text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-bold leading-tight text-white mb-4">
+              Where the <span className="text-[#E8A020]">Karoo</span><br className="hidden sm:block" /> Meets the Sky
             </h1>
-            <p className="text-sm md:text-lg text-white/90 max-w-xl mb-6 md:mb-8 leading-relaxed min-h-[100px]">
-              {displayedText}
-              {!isTypingComplete && (
-                <span className="inline-block w-0.5 h-4 md:h-5 bg-white/70 ml-1 animate-pulse"></span>
-              )}
+            <p className="text-base md:text-lg text-white/80 max-w-xl mx-auto mb-8 leading-relaxed">
+              Discover Siyathemba — ancient landscapes, endless stars, and the mighty Orange River
             </p>
-            <div className="flex flex-wrap gap-3 md:gap-4">
-              <a href="#experiences" className="bg-[#B87333] hover:bg-[#B87333]/80 text-white font-semibold px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 shadow-lg inline-flex items-center text-sm md:text-base">
-                <i className="fas fa-compass mr-2 text-xs md:text-sm"></i> 
-                Explore
-              </a>
-              <button 
-                onClick={() => setIsBookingOpen(true)}
-                className="bg-white/20 backdrop-blur-sm border border-white/40 hover:bg-white/30 text-white font-medium px-4 md:px-6 py-2 md:py-3 rounded-full transition-all duration-300 inline-flex items-center text-sm md:text-base"
+
+            {/* Search Bar */}
+            <form onSubmit={handleSearch} className="bg-white rounded-lg shadow-xl overflow-hidden flex flex-col sm:flex-row max-w-2xl mx-auto">
+              <select
+                value={searchCategory}
+                onChange={(e) => setSearchCategory(e.target.value)}
+                className="w-full sm:w-auto px-4 py-3 bg-[#FBF6EE] border-r border-gray-200 text-sm font-semibold text-[#7A3215] outline-none cursor-pointer"
               >
-                <i className="fas fa-calendar-check mr-2 text-xs md:text-sm"></i> 
-                Book Now
-              </button>
-            </div>
-          </div>
-        </div>
-        
-        {/* Booking Widget - Hidden on mobile, visible on tablet/desktop */}
-        <div className="absolute bottom-0 left-0 right-0 transform translate-y-1/2 px-4 md:px-10 z-20 hidden md:block">
-          <div className="bg-white/95 backdrop-blur-md rounded-2xl shadow-2xl p-6 max-w-5xl mx-auto">
-            <div className="grid grid-cols-1 md:grid-cols-4 gap-4">
-              <div>
-                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-calendar-alt mr-1"></i> CHECK IN
-                </label>
-                <input
-                  type="date"
-                  value={checkIn}
-                  onChange={(e) => setCheckIn(e.target.value)}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition"
-                />
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-user mr-1"></i> GUESTS
-                </label>
-                <select
-                  value={guests}
-                  onChange={(e) => setGuests(Number(e.target.value))}
-                  className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition"
-                >
-                  {[1, 2, 3, 4, 5, 6].map(num => (
-                    <option key={num}>{num} Adult{num !== 1 ? 's' : ''}</option>
-                  ))}
-                </select>
-              </div>
-              <div>
-                <label className="block text-sm font-semibold text-[#3D2B1A] mb-1">
-                  <i className="far fa-tag mr-1"></i> EXPERIENCE
-                </label>
-                <select className="w-full border border-gray-200 rounded-xl px-4 py-2.5 focus:border-[#B87333] outline-none transition">
-                  <option>All Experiences</option>
-                  <option>Safari & Wildlife</option>
-                  <option>Adventure & River</option>
-                  <option>Culture & Heritage</option>
-                </select>
-              </div>
+                <option>All Experiences</option>
+                <option>Accommodation</option>
+                <option>Adventures</option>
+                <option>Restaurants</option>
+                <option>Heritage</option>
+              </select>
+              <input
+                type="text"
+                value={searchQuery}
+                onChange={(e) => setSearchQuery(e.target.value)}
+                placeholder="Search attractions, lodges, activities…"
+                className="flex-1 px-4 py-3 text-sm outline-none"
+              />
               <button
-                onClick={handleSearch}
-                className="bg-[#2C3E2F] hover:bg-[#2C3E2F]/80 text-white font-bold py-2.5 rounded-xl transition shadow-md flex items-center justify-center gap-2"
+                type="submit"
+                className="w-full sm:w-auto px-6 py-3 bg-[#7A3215] text-white font-bold text-sm uppercase tracking-wider hover:bg-[#7A3215]/80 transition"
               >
-                <i className="fas fa-search"></i> Search
+                <i className="fas fa-search mr-2"></i> Search
               </button>
+            </form>
+
+            {/* Tags */}
+            <div className="flex flex-wrap gap-2 justify-center mt-4">
+              {['⭐ Stargazing', '🌊 Orange River', '🏕 Camping', '🦌 Hunting', '🏛 Heritage', '🚗 Self-Drive'].map((tag) => (
+                <span
+                  key={tag}
+                  className="text-xs font-semibold text-white/70 bg-white/10 border border-white/20 rounded-full px-3 py-1 cursor-pointer hover:bg-white/20 hover:text-white transition"
+                  onClick={() => setSearchQuery(tag.replace(/[^\w\s]/g, '').trim())}
+                >
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </div>
-        
-       {/* Mobile Quick CTA - Visible only on mobile */}
-<div className="absolute bottom-0 left-0 right-0 px-4 pb-6 z-20 md:hidden">
-  <a
-    href="#accommodation"
-    onClick={(e) => {
-      e.preventDefault();
-      document.getElementById('accommodation')?.scrollIntoView({ behavior: 'smooth' });
-    }}
-    className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-3 rounded-xl font-semibold shadow-lg flex items-center justify-center gap-2 text-sm"
-  >
-    <i className="fas fa-calendar-check"></i>
-    Book Your Stay Now
-  </a>
-</div>
+
+        {/* Scroll Indicator */}
+        <div className="absolute bottom-6 left-1/2 transform -translate-x-1/2 z-10 flex flex-col items-center gap-2">
+          <span className="text-xs font-bold text-white/50 uppercase tracking-widest">Explore</span>
+          <div className="w-[2px] h-6 bg-white/20 rounded relative overflow-hidden">
+            <div className="absolute top-0 left-0 w-full h-1/2 bg-[#E8A020] animate-scroll-dot"></div>
+          </div>
+        </div>
       </div>
-      
+
       <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
     </>
   );
