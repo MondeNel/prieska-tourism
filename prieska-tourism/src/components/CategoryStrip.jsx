@@ -14,9 +14,30 @@ const categories = [
 const CategoryStrip = ({ onCategorySelect }) => {
   const [active, setActive] = useState('all');
 
+  // Map category IDs to section IDs
+  const sectionMap = {
+    all: 'experiences',
+    stay: 'accommodation',
+    adventure: 'experiences',
+    stargazing: 'experiences',
+    dining: 'experiences',
+    heritage: 'experiences',
+    farming: 'experiences',
+    events: 'experiences',
+  };
+
   const handleClick = (id) => {
     setActive(id);
     if (onCategorySelect) onCategorySelect(id);
+
+    // Scroll to the corresponding section
+    const sectionId = sectionMap[id];
+    if (sectionId) {
+      const element = document.getElementById(sectionId);
+      if (element) {
+        element.scrollIntoView({ behavior: 'smooth', block: 'start' });
+      }
+    }
   };
 
   return (

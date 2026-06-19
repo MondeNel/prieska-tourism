@@ -85,7 +85,9 @@ const Accommodation = () => {
               <div className="relative">
                 <ImageCarousel images={place.images} onOpenGallery={() => openGallery(place)} />
                 <div className="absolute top-4 left-4 z-10"><span className="bg-gradient-to-r from-amber-500 to-yellow-600 text-white text-[10px] font-bold px-3 py-1 rounded-full shadow-lg">{place.type}</span></div>
-                <button onClick={() => openGallery(place)} className="absolute bottom-4 right-4 z-10 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-black/80 transition">📷 View Photos</button>
+                <button onClick={() => openGallery(place)} className="absolute bottom-4 right-4 z-10 bg-black/60 backdrop-blur-sm text-white text-[10px] px-3 py-1.5 rounded-full flex items-center gap-1.5 hover:bg-black/80 transition">
+                  <i className="fas fa-camera"></i> View Photos
+                </button>
               </div>
               <div className="p-6">
                 <div className="flex justify-between mb-3"><h3 className="text-xl font-serif font-bold text-[#2C3E2F] group-hover:text-[#B87333] transition">{place.name}</h3><span className="text-amber-600 font-semibold text-xs bg-amber-50 px-2 py-1 rounded-full">{place.priceRange}</span></div>
@@ -100,15 +102,23 @@ const Accommodation = () => {
                   <button onClick={() => window.location.href=`tel:${place.contact}`} className="flex-1 border border-amber-500 text-amber-600 hover:bg-amber-500 hover:text-white py-2 rounded-xl text-xs font-medium flex justify-center items-center gap-1"><i className="fas fa-phone-alt"></i>Call</button>
                   <button onClick={() => openWhatsApp(place.whatsapp)} className="flex-1 bg-green-600 text-white hover:bg-green-700 py-2 rounded-xl text-xs font-medium flex justify-center items-center gap-1"><i className="fab fa-whatsapp"></i>WhatsApp</button>
                 </div>
-                <button onClick={() => getDirections(place.name)} className="w-full border border-blue-500 text-blue-600 py-2 rounded-xl text-xs font-medium hover:bg-blue-50 transition mb-2">📍 Get Directions</button>
-                <button onClick={() => openBooking(place)} className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:shadow-lg transition mb-2">📅 Book Now</button>
-                <button onClick={() => toggleReviews(place.id)} className="w-full border border-gray-300 text-gray-600 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition mb-2">⭐ View Reviews ({place.reviewCount})</button>
+                <button onClick={() => getDirections(place.name)} className="w-full border border-blue-500 text-blue-600 py-2 rounded-xl text-xs font-medium hover:bg-blue-50 transition mb-2">
+                  <i className="fas fa-location-dot"></i> Get Directions
+                </button>
+                <button onClick={() => openBooking(place)} className="w-full bg-gradient-to-r from-amber-500 to-yellow-600 text-white py-2.5 rounded-xl text-sm font-semibold hover:shadow-lg transition mb-2">
+                  <i className="fas fa-calendar-check"></i> Book Now
+                </button>
+                <button onClick={() => toggleReviews(place.id)} className="w-full border border-gray-300 text-gray-600 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition mb-2">
+                  <i className="fas fa-star"></i> View Reviews ({place.reviewCount})
+                </button>
                 {visibleReviews[place.id] && (
                   <div className="mb-3 space-y-2">
                     {place.reviews?.length ? place.reviews.map(r => <div key={r.id} className="bg-gray-50 p-3 rounded-lg border-l-2 border-amber-400"><div className="flex justify-between"><span className="text-xs font-semibold">{r.user}</span><StarRating rating={r.rating} size="2.5" /></div><p className="text-[10px] mt-1 text-gray-600">{r.text}</p><p className="text-[8px] text-gray-400 mt-1">{r.date}</p></div>) : <p className="text-center text-[10px] text-gray-500">No reviews yet.</p>}
                   </div>
                 )}
-                <button onClick={() => openReview(place)} className="w-full border border-dashed border-gray-300 text-gray-500 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition mb-2">✍️ Write a Review</button>
+                <button onClick={() => openReview(place)} className="w-full border border-dashed border-gray-300 text-gray-500 py-2 rounded-xl text-xs font-medium hover:border-amber-400 hover:text-amber-600 transition mb-2">
+                  <i className="fas fa-pen"></i> Write a Review
+                </button>
                 <div className="flex justify-between items-center pt-3 border-t"><span className="text-[10px] text-gray-400"><i className="fas fa-phone-alt mr-1"></i>{place.contact}</span><div className="flex gap-2">{place.facebook && <a href={place.facebook} className="text-gray-400 hover:text-blue-600"><i className="fab fa-facebook-f"></i></a>}{place.instagram && <a href={place.instagram} className="text-gray-400 hover:text-pink-600"><i className="fab fa-instagram"></i></a>}</div></div>
               </div>
             </div>
