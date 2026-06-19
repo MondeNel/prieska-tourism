@@ -58,23 +58,10 @@ const Navbar = () => {
             </span>
           </a>
 
-          {/* Desktop Centralized Links - Direct styling from capetown.travel */}
-          <div className="hidden lg:flex items-center space-x-8">
-            {categories.map((cat) => (
-              <a
-                key={cat.id}
-                href={`#${cat.id}`}
-                className={`text-xs font-bold uppercase tracking-widest transition-colors duration-300 hover:text-[#E8A020] ${
-                  isScrolled ? 'text-gray-700' : 'text-white/90'
-                }`}
-              >
-                {cat.label}
-              </a>
-            ))}
-          </div>
+          {/* NOTE: Desktop Category Links have been removed to eliminate redundancy with the interactive anchor panel cards */}
 
           {/* Action Buttons Layer */}
-          <div className="flex items-center gap-4">
+          <div className="flex items-center gap-4 ml-auto">
             <button
               onClick={() => adminUser ? setIsAdminDashboardOpen(true) : setIsAdminAuthOpen(true)}
               className={`hidden md:block text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
@@ -127,7 +114,7 @@ const Navbar = () => {
             </div>
             
             <div className="p-6 flex flex-col gap-8">
-              {/* Category Links */}
+              {/* Category Links inside Drawer context */}
               <div>
                 <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 px-1">Explore</p>
                 <div className="flex flex-col space-y-1">
