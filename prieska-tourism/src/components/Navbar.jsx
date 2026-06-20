@@ -1,181 +1,180 @@
 import { useState, useEffect } from 'react';
-import BookingModal from './BookingModal';
-import AdminAuthModal from './AdminAuthModal';
-import AdminDashboard from './AdminDashboard';
 
 const Navbar = () => {
+  const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
-  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
-  const [isBookingOpen, setIsBookingOpen] = useState(false);
-  const [isAdminAuthOpen, setIsAdminAuthOpen] = useState(false);
-  const [isAdminDashboardOpen, setIsAdminDashboardOpen] = useState(false);
-  const [adminUser, setAdminUser] = useState(null);
-
-  const categories = [
-    { id: 'places', icon: 'fa-map-marked-alt', label: 'Places to Go' },
-    { id: 'stay', icon: 'fa-bed', label: 'Where to Stay' },
-    { id: 'things', icon: 'fa-compass', label: 'Things to Do' },
-    { id: 'plan', icon: 'fa-calendar-check', label: 'Plan Your Trip' },
-    { id: 'wise', icon: 'fa-lightbulb', label: 'TravelWise' },
-  ];
 
   useEffect(() => {
-    const handleScroll = () => setIsScrolled(window.scrollY > 50);
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   useEffect(() => {
-    document.body.style.overflow = isMobileMenuOpen ? 'hidden' : '';
-    return () => { document.body.style.overflow = ''; };
-  }, [isMobileMenuOpen]);
+    if (isOpen) {
+      document.body.style.overflow = 'hidden';
+    } else {
+      document.body.style.overflow = 'unset';
+    }
+    return () => { document.body.style.overflow = 'unset'; };
+  }, [isOpen]);
 
-  useEffect(() => {
-    const stored = localStorage.getItem('admin_logged_in');
-    if (stored) setAdminUser(JSON.parse(stored));
-  }, []);
+  const navLinks = [
+    { label: 'Places to Go', href: '#places' },
+    { label: 'Where to Stay', href: '#stay' },
+    { label: 'Things to Do', href: '#todo' },
+    { label: 'Plan Your Trip', href: '#plan' },
+    { label: 'Travelwise', href: '#travelwise' },
+  ];
 
-  const toggleMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
-  const closeMenu = () => setIsMobileMenuOpen(false);
-  const handleAdminLogin = (user) => { setAdminUser(user); setIsAdminDashboardOpen(true); };
-  const handleAdminLogout = () => { localStorage.removeItem('admin_logged_in'); setAdminUser(null); setIsAdminDashboardOpen(false); };
+  const tools = [
+    { label: 'Gallery', href: '#gallery' },
+    { label: 'Stories', href: '#stories' },
+    { label: 'FAQ', href: '#faq' },
+    { label: 'Contact', href: '#contact' },
+  ];
 
   return (
     <>
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-500 ${
-        isScrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-sm py-4 border-b border-gray-100' 
-          : 'bg-gradient-to-b from-black/40 to-transparent py-6'
+      {/* Main Global Navigation Bar */}
+      <nav className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
+        isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-4'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex items-center justify-between">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
           
-          {/* Brand Logo - Styled clean & flat like Cape Town Travel */}
-          <a href="#" className="flex items-center space-x-1 cursor-pointer tracking-[0.2em]">
-            <span className={`font-sans text-base md:text-lg font-black transition-colors duration-300 ${
-              isScrolled ? 'text-gray-900' : 'text-white'
-            }`}>
+          {/* Brand Logo */}
+          <a href="#" className="tracking-[0.2em] select-none shrink-0 z-50">
+            <span className="font-sans text-sm sm:text-base font-black text-gray-900">
               SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
             </span>
           </a>
 
-          {/* NOTE: Desktop Category Links have been removed to eliminate redundancy with the interactive anchor panel cards */}
-
-          {/* Action Buttons Layer */}
-          <div className="flex items-center gap-4 ml-auto">
-            <button
-              onClick={() => adminUser ? setIsAdminDashboardOpen(true) : setIsAdminAuthOpen(true)}
-              className={`hidden md:block text-[11px] font-bold uppercase tracking-wider transition-colors duration-300 ${
-                isScrolled ? 'text-gray-600 hover:text-gray-900' : 'text-white/80 hover:text-white'
-              }`}
+          {/* Desktop Navigation Links */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8">
+            {navLinks.map((link) => (
+              <a 
+                key={link.label} 
+                href={link.href} 
+                className="text-[11px] font-black uppercase tracking-widest text-gray-700 hover:text-[#E8A020] transition-colors duration-200 whitespace-nowrap"
+              >
+                {link.label}
+              </a>
+            ))}
+            <a 
+              href="#business" 
+              className="text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#E8A020] transition-colors duration-200 whitespace-nowrap"
             >
               List Your Business
-            </button>
-            
-            <button
-              onClick={() => setIsBookingOpen(true)}
-              className="hidden md:block font-bold px-6 py-2.5 rounded-full bg-[#E8A020] hover:bg-gray-900 text-white text-xs uppercase tracking-widest shadow-sm hover:shadow transition-all duration-300 transform hover:-translate-y-0.5"
-            >
+            </a>
+          </div>
+
+          {/* Desktop Call to Action */}
+          <div className="hidden lg:block">
+            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-6 py-3.5 rounded-full transition-all duration-300 shadow-xs">
               Book Now
             </button>
-            
-            {/* Mobile Burger Menu Button */}
-            <button 
-              onClick={toggleMenu} 
-              className="lg:hidden p-2 relative z-50 focus:outline-none" 
-              aria-label="Toggle Menu"
-            >
-              <div className="w-5 h-4 flex flex-col justify-between">
-                <span className={`w-full h-0.5 transition-all duration-300 origin-left ${isMobileMenuOpen ? 'rotate-45' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-gray-900' : 'bg-white'}`}></span>
-                <span className={`w-full h-0.5 transition-all duration-300 ${isMobileMenuOpen ? 'opacity-0' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-gray-900' : 'bg-white'}`}></span>
-                <span className={`w-full h-0.5 transition-all duration-300 origin-left ${isMobileMenuOpen ? '-rotate-45' : ''} ${isScrolled || isMobileMenuOpen ? 'bg-gray-900' : 'bg-white'}`}></span>
-              </div>
-            </button>
           </div>
-        </div>
 
-        {/* Mobile Drawer Backdrop */}
-        <div 
-          className={`fixed inset-0 bg-gray-900/40 backdrop-blur-sm z-40 lg:hidden transition-opacity duration-300 ${
-            isMobileMenuOpen ? 'opacity-100 visible' : 'opacity-0 invisible'
-          }`} 
-          onClick={closeMenu}
-        ></div>
-        
-        {/* Mobile Side Drawer Navigation */}
-        <div className={`fixed top-0 right-0 bottom-0 w-full max-w-sm bg-white z-50 lg:hidden shadow-2xl transform transition-transform duration-500 ease-out ${
-          isMobileMenuOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}>
-          <div className="flex flex-col h-full bg-white overflow-y-auto">
-            
-            <div className="flex items-center justify-between p-6 border-b border-gray-100">
-              <span className="font-sans tracking-widest text-base font-black text-gray-900">
-                SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
-              </span>
-            </div>
-            
-            <div className="p-6 flex flex-col gap-8">
-              {/* Category Links inside Drawer context */}
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 px-1">Explore</p>
-                <div className="flex flex-col space-y-1">
-                  {categories.map((cat) => (
-                    <a 
-                      key={cat.id} 
-                      href={`#${cat.id}`} 
-                      onClick={closeMenu} 
-                      className="flex items-center justify-between py-3.5 px-2 rounded-lg text-gray-800 font-bold text-xs uppercase tracking-wider hover:bg-gray-50 transition-colors"
-                    >
-                      <span>{cat.label}</span>
-                      <i className="fas fa-chevron-right text-[10px] text-gray-300"></i>
-                    </a>
-                  ))}
-                </div>
-              </div>
+          {/* Mobile Menu Toggle button */}
+          <button 
+            onClick={() => setIsOpen(!isOpen)}
+            className="lg:hidden z-50 w-10 h-10 flex flex-col justify-center items-center gap-1.5 focus:outline-hidden"
+            aria-label="Toggle navigation menu"
+          >
+            <span className={`w-5 h-0.5 bg-gray-900 transition-all duration-300 origin-center ${isOpen ? 'rotate-45 translate-y-2' : ''}`} />
+            <span className={`w-5 h-0.5 bg-gray-900 transition-all duration-300 ${isOpen ? 'opacity-0' : ''}`} />
+            <span className={`w-5 h-0.5 bg-gray-900 transition-all duration-300 origin-center ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
+          </button>
 
-              {/* Extras Column */}
-              <div>
-                <p className="text-[10px] font-bold uppercase tracking-widest text-gray-400 mb-4 px-1">Planning Tools</p>
-                <div className="grid grid-cols-2 gap-2">
-                  {['Gallery', 'Stories', 'FAQ', 'Contact'].map((item, idx) => (
-                    <a 
-                      key={idx} 
-                      href={`#${item.toLowerCase()}`} 
-                      onClick={closeMenu} 
-                      className="p-3 rounded-xl border border-gray-100 text-gray-700 font-bold text-[11px] uppercase tracking-wider hover:bg-gray-50 text-center transition-all"
-                    >
-                      {item}
-                    </a>
-                  ))}
-                </div>
-              </div>
-              
-              {/* Call To Actions */}
-              <div className="pt-4 flex flex-col gap-3">
-                <button 
-                  onClick={() => { setIsBookingOpen(true); closeMenu(); }} 
-                  className="w-full bg-[#E8A020] hover:bg-gray-900 text-white py-4 rounded-full font-bold uppercase tracking-widest text-xs shadow-sm transition-colors"
-                >
-                  Book Now
-                </button>
-                <button 
-                  onClick={() => { (adminUser ? setIsAdminDashboardOpen(true) : setIsAdminAuthOpen(true)); closeMenu(); }} 
-                  className="w-full bg-white border border-gray-200 text-gray-800 py-4 rounded-full font-bold uppercase tracking-widest text-xs hover:bg-gray-50 transition-colors"
-                >
-                  List Your Business
-                </button>
-              </div>
-            </div>
-            
-            <div className="mt-auto p-6 bg-gray-50 text-center text-[10px] text-gray-400 font-bold tracking-widest border-t border-gray-100 uppercase">
-              © 2026 Siyathemba Tourism
-            </div>
-          </div>
         </div>
       </nav>
 
-      <BookingModal isOpen={isBookingOpen} onClose={() => setIsBookingOpen(false)} />
-      <AdminAuthModal isOpen={isAdminAuthOpen} onClose={() => setIsAdminAuthOpen(false)} onLoginSuccess={handleAdminLogin} />
-      <AdminDashboard user={adminUser} onLogout={handleAdminLogout} isOpen={isAdminDashboardOpen} onClose={() => setIsAdminDashboardOpen(false)} />
+      {/* FULL RESPONSIVE MOBILE RIGHT-SIDE DRAWER OVERLAY */}
+      <div className={`fixed inset-0 z-30 lg:hidden transition-all duration-300 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
+        
+        {/* Dimmed Background Backdrop Dismissal Layer */}
+        <div 
+          className={`absolute inset-0 bg-[#1A1F2E]/40 backdrop-blur-xs transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
+          onClick={() => setIsOpen(false)}
+        />
+
+        {/* Right Drawer Panel Sheet */}
+        <div className={`absolute top-0 right-0 bottom-0 w-full sm:w-[380px] bg-white shadow-2xl flex flex-col justify-between p-6 transition-transform duration-300 ease-in-out transform ${
+          isOpen ? 'translate-x-0' : 'translate-x-full'
+        }`} style={{ height: '100dvh' }}>
+          
+          {/* Scrollable Content Engine Wrapper */}
+          <div className="overflow-y-auto flex-grow pt-16 pr-1 space-y-8 custom-scrollbar">
+            
+            {/* Header Identity Baseline inside menu */}
+            <div className="tracking-[0.15em] select-none pb-2 border-b border-gray-50">
+              <span className="font-sans text-xs font-black text-gray-900">
+                SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
+              </span>
+            </div>
+
+            {/* Section: Main Direct Links */}
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">
+                Explore
+              </span>
+              <div className="flex flex-col">
+                {navLinks.map((link) => (
+                  <a 
+                    key={link.label} 
+                    href={link.href}
+                    onClick={() => setIsOpen(false)}
+                    className="flex justify-between items-center py-3.5 text-xs font-black uppercase tracking-wider text-gray-800 hover:text-[#E8A020] border-b border-gray-50 group transition-colors"
+                  >
+                    <span>{link.label}</span>
+                    <i className="fas fa-chevron-right text-[10px] text-gray-300 group-hover:text-[#E8A020] transition-colors"></i>
+                  </a>
+                ))}
+              </div>
+            </div>
+
+            {/* Section: Grid Tools */}
+            <div>
+              <span className="text-[9px] font-black uppercase tracking-[0.2em] text-gray-400 block mb-4">
+                Planning Tools
+              </span>
+              <div className="grid grid-cols-2 gap-2">
+                {tools.map((tool) => (
+                  <a
+                    key={tool.label}
+                    href={tool.href}
+                    onClick={() => setIsOpen(false)}
+                    className="py-3 text-center rounded-xl border border-gray-100 text-[10px] font-black uppercase tracking-widest text-gray-700 hover:bg-gray-50 transition-colors"
+                  >
+                    {tool.label}
+                  </a>
+                ))}
+              </div>
+            </div>
+
+          </div>
+
+          {/* Persistent Action Baselines Drawer Layer */}
+          <div className="pt-4 border-t border-gray-100 space-y-2.5 bg-white shrink-0">
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="w-full bg-[#E8A020] hover:bg-[#1A1F2E] text-white font-black text-[10px] tracking-widest uppercase py-4 rounded-xl transition-colors duration-300 shadow-xs"
+            >
+              Book Now
+            </button>
+            <button 
+              onClick={() => setIsOpen(false)} 
+              className="w-full bg-white border border-gray-200 text-gray-700 hover:bg-gray-50 font-black text-[10px] tracking-widest uppercase py-4 rounded-xl transition-colors"
+            >
+              List Your Business
+            </button>
+          </div>
+
+        </div>
+
+      </div>
     </>
   );
 };
