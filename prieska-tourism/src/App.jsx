@@ -1,7 +1,6 @@
 import { useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
-import ExploreCategories from './components/ExploreCategories';
 import CategoryStrip from './components/CategoryStrip';
 import Stats from './components/Stats';
 import TopAttractions from './components/TopAttractions'; 
@@ -22,51 +21,44 @@ function App() {
   }, []);
 
   return (
-    // Clean, modern, bright canvas structure. Ensure 'bg-karoo-cream' is a 
-    // very soft, minimal off-white (e.g., #FAFAf9 or #FBFBFA) to keep that airy feel.
     <div className="bg-karoo-cream min-h-screen font-sans antialiased selection:bg-[#E8A020]/30">
       
-      {/* 1. Header & Brand Navigation Layer */}
+      {/* 1. Header & Brand Navigation Layer with Imaged Mega Dropdowns */}
       <Navbar />
       
-      {/* 2. Visual Hook (Editorial Image / Headline Showcase) */}
+      {/* 2. Visual Hook (Editorial Image / Headline Showcase - Fully Unobstructed) */}
       <Hero />
       
-      {/* 3. The Interactive Anchor Panel (Shifted below Hero for the signature overlay look) */}
-      <div className="relative z-30 -mt-16 max-w-5xl mx-auto px-4">
-        <ExploreCategories />
-      </div>
-      
-      {/* 4. Orientation & Core Overview Anchors */}
+      {/* 3. Orientation & Core Overview Anchors */}
       <main className="pt-12 space-y-24 md:space-y-32">
         <CategoryStrip />
         
         {/* Destination Authority Metrics */}
         <Stats />
         
-        {/* 2. Signature Highlights (Cape Town styled regional filtration grid) */}
+        {/* Signature Highlights (Cape Town styled regional filtration grid) */}
         <TopAttractions />
         
-        {/* 5. Prime Focus Discovery Cards (What to see & maps) */}
+        {/* Prime Focus Discovery Cards (What to see & maps) */}
         <Experiences />
         <MapSection />
         
-        {/* 6. Live / Dynamic Integration Layer */}
+        {/* Live / Dynamic Integration Layer */}
         <EventsAndAI />
         
-        {/* 7. Conversion Blocks (Where to sleep & full tourism listing directory) */}
+        {/* Conversion Blocks (Where to sleep & full tourism listing directory) */}
         <Accommodation />
         <BusinessDirectory />
         
-        {/* 8. Visual Inspiration & Validation */}
+        {/* Visual Inspiration & Validation */}
         <Gallery />
         <Testimonials />
         
-        {/* 9. Contextual Assistance */}
+        {/* Contextual Assistance */}
         <FAQ />
       </main>
       
-      {/* 10. Clean-cut High Contrast Directory Footer */}
+      {/* 4. Clean-cut High Contrast Directory Footer */}
       <Footer />
       
     </div>
