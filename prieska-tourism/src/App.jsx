@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import CategoryStrip from './components/CategoryStrip';
@@ -13,53 +13,56 @@ import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
+import BookingModal from './components/BookingModal'; // Import the Modal
 import { initData } from './services/dataService';
 
 function App() {
+  const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [preselectedBooking, setPreselectedBooking] = useState(null);
+
   useEffect(() => { 
     initData(); 
   }, []);
 
+  // Universal opener for components to call directly
+  const openBooking = (itemName = null) => {
+    setPreselectedBooking(itemName);
+    setIsBookingOpen(true);
+  };
+
   return (
     <div className="bg-karoo-cream min-h-screen font-sans antialiased selection:bg-[#E8A020]/30">
       
-      {/* 1. Header & Brand Navigation Layer with Imaged Mega Dropdowns */}
-      <Navbar />
+      {/* Pass openBooking prop down to the navbar */}
+      <Navbar onBookNow={() => openBooking()} />
       
-      {/* 2. Visual Hook (Editorial Image / Headline Showcase - Fully Unobstructed) */}
       <Hero />
       
-      {/* 3. Orientation & Core Overview Anchors */}
       <main className="pt-12 space-y-24 md:space-y-32">
         <CategoryStrip />
-        
-        {/* Destination Authority Metrics */}
         <Stats />
-        
-        {/* Signature Highlights (Cape Town styled regional filtration grid) */}
         <TopAttractions />
         
-        {/* Prime Focus Discovery Cards (What to see & maps) */}
-        <Experiences />
+        {/* Pass down to context cards so they can preselect items */}
+        <Experiences onBookItem={openBooking} />
         <MapSection />
-        
-        {/* Live / Dynamic Integration Layer */}
         <EventsAndAI />
-        
-        {/* Conversion Blocks (Where to sleep & full tourism listing directory) */}
-        <Accommodation />
+        <Accommodation onBookItem={openBooking} />
         <BusinessDirectory />
         
-        {/* Visual Inspiration & Validation */}
         <Gallery />
         <Testimonials />
-        
-        {/* Contextual Assistance */}
         <FAQ />
       </main>
       
-      {/* 4. Clean-cut High Contrast Directory Footer */}
       <Footer />
+
+      {/* Global Modal Insertion */}
+      <BookingModal 
+        isOpen={isBookingOpen} 
+        onClose={() => setIsBookingOpen(false)} 
+        preselectedExperience={preselectedBooking}
+      />
       
     </div>
   );

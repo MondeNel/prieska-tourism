@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 
-const Navbar = () => {
+const Navbar = ({ onBookNow }) => {
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
   const [activeDropdown, setActiveDropdown] = useState(null);
@@ -13,8 +13,7 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Comprehensive image-rich data architecture mirroring premium tourism indices
-const megaMenuData = {
+  const megaMenuData = {
     places: {
       title: "Top Regional Hubs",
       items: [
@@ -46,17 +45,20 @@ const megaMenuData = {
         { 
           name: "Riverview Lodge", 
           desc: "Beautiful riverside lodge along the Orange River with stunning sunset views. Perfect for families. From R850.", 
-          img: "/riverviewlodge1.jpg" 
+          img: "/riverviewlodge1.jpg",
+          bookable: true 
         },
         { 
           name: "Gariep Country Lodge", 
           desc: "Charming country lodge on Main Road featuring traditional Karoo hospitality and warm garden spaces. From R650.", 
-          img: "/gariep-guesthouse2.jpg" 
+          img: "/gariep-guesthouse2.jpg",
+          bookable: true
         },
         { 
           name: "BoKáro Boutique Guesthouse", 
           desc: "Luxury boutique guesthouse on Arbeck St offering personalized service, elegant rooms, and a spa area. From R750.", 
-          img: "/guesthouse_room.jpg" 
+          img: "/guesthouse_room.jpg",
+          bookable: true
         },
         { 
           name: "Explore All Lodging", 
@@ -65,23 +67,26 @@ const megaMenuData = {
         }
       ]
     },
-   todo: {
+    todo: {
       title: "Recommended Experiences",
       items: [
         { 
           name: "Karoo Safari", 
           desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks. ZAR 1,250.", 
-          img: "/karoo_image1.jpg" 
+          img: "/karoo_image1.jpg",
+          bookable: true
         },
         { 
           name: "Orange River Rafting", 
           desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi‑day expeditions available. ZAR 950.", 
-          img: "/karoo_river-rafting.jpg" 
+          img: "/karoo_river-rafting.jpg",
+          bookable: true
         },
         { 
           name: "San Rock Art Tours", 
           desc: "10,000‑year‑old Bushman paintings in situ. Cultural storytelling by local San descendants. ZAR 600.", 
-          img: "/karoo_image2.jpg" 
+          img: "/karoo_image2.jpg",
+          bookable: true
         },
         { 
           name: "More Things to Do", 
@@ -117,9 +122,17 @@ const megaMenuData = {
     { label: 'Travelwise', key: 'travelwise' },
   ];
 
+  const handleItemClick = (e, item) => {
+    if (item.bookable && onBookNow) {
+      e.preventDefault();
+      setActiveDropdown(null);
+      setIsOpen(false);
+      onBookNow(item.name);
+    }
+  };
+
   return (
     <>
-      {/* Global Navigation Wrapper Frame */}
       <nav 
         className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
           isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-5'
@@ -128,14 +141,12 @@ const megaMenuData = {
       >
         <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex justify-between items-center relative">
           
-          {/* Logo element */}
           <a href="#" className="tracking-[0.2em] select-none shrink-0 mr-8">
             <span className="font-sans text-sm sm:text-base font-black text-gray-900">
               SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
             </span>
           </a>
 
-          {/* Desktop Links with extra spaced gaps */}
           <div className="hidden lg:flex items-center gap-7 xl:gap-9 justify-center flex-1">
             {navLinks.map((link) => (
               <div 
@@ -145,7 +156,7 @@ const megaMenuData = {
               >
                 <button className="flex items-center gap-1.5 text-[10.5px] font-black uppercase tracking-[0.18em] text-gray-800 hover:text-[#E8A020] transition-colors focus:outline-hidden whitespace-nowrap cursor-pointer">
                   <span>{link.label}</span>
-                  <i className={`fas fa-chevron-down text-[8px] text-gray-400 group-hover:text-[#E8A020] transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180 text-[#E8A020]' : ''}`}></i>
+                  <i className={`fas fa-chevron-down text-[8px] text-gray-400 transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180 text-[#E8A020]' : ''}`}></i>
                 </button>
               </div>
             ))}
@@ -158,14 +169,16 @@ const megaMenuData = {
             </a>
           </div>
 
-          {/* Fixed soft-edged layout CTA Button */}
+          {/* Desktop Book Now Header Trigger Button */}
           <div className="hidden lg:block shrink-0 ml-6">
-            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-7 py-3.5 rounded-lg transition-all duration-300 shadow-xs cursor-pointer">
+            <button 
+              onClick={() => onBookNow && onBookNow()}
+              className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-7 py-3.5 rounded-lg transition-all duration-300 shadow-xs cursor-pointer"
+            >
               Book Now
             </button>
           </div>
 
-          {/* Mobile Navigation Toggler */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden z-50 w-10 h-10 flex flex-col justify-center items-center gap-1.5 focus:outline-hidden"
@@ -176,7 +189,7 @@ const megaMenuData = {
             <span className={`w-5 h-0.5 bg-gray-900 transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
 
-          {/* CAPE TOWN STYLE IMAGED FULL-WIDTH MEGA DROPDOWN PANEL BLOCK */}
+          {/* Desktop Mega Dropdown Panel */}
           <div className={`absolute left-6 right-6 top-full mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 p-6 transition-all duration-300 origin-top transform z-50 hidden lg:block ${
             activeDropdown ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
           }`}>
@@ -191,7 +204,7 @@ const megaMenuData = {
                       key={item.name} 
                       href={`#${activeDropdown}`}
                       className="group/card block rounded-lg overflow-hidden border border-transparent hover:border-gray-50 transition-all hover:shadow-xs"
-                      onClick={() => setActiveDropdown(null)}
+                      onClick={(e) => item.bookable ? handleItemClick(e, item) : setActiveDropdown(null)}
                     >
                       <div className="aspect-video w-full overflow-hidden rounded-lg bg-gray-100 mb-2.5 relative">
                         <img 
@@ -199,6 +212,11 @@ const megaMenuData = {
                           alt={item.name}
                           className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
                         />
+                        {item.bookable && (
+                          <div className="absolute inset-0 bg-black/40 opacity-0 group-hover/card:opacity-100 transition-opacity flex items-center justify-center">
+                            <span className="bg-[#E8A020] text-white font-black text-[9px] uppercase tracking-widest px-3 py-1.5 rounded-sm">Instant Book</span>
+                          </div>
+                        )}
                       </div>
                       <div className="text-xs font-bold text-gray-900 group-hover/card:text-[#E8A020] transition-colors">
                         {item.name}
@@ -216,7 +234,7 @@ const megaMenuData = {
         </div>
       </nav>
 
-      {/* Slide-out Mobile Right Side Drawer Panel Frame */}
+      {/* Mobile Drawer Panel */}
       <div className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div 
           className={`absolute inset-0 bg-[#1A1F2E]/40 backdrop-blur-xs transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -255,12 +273,12 @@ const megaMenuData = {
                           <a 
                             key={subItem.name} 
                             href={`#${link.key}`}
-                            onClick={() => { setIsOpen(false); setActiveDropdown(null); }}
-                            className="flex gap-3 items-start"
+                            onClick={(e) => subItem.bookable ? handleItemClick(e, subItem) : setIsOpen(false)}
+                            className="flex gap-3 items-start group"
                           >
                             <img src={subItem.img} alt="" className="w-12 h-12 rounded-md object-cover shrink-0 bg-gray-100" />
                             <div>
-                              <div className="text-xs font-bold text-gray-800">{subItem.name}</div>
+                              <div className="text-xs font-bold text-gray-800 group-hover:text-[#E8A020] transition-colors">{subItem.name}</div>
                               <div className="text-[10px] text-gray-400 mt-0.5 leading-tight">{subItem.desc}</div>
                             </div>
                           </a>
@@ -274,7 +292,11 @@ const megaMenuData = {
           </div>
 
           <div className="pt-4 border-t border-gray-100 space-y-2.5 bg-white shrink-0">
-            <button onClick={() => setIsOpen(false)} className="w-full bg-[#E8A020] text-white font-black text-[10px] tracking-widest uppercase py-4 rounded-lg shadow-xs">
+            {/* Mobile Footer Drawer Button */}
+            <button 
+              onClick={() => { setIsOpen(false); onBookNow && onBookNow(); }} 
+              className="w-full bg-[#E8A020] text-white font-black text-[10px] tracking-widest uppercase py-4 rounded-lg shadow-xs cursor-pointer"
+            >
               Book Now
             </button>
             <button onClick={() => setIsOpen(false)} className="w-full bg-white border border-gray-200 text-gray-700 font-black text-[10px] tracking-widest uppercase py-4 rounded-lg">
