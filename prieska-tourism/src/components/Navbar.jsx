@@ -18,10 +18,10 @@ const Navbar = () => {
     places: {
       title: "Top Regional Hubs",
       items: [
-        { name: "Prieska Hub", desc: "Historical town British Fort, built with Tiger's Eye stones", img: "https://images.unsplash.com/photo-1590055531615-f16d36faa8ec?auto=format&fit=crop&w=400&q=80" },
+        { name: "Prieska Hub", desc: "Historical town British Fort, built with Tiger's Eye stones", img: "public/prieska-koppie.jpg"},
         { name: "Wonderdraai Wonder", desc: "The unique Orange River Horseshoe Bend at Wonderdraai", img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" },
-        { name: "Marydale Plains", desc: "Historic Karoo farmhouse, gateway to the wider desert trails", img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=400&q=80" },
-        { name: "Niekerkshoop Frontier", desc: "Traditional gemstone mining country and rural agricultural heritage", img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80" }
+        { name: "Marydale Town", desc: "Historic Karoo farmhouse, gateway to the wider desert trails", img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=400&q=80" },
+        { name: "Niekerkshoop Town", desc: "Traditional gemstone mining country and rural agricultural heritage", img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80" }
       ]
     },
     stay: {
