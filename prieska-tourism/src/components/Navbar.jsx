@@ -13,36 +13,52 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const menuData = {
-    places: [
-      { name: 'Prieska Hub', desc: 'Historical town center & primary amenities' },
-      { name: 'Marydale Plains', desc: 'Gateway to the wider Karoo landscape' },
-      { name: 'Niekerkshoop Frontier', desc: 'Traditional gemstone & farming region' },
-      { name: 'Wonderdraai', desc: 'The unique horseshoe river phenomenon' }
-    ],
-    stay: [
-      { name: 'Boutique Guesthouses', desc: 'Premium local hospitality' },
-      { name: 'River Lodges', desc: 'Stunning accommodation on the banks' },
-      { name: 'Farm Stays', desc: 'Authentic Karoo country living' },
-      { name: 'Self-Catering Chalets', desc: 'Flexible family holiday setups' }
-    ],
-    todo: [
-      { name: 'Orange River Rafting', desc: 'Adrenaline & river trails' },
-      { name: 'Dark Sky Stargazing', desc: 'Crystal clear astronomical observation' },
-      { name: 'San Rock Art Tours', desc: 'Ancient cultural heritage sites' },
-      { name: 'Game Drives', desc: 'Northern Cape wildlife expeditions' }
-    ],
-    plan: [
-      { name: 'Interactive Map', desc: 'Plot your routes across the municipality' },
-      { name: 'Travel Packages', desc: 'Curated all-inclusive regional itineraries' },
-      { name: 'Digital Brochure', desc: 'Downloadable visitor guides' },
-      { name: 'Contact Desk', desc: 'Direct administrative support line' }
-    ],
-    travelwise: [
-      { name: 'Best Time to Visit', desc: 'Seasonal weather & calendar highlights' },
-      { name: 'Road & Safety Advice', desc: 'Vehicle guidelines for regional tracks' },
-      { name: 'Local Services', desc: 'Medical, banking, & emergency contacts' }
-    ]
+  // Comprehensive image-rich data architecture mirroring premium tourism indices
+  const megaMenuData = {
+    places: {
+      title: "Top Regional Hubs",
+      items: [
+        { name: "Prieska Hub", desc: "Historical town British Fort, built with Tiger's Eye stones", img: "https://images.unsplash.com/photo-1590055531615-f16d36faa8ec?auto=format&fit=crop&w=400&q=80" },
+        { name: "Wonderdraai Wonder", desc: "The unique Orange River Horseshoe Bend at Wonderdraai", img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" },
+        { name: "Marydale Plains", desc: "Historic Karoo farmhouse, gateway to the wider desert trails", img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=400&q=80" },
+        { name: "Niekerkshoop Frontier", desc: "Traditional gemstone mining country and rural agricultural heritage", img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80" }
+      ]
+    },
+    stay: {
+      title: "Premium Lodging",
+      items: [
+        { name: "River Lodges", desc: "Stunning boutique escapes built right along the Orange River banks", img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" },
+        { name: "Karoo Farm Stays", desc: "Authentic, rustic country living under clear open skies", img: "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?auto=format&fit=crop&w=400&q=80" },
+        { name: "Boutique Guesthouses", desc: "Impeccable town comfort featuring renowned Northern Cape hospitality", img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80" },
+        { name: "Self-Catering Chalets", desc: "Independent, fully equipped family-friendly base camps", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80" }
+      ]
+    },
+    todo: {
+      title: "Recommended Experiences",
+      items: [
+        { name: "Orange River Rafting", desc: "Navigate deep wilderness water pathways and rapid systems", img: "https://images.unsplash.com/photo-1530866495561-507c9faab2ed?auto=format&fit=crop&w=400&q=80" },
+        { name: "Dark Sky Stargazing", desc: "Unmatched cosmic clarity deep inside the pristine Karoo landscape", img: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=400&q=80" },
+        { name: "San Rock Art Heritage", desc: "Guided educational hikes exploring ancient indigenous structural art", img: "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=400&q=80" },
+        { name: "Desert Game Trails", desc: "Track resilient local wildlife through protected plains reserves", img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=400&q=80" }
+      ]
+    },
+    plan: {
+      title: "Visitor Resources",
+      items: [
+        { name: "Interactive Mapping", desc: "Plot routing links across Prieska and secondary corridors", img: "https://images.unsplash.com/photo-1524661135-423995f22d0b?auto=format&fit=crop&w=400&q=80" },
+        { name: "Curated Itineraries", desc: "All-inclusive route packages built to cover optimal ground", img: "https://images.unsplash.com/photo-1488646953014-85cb44e25828?auto=format&fit=crop&w=400&q=80" },
+        { name: "Digital Brochure Guide", desc: "Download offline-ready information books regarding landmarks", img: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?auto=format&fit=crop&w=400&q=80" },
+        { name: "Municipal Support", desc: "Get direct phone guidance from regional info specialists", img: "https://images.unsplash.com/photo-1521791136366-3e347677deaf?auto=format&fit=crop&w=400&q=80" }
+      ]
+    },
+    travelwise: {
+      title: "Essential Information",
+      items: [
+        { name: "Best Time to Visit", desc: "Track hot summer river seasons vs crisp desert winter stargazing", img: "https://images.unsplash.com/photo-1533473359331-0135ef1b58bf?auto=format&fit=crop&w=400&q=80" },
+        { name: "Road Safety Conditions", desc: "Crucial local guidelines for tar roads vs remote gravel paths", img: "https://images.unsplash.com/photo-1515162305285-0293e4767cc2?auto=format&fit=crop&w=400&q=80" },
+        { name: "Emergency Infrastructure", desc: "Quick access map routing for clinics, banking hubs, and fuel depots", img: "https://images.unsplash.com/photo-1584515979956-d9f6e5d09982?auto=format&fit=crop&w=400&q=80" }
+      ]
+    }
   };
 
   const navLinks = [
@@ -55,74 +71,53 @@ const Navbar = () => {
 
   return (
     <>
-      {/* Top Main Dynamic Bar Frame */}
-      <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-5'
-      }`}>
-        {/* Expanded fluid width tracking profile box layout */}
-        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex justify-between items-center">
+      {/* Global Navigation Wrapper Frame */}
+      <nav 
+        className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+          isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-5'
+        }`}
+        onMouseLeave={() => setActiveDropdown(null)}
+      >
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex justify-between items-center relative">
           
-          {/* Identity Title Unit Block */}
-          <a href="#" className="tracking-[0.2em] select-none shrink-0 z-50 mr-6">
+          {/* Logo element */}
+          <a href="#" className="tracking-[0.2em] select-none shrink-0 mr-8">
             <span className="font-sans text-sm sm:text-base font-black text-gray-900">
               SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
             </span>
           </a>
 
-          {/* Nav items container: wide spacing track with explicitly configured flex layout gap constraints */}
-          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-center flex-1">
+          {/* Desktop Links with extra spaced gaps */}
+          <div className="hidden lg:flex items-center gap-7 xl:gap-9 justify-center flex-1">
             {navLinks.map((link) => (
               <div 
                 key={link.key}
-                className="relative group py-2"
+                className="py-2"
                 onMouseEnter={() => setActiveDropdown(link.key)}
-                onMouseLeave={() => setActiveDropdown(null)}
               >
-                <button className="flex items-center gap-1.5 text-[10.5px] font-black uppercase tracking-[0.16em] text-gray-800 hover:text-[#E8A020] transition-colors focus:outline-hidden whitespace-nowrap">
+                <button className="flex items-center gap-1.5 text-[10.5px] font-black uppercase tracking-[0.18em] text-gray-800 hover:text-[#E8A020] transition-colors focus:outline-hidden whitespace-nowrap cursor-pointer">
                   <span>{link.label}</span>
-                  <i className={`fas fa-chevron-down text-[8px] text-gray-400 group-hover:text-[#E8A020] transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180' : ''}`}></i>
+                  <i className={`fas fa-chevron-down text-[8px] text-gray-400 group-hover:text-[#E8A020] transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180 text-[#E8A020]' : ''}`}></i>
                 </button>
-
-                {/* Dropdown Menu Overlay Module */}
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-76 bg-white rounded-xl shadow-xl border border-gray-100 p-4 transition-all duration-200 origin-top ${
-                  activeDropdown === link.key ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
-                }`}>
-                  <div className="space-y-1">
-                    {menuData[link.key]?.map((subItem) => (
-                      <a
-                        key={subItem.name}
-                        href={`#${link.key}`}
-                        className="block p-2 rounded-lg hover:bg-gray-50/80 transition-colors group/item"
-                      >
-                        <div className="text-xs font-bold text-gray-900 group-hover/item:text-[#E8A020] transition-colors">
-                          {subItem.name}
-                        </div>
-                        <div className="text-[10px] text-gray-400 mt-0.5 font-medium leading-normal">
-                          {subItem.desc}
-                        </div>
-                      </a>
-                    ))}
-                  </div>
-                </div>
               </div>
             ))}
             
             <a 
               href="#business" 
-              className="text-[10.5px] font-black uppercase tracking-[0.16em] text-gray-500 hover:text-[#E8A020] transition-colors whitespace-nowrap"
+              className="text-[10.5px] font-black uppercase tracking-[0.18em] text-gray-500 hover:text-[#E8A020] transition-colors whitespace-nowrap"
             >
               List Your Business
             </a>
           </div>
 
-          {/* Action Trigger Block - Redesigned button parameters */}
-          <div className="hidden lg:block shrink-0 ml-4">
-            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-7 py-3.5 rounded-lg transition-all duration-300 shadow-xs">
+          {/* Fixed soft-edged layout CTA Button */}
+          <div className="hidden lg:block shrink-0 ml-6">
+            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-7 py-3.5 rounded-lg transition-all duration-300 shadow-xs cursor-pointer">
               Book Now
             </button>
           </div>
 
-          {/* Mobile responsive toggle component */}
+          {/* Mobile Navigation Toggler */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden z-50 w-10 h-10 flex flex-col justify-center items-center gap-1.5 focus:outline-hidden"
@@ -133,10 +128,47 @@ const Navbar = () => {
             <span className={`w-5 h-0.5 bg-gray-900 transition-all duration-300 ${isOpen ? '-rotate-45 -translate-y-2' : ''}`} />
           </button>
 
+          {/* CAPE TOWN STYLE IMAGED FULL-WIDTH MEGA DROPDOWN PANEL BLOCK */}
+          <div className={`absolute left-6 right-6 top-full mt-2 bg-white rounded-xl shadow-2xl border border-gray-100 p-6 transition-all duration-300 origin-top transform z-50 hidden lg:block ${
+            activeDropdown ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
+          }`}>
+            {activeDropdown && (
+              <div>
+                <h3 className="text-xs font-black uppercase tracking-widest text-gray-400 mb-4 border-b border-gray-50 pb-2">
+                  {megaMenuData[activeDropdown].title}
+                </h3>
+                <div className="grid grid-cols-4 gap-5">
+                  {megaMenuData[activeDropdown].items.map((item) => (
+                    <a 
+                      key={item.name} 
+                      href={`#${activeDropdown}`}
+                      className="group/card block rounded-lg overflow-hidden border border-transparent hover:border-gray-50 transition-all hover:shadow-xs"
+                      onClick={() => setActiveDropdown(null)}
+                    >
+                      <div className="aspect-video w-full overflow-hidden rounded-lg bg-gray-100 mb-2.5 relative">
+                        <img 
+                          src={item.img} 
+                          alt={item.name}
+                          className="w-full h-full object-cover group-hover/card:scale-105 transition-transform duration-500" 
+                        />
+                      </div>
+                      <div className="text-xs font-bold text-gray-900 group-hover/card:text-[#E8A020] transition-colors">
+                        {item.name}
+                      </div>
+                      <div className="text-[10px] text-gray-400 mt-0.5 leading-relaxed font-medium">
+                        {item.desc}
+                      </div>
+                    </a>
+                  ))}
+                </div>
+              </div>
+            )}
+          </div>
+
         </div>
       </nav>
 
-      {/* Mobile Drawer Framework Module */}
+      {/* Slide-out Mobile Right Side Drawer Panel Frame */}
       <div className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div 
           className={`absolute inset-0 bg-[#1A1F2E]/40 backdrop-blur-xs transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -170,16 +202,19 @@ const Navbar = () => {
                     <div className={`grid transition-all duration-300 ease-in-out bg-gray-50/50 rounded-lg overflow-hidden ${
                       isCurrentActive ? 'grid-rows-[1fr] opacity-100 my-1 p-2' : 'grid-rows-[0fr] opacity-0'
                     }`}>
-                      <div className="overflow-hidden space-y-3">
-                        {menuData[link.key]?.map((subItem) => (
+                      <div className="overflow-hidden space-y-4">
+                        {megaMenuData[link.key]?.items.map((subItem) => (
                           <a 
                             key={subItem.name} 
                             href={`#${link.key}`}
-                            onClick={() => setIsOpen(false)}
-                            className="block py-1 px-2"
+                            onClick={() => { setIsOpen(false); setActiveDropdown(null); }}
+                            className="flex gap-3 items-start"
                           >
-                            <div className="text-xs font-bold text-gray-800">{subItem.name}</div>
-                            <div className="text-[10px] text-gray-400 mt-0.5">{subItem.desc}</div>
+                            <img src={subItem.img} alt="" className="w-12 h-12 rounded-md object-cover shrink-0 bg-gray-100" />
+                            <div>
+                              <div className="text-xs font-bold text-gray-800">{subItem.name}</div>
+                              <div className="text-[10px] text-gray-400 mt-0.5 leading-tight">{subItem.desc}</div>
+                            </div>
                           </a>
                         ))}
                       </div>
