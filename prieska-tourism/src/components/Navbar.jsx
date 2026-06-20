@@ -14,32 +14,80 @@ const Navbar = () => {
   }, []);
 
   // Comprehensive image-rich data architecture mirroring premium tourism indices
-  const megaMenuData = {
+const megaMenuData = {
     places: {
       title: "Top Regional Hubs",
       items: [
-        { name: "Prieska Hub", desc: "Historical town British Fort, built with Tiger's Eye stones", img: "public/prieska-koppie.jpg"},
-        { name: "Wonderdraai Wonder", desc: "The unique Orange River Horseshoe Bend at Wonderdraai", img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" },
-        { name: "Marydale Town", desc: "Historic Karoo farmhouse, gateway to the wider desert trails", img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=400&q=80" },
-        { name: "Niekerkshoop Town", desc: "Traditional gemstone mining country and rural agricultural heritage", img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80" }
+        { 
+          name: "Prieska Hub", 
+          desc: "Famous for its rich deposits of semi-precious Tiger's Eye stones, the historical Anglo-Boer War British Fort on top of Prieska Koppie, and the beautiful Ria Huysamen Aloe Garden.", 
+          img: "public/prieska-koppie.jpg" 
+        },
+        { 
+          name: "Wonderdraai Wonder", 
+          desc: "A breathtaking geological phenomenon where the Orange River loops into a massive horseshoe-shaped bend, causing a unique illusion that makes the water look like it is flowing uphill.", 
+          img: "https://images.unsplash.com/photo-1506744038136-46273834b3fb?auto=format&fit=crop&w=400&q=80" 
+        },
+        { 
+          name: "Marydale Town", 
+          desc: "Established in 1903 by the Dutch Reformed Church and supported by underground water boreholes, this classic Karoo farming village is renowned for its vast sheep farms and country hospitality.", 
+          img: "https://images.unsplash.com/photo-1547234935-80c7145ec969?auto=format&fit=crop&w=400&q=80" 
+        },
+        { 
+          name: "Niekerkshoop Town", 
+          desc: "Tucked away at the foot of the scenic Asbestos Mountains, this peaceful settlement is famous for traditional gemstone mining, rich agricultural heritage, and local hospitality.", 
+          img: "https://images.unsplash.com/photo-1470071459604-3b5ec3a7fe05?auto=format&fit=crop&w=400&q=80" 
+        }
       ]
     },
     stay: {
-      title: "Premium Lodging",
+      title: "Where to Stay",
       items: [
-        { name: "River Lodges", desc: "Stunning boutique escapes built right along the Orange River banks", img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" },
-        { name: "Karoo Farm Stays", desc: "Authentic, rustic country living under clear open skies", img: "https://images.unsplash.com/photo-1505873242700-f289a29e1e0f?auto=format&fit=crop&w=400&q=80" },
-        { name: "Boutique Guesthouses", desc: "Impeccable town comfort featuring renowned Northern Cape hospitality", img: "https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=400&q=80" },
-        { name: "Self-Catering Chalets", desc: "Independent, fully equipped family-friendly base camps", img: "https://images.unsplash.com/photo-1512917774080-9991f1c4c750?auto=format&fit=crop&w=400&q=80" }
+        { 
+          name: "Riverview Lodge", 
+          desc: "Beautiful riverside lodge along the Orange River with stunning sunset views. Perfect for families. From R850.", 
+          img: "/riverviewlodge1.jpg" 
+        },
+        { 
+          name: "Gariep Country Lodge", 
+          desc: "Charming country lodge on Main Road featuring traditional Karoo hospitality and warm garden spaces. From R650.", 
+          img: "/gariep-guesthouse2.jpg" 
+        },
+        { 
+          name: "BoKáro Boutique Guesthouse", 
+          desc: "Luxury boutique guesthouse on Arbeck St offering personalized service, elegant rooms, and a spa area. From R750.", 
+          img: "/guesthouse_room.jpg" 
+        },
+        { 
+          name: "Explore All Lodging", 
+          desc: "Browse our complete directory of local farm stays, remote self-catering chalets, and local retreats.", 
+          img: "https://images.unsplash.com/photo-1566073771259-6a8506099945?auto=format&fit=crop&w=400&q=80" 
+        }
       ]
     },
-    todo: {
+   todo: {
       title: "Recommended Experiences",
       items: [
-        { name: "Orange River Rafting", desc: "Navigate deep wilderness water pathways and rapid systems", img: "https://images.unsplash.com/photo-1530866495561-507c9faab2ed?auto=format&fit=crop&w=400&q=80" },
-        { name: "Dark Sky Stargazing", desc: "Unmatched cosmic clarity deep inside the pristine Karoo landscape", img: "https://images.unsplash.com/photo-1506318137071-a8e063b4bec0?auto=format&fit=crop&w=400&q=80" },
-        { name: "San Rock Art Heritage", desc: "Guided educational hikes exploring ancient indigenous structural art", img: "https://images.unsplash.com/photo-1605647540924-852290f6b0d5?auto=format&fit=crop&w=400&q=80" },
-        { name: "Desert Game Trails", desc: "Track resilient local wildlife through protected plains reserves", img: "https://images.unsplash.com/photo-1516426122078-c23e76319801?auto=format&fit=crop&w=400&q=80" }
+        { 
+          name: "Karoo Safari", 
+          desc: "Track the Big Five across ancient plains at golden hour. Expert guided game drives with sunset snacks. ZAR 1,250.", 
+          img: "/karoo_image1.jpg" 
+        },
+        { 
+          name: "Orange River Rafting", 
+          desc: "Navigate mighty Orange River through dramatic gorges and rapids. Multi‑day expeditions available. ZAR 950.", 
+          img: "/karoo_river-rafting.jpg" 
+        },
+        { 
+          name: "San Rock Art Tours", 
+          desc: "10,000‑year‑old Bushman paintings in situ. Cultural storytelling by local San descendants. ZAR 600.", 
+          img: "/karoo_image2.jpg" 
+        },
+        { 
+          name: "More Things to Do", 
+          desc: "Discover premium hunting tracks, Prieska heritage historic mines, and charming local town markets.", 
+          img: "/prieska-town.jpg" 
+        }
       ]
     },
     plan: {
