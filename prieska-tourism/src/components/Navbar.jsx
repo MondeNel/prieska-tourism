@@ -13,7 +13,6 @@ const Navbar = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  // Structural sub-navigation items for the dropdown matrices
   const menuData = {
     places: [
       { name: 'Prieska Hub', desc: 'Historical town center & primary amenities' },
@@ -56,20 +55,22 @@ const Navbar = () => {
 
   return (
     <>
+      {/* Top Main Dynamic Bar Frame */}
       <nav className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
-        isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-4'
+        isScrolled ? 'bg-white shadow-md py-3' : 'bg-white/95 lg:bg-white/90 backdrop-blur-md py-5'
       }`}>
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center">
+        {/* Expanded fluid width tracking profile box layout */}
+        <div className="max-w-[1440px] mx-auto px-6 sm:px-8 lg:px-12 flex justify-between items-center">
           
-          {/* Brand Identity */}
-          <a href="#" className="tracking-[0.2em] select-none shrink-0 z-50">
+          {/* Identity Title Unit Block */}
+          <a href="#" className="tracking-[0.2em] select-none shrink-0 z-50 mr-6">
             <span className="font-sans text-sm sm:text-base font-black text-gray-900">
               SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
             </span>
           </a>
 
-          {/* Desktop Navigation Links with Dropdown Handles */}
-          <div className="hidden lg:flex items-center gap-5 xl:gap-7">
+          {/* Nav items container: wide spacing track with explicitly configured flex layout gap constraints */}
+          <div className="hidden lg:flex items-center gap-6 xl:gap-8 justify-center flex-1">
             {navLinks.map((link) => (
               <div 
                 key={link.key}
@@ -77,13 +78,13 @@ const Navbar = () => {
                 onMouseEnter={() => setActiveDropdown(link.key)}
                 onMouseLeave={() => setActiveDropdown(null)}
               >
-                <button className="flex items-center gap-1 text-[11px] font-black uppercase tracking-widest text-gray-700 group-hover:text-[#E8A020] transition-colors focus:outline-hidden">
+                <button className="flex items-center gap-1.5 text-[10.5px] font-black uppercase tracking-[0.16em] text-gray-800 hover:text-[#E8A020] transition-colors focus:outline-hidden whitespace-nowrap">
                   <span>{link.label}</span>
-                  <i className={`fas fa-chevron-down text-[9px] text-gray-400 group-hover:text-[#E8A020] transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180' : ''}`}></i>
+                  <i className={`fas fa-chevron-down text-[8px] text-gray-400 group-hover:text-[#E8A020] transition-transform duration-200 ${activeDropdown === link.key ? 'rotate-180' : ''}`}></i>
                 </button>
 
-                {/* Dropdown Mega-Card Panel Layout */}
-                <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-2 w-72 bg-white rounded-xl shadow-xl border border-gray-100 p-4 transition-all duration-200 origin-top ${
+                {/* Dropdown Menu Overlay Module */}
+                <div className={`absolute top-full left-1/2 -translate-x-1/2 mt-3 w-76 bg-white rounded-xl shadow-xl border border-gray-100 p-4 transition-all duration-200 origin-top ${
                   activeDropdown === link.key ? 'opacity-100 scale-100 pointer-events-auto' : 'opacity-0 scale-95 pointer-events-none'
                 }`}>
                   <div className="space-y-1">
@@ -108,20 +109,20 @@ const Navbar = () => {
             
             <a 
               href="#business" 
-              className="text-[11px] font-black uppercase tracking-widest text-gray-500 hover:text-[#E8A020] transition-colors whitespace-nowrap"
+              className="text-[10.5px] font-black uppercase tracking-[0.16em] text-gray-500 hover:text-[#E8A020] transition-colors whitespace-nowrap"
             >
               List Your Business
             </a>
           </div>
 
-          {/* Action Call to Action */}
-          <div className="hidden lg:block">
-            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-6 py-3.5 rounded-full transition-all duration-300 shadow-xs">
+          {/* Action Trigger Block - Redesigned button parameters */}
+          <div className="hidden lg:block shrink-0 ml-4">
+            <button className="bg-[#E8A020] hover:bg-gray-900 text-white font-black text-[10px] tracking-widest uppercase px-7 py-3.5 rounded-lg transition-all duration-300 shadow-xs">
               Book Now
             </button>
           </div>
 
-          {/* Mobile Navigation Trigger Button */}
+          {/* Mobile responsive toggle component */}
           <button 
             onClick={() => setIsOpen(!isOpen)}
             className="lg:hidden z-50 w-10 h-10 flex flex-col justify-center items-center gap-1.5 focus:outline-hidden"
@@ -135,7 +136,7 @@ const Navbar = () => {
         </div>
       </nav>
 
-      {/* Slide-out Mobile Right Side Drawer Panel Sheet */}
+      {/* Mobile Drawer Framework Module */}
       <div className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div 
           className={`absolute inset-0 bg-[#1A1F2E]/40 backdrop-blur-xs transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -166,7 +167,6 @@ const Navbar = () => {
                       <i className={`fas fa-chevron-down text-[10px] text-gray-400 transition-transform duration-200 ${isCurrentActive ? 'rotate-180 text-[#E8A020]' : ''}`}></i>
                     </button>
                     
-                    {/* Collapsible Mobile Dropdown Items Drawer Sub-Grid */}
                     <div className={`grid transition-all duration-300 ease-in-out bg-gray-50/50 rounded-lg overflow-hidden ${
                       isCurrentActive ? 'grid-rows-[1fr] opacity-100 my-1 p-2' : 'grid-rows-[0fr] opacity-0'
                     }`}>
@@ -191,10 +191,10 @@ const Navbar = () => {
           </div>
 
           <div className="pt-4 border-t border-gray-100 space-y-2.5 bg-white shrink-0">
-            <button onClick={() => setIsOpen(false)} className="w-full bg-[#E8A020] text-white font-black text-[10px] tracking-widest uppercase py-4 rounded-xl shadow-xs">
+            <button onClick={() => setIsOpen(false)} className="w-full bg-[#E8A020] text-white font-black text-[10px] tracking-widest uppercase py-4 rounded-lg shadow-xs">
               Book Now
             </button>
-            <button onClick={() => setIsOpen(false)} className="w-full bg-white border border-gray-200 text-gray-700 font-black text-[10px] tracking-widest uppercase py-4 rounded-xl">
+            <button onClick={() => setIsOpen(false)} className="w-full bg-white border border-gray-200 text-gray-700 font-black text-[10px] tracking-widest uppercase py-4 rounded-lg">
               List Your Business
             </button>
           </div>
