@@ -16,6 +16,7 @@ import Footer from './components/Footer';
 import BookingModal from './components/BookingModal'; 
 import AdminDashboard from './components/AdminDashboard';
 import { initData } from './services/dataService';
+import PartnerSlider from './components/PartnerSlider';
 
 function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
@@ -68,6 +69,7 @@ function App() {
       
       <main className="pt-12 space-y-24 md:space-y-32">
         <CategoryStrip />
+        <PartnerSlider />
         <Stats />
         <TopAttractions />
         <Experiences onBookItem={openBooking} />
