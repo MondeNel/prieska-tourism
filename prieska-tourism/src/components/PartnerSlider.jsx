@@ -1,5 +1,3 @@
-import { useEffect, useRef } from 'react';
-
 const partners = [
   {
     name: 'Siyathemba Municipality',
@@ -24,72 +22,88 @@ const partners = [
 ];
 
 const PartnerSlider = () => {
-  const containerRef = useRef(null);
-
-  useEffect(() => {
-    const container = containerRef.current;
-    if (!container) return;
-
-    let animationId;
-    let startTime = null;
-    const duration = 20000; // 20 seconds for full loop
-
-    const animate = (timestamp) => {
-      if (!startTime) startTime = timestamp;
-      const elapsed = timestamp - startTime;
-      const progress = (elapsed % duration) / duration;
-      const translateX = -progress * (container.scrollWidth / 2);
-      container.style.transform = `translateX(${translateX}px)`;
-      animationId = requestAnimationFrame(animate);
-    };
-
-    // Duplicate the children for seamless loop
-    const children = Array.from(container.children);
-    const clone = children.map(child => child.cloneNode(true));
-    clone.forEach(child => container.appendChild(child));
-
-    // Adjust width to fit double content
-    container.style.width = `${container.scrollWidth / 2}px`;
-
-    animationId = requestAnimationFrame(animate);
-
-    return () => {
-      if (animationId) cancelAnimationFrame(animationId);
-    };
-  }, []);
-
   return (
-    <div className="bg-white border-y border-gray-100 py-8 md:py-12">
-      <div className="container mx-auto px-4">
-        <div className="text-center mb-6">
-          <span className="text-[#C8780A] text-xs font-bold uppercase tracking-widest">Partners</span>
-          <h2 className="font-serif text-xl md:text-2xl font-bold text-[#1A1F2E] mt-1">Our Trusted Partners</h2>
+    <div className="bg-[#FBF6EE] border-y border-gray-100 py-10 md:py-14 select-none overflow-hidden">
+      <div className="max-w-[1440px] mx-auto px-4">
+        
+        <div className="text-center mb-10">
+          <span className="text-[#C8780A] text-xs font-bold uppercase tracking-widest block mb-1">
+            Collaborators
+          </span>
+          <h2 className="font-serif text-xl md:text-2xl font-bold text-[#1A1F2E]">
+            Our Local Partners
+          </h2>
         </div>
-        <div className="overflow-hidden relative">
-          <div
-            ref={containerRef}
-            className="flex items-center gap-8 md:gap-12 will-change-transform"
-            style={{ width: 'fit-content' }}
-          >
+
+        {/* Masked overflow layer for clean fade edges */}
+        <div className="relative w-full overflow-hidden before:absolute before:left-0 before:top-0 before:bottom-0 before:w-20 before:bg-gradient-to-r before:from-[#FBF6EE] before:to-transparent before:z-10 after:absolute after:right-0 after:top-0 after:bottom-0 after:w-20 after:bg-gradient-to-l after:from-[#FBF6EE] after:to-transparent after:z-10">
+          
+          <div className="flex gap-12 items-center w-max animate-marquee whitespace-nowrap hover:[animation-play-state:paused]">
+            
+            {/* Array Map 1: Original Set */}
             {partners.map((partner, idx) => (
               <a
-                key={idx}
+                key={`orig-${idx}`}
                 href={partner.url}
                 target="_blank"
                 rel="noopener noreferrer"
-                className="flex-shrink-0 grayscale hover:grayscale-0 transition-all duration-300 hover:scale-105"
-                style={{ width: '140px' }}
+                className="flex flex-col items-center justify-center shrink-0 group transition-all duration-300 transform hover:scale-105 px-6 text-center"
+                style={{ width: '180px' }}
               >
-                <img
-                  src={partner.logo}
-                  alt={partner.name}
-                  className="w-full h-12 object-contain"
-                />
+                <div className="h-12 w-full flex items-center justify-center mb-2.5">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-full max-w-full object-contain pointer-events-none opacity-90 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <span className="text-[10px] md:text-[11px] font-sans font-bold text-gray-500 group-hover:text-[#C8780A] uppercase tracking-wider transition-colors whitespace-normal line-clamp-1">
+                  {partner.name}
+                </span>
               </a>
             ))}
+
+            {/* Array Map 2: Duplicate Set for Seamless Wrapping Loop */}
+            {partners.map((partner, idx) => (
+              <a
+                key={`clone-${idx}`}
+                href={partner.url}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="flex flex-col items-center justify-center shrink-0 group transition-all duration-300 transform hover:scale-105 px-6 text-center"
+                style={{ width: '180px' }}
+              >
+                <div className="h-12 w-full flex items-center justify-center mb-2.5">
+                  <img
+                    src={partner.logo}
+                    alt={partner.name}
+                    className="max-h-full max-w-full object-contain pointer-events-none opacity-90 group-hover:opacity-100 transition-opacity"
+                  />
+                </div>
+                <span className="text-[10px] md:text-[11px] font-sans font-bold text-gray-500 group-hover:text-[#C8780A] uppercase tracking-wider transition-colors whitespace-normal line-clamp-1">
+                  {partner.name}
+                </span>
+              </a>
+            ))}
+
           </div>
         </div>
+
       </div>
+
+      <style jsx>{`
+        @keyframes marquee {
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
+        }
+        .animate-marquee {
+          animation: marquee 25s linear infinite;
+        }
+      `}</style>
     </div>
   );
 };
