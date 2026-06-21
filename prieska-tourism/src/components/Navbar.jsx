@@ -233,7 +233,7 @@ const Navbar = ({ onBookNow, onListBusiness }) => {
         </div>
       </nav>
 
-      {/* Mobile Drawer Panel */}
+      {/* Mobile Drawer Panel — removed duplicate logo */}
       <div className={`fixed inset-0 z-40 lg:hidden transition-all duration-300 ${isOpen ? 'pointer-events-auto' : 'pointer-events-none'}`}>
         <div 
           className={`absolute inset-0 bg-[#1A1F2E]/40 backdrop-blur-xs transition-opacity duration-300 ${isOpen ? 'opacity-100' : 'opacity-0'}`}
@@ -245,12 +245,7 @@ const Navbar = ({ onBookNow, onListBusiness }) => {
         }`} style={{ height: '100dvh' }}>
           
           <div className="overflow-y-auto flex-grow pt-14 space-y-5 custom-scrollbar">
-            <div className="tracking-[0.15em] pb-2 border-b border-gray-50">
-              <span className="font-sans text-[11px] font-black text-gray-900">
-                SIYATHEMBA<span className="text-[#E8A020] font-light">TOURISM</span>
-              </span>
-            </div>
-
+            {/* Duplicate logo removed — now the links start directly */}
             <div className="space-y-1">
               {navLinks.map((link) => {
                 const isCurrentActive = activeDropdown === link.key;
