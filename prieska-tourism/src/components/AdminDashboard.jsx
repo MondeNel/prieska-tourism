@@ -397,7 +397,7 @@ const AdminDashboard = ({ user, onLogin, onLogout, isOpen, onClose }) => {
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50 backdrop-blur-sm">
       <div className="relative max-w-4xl w-full bg-white rounded-2xl shadow-2xl overflow-hidden max-h-[92vh] flex flex-col">
         
-        {/* Header - Increased title and description size */}
+        {/* Header */}
         <div className="bg-gradient-to-r from-[#2C3E2F] to-[#3d5641] px-6 py-5 flex justify-between items-center border-b border-white/10">
           <div>
             <h2 className="text-xl sm:text-2xl font-serif font-bold text-white flex items-center gap-2">
@@ -512,15 +512,28 @@ const AdminDashboard = ({ user, onLogin, onLogout, isOpen, onClose }) => {
             </div>
           )}
 
-          {/* FLOW STEP 4: MANAGEMENT TILES */}
+          {/* FLOW STEP 4: MANAGEMENT TILES — with mobile-friendly responsive tabs & button */}
           {flowMode === 'dashboard' && (
             <div className="animate-fadeIn">
-              <div className="flex border-b pb-3 mb-4 justify-between items-center">
-                <div className="flex gap-1 bg-white p-1.5 border rounded-xl shadow-sm">
-                  <button className={`px-4 py-2 text-sm font-semibold rounded-lg ${activeTab === 'experiences' ? 'bg-amber-50 text-[#B87333]' : 'text-gray-500'}`} onClick={() => setActiveTab('experiences')}>Experiences</button>
-                  <button className={`px-4 py-2 text-sm font-semibold rounded-lg ${activeTab === 'accommodations' ? 'bg-amber-50 text-[#B87333]' : 'text-gray-500'}`} onClick={() => setActiveTab('accommodations')}>Guesthouses</button>
+              <div className="flex flex-col sm:flex-row border-b pb-3 mb-4 justify-between items-start sm:items-center gap-3 sm:gap-0">
+                <div className="flex gap-1 bg-white p-1.5 border rounded-xl shadow-sm w-full sm:w-auto">
+                  <button 
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg ${activeTab === 'experiences' ? 'bg-amber-50 text-[#B87333]' : 'text-gray-500'}`} 
+                    onClick={() => setActiveTab('experiences')}
+                  >
+                    Experiences
+                  </button>
+                  <button 
+                    className={`flex-1 sm:flex-none px-3 sm:px-4 py-1.5 sm:py-2 text-xs sm:text-sm font-semibold rounded-lg ${activeTab === 'accommodations' ? 'bg-amber-50 text-[#B87333]' : 'text-gray-500'}`} 
+                    onClick={() => setActiveTab('accommodations')}
+                  >
+                    Guesthouses
+                  </button>
                 </div>
-                <button onClick={() => setFlowMode('register_listing')} className="bg-[#B87333] text-white text-sm px-4 py-2 rounded-lg font-semibold shadow-sm hover:bg-[#B87333]/90 transition">
+                <button 
+                  onClick={() => setFlowMode('register_listing')} 
+                  className="bg-[#B87333] text-white text-xs sm:text-sm px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg font-semibold shadow-sm hover:bg-[#B87333]/90 transition w-full sm:w-auto text-center"
+                >
                   <i className="fas fa-plus mr-1.5"></i> Register New Entry
                 </button>
               </div>
@@ -561,7 +574,7 @@ const AdminDashboard = ({ user, onLogin, onLogout, isOpen, onClose }) => {
 
         </div>
 
-        {/* Footer Status Bar text scale updates */}
+        {/* Footer Status Bar */}
         <div className="p-4 border-t bg-gray-50 flex justify-between items-center text-xs text-gray-500 px-6">
           {flowMode === 'dashboard' ? (
             <>
