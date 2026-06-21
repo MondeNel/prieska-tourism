@@ -1,4 +1,4 @@
-const BusinessDirectory = () => {
+const BusinessDirectory = ({ onListClick }) => {
   const categories = [
     { name: 'Accommodation', icon: 'fa-bed', count: 16, premium: true },
     { name: 'Restaurants & Cafés', icon: 'fa-utensils', count: 9, premium: false },
@@ -27,8 +27,9 @@ const BusinessDirectory = () => {
           {categories.map((cat, idx) => (
             <div
               key={idx}
+              onClick={() => cat.isCta && onListClick ? onListClick() : null}
               className={`bg-white rounded-lg p-4 text-center cursor-pointer hover:shadow-md transition border ${
-                cat.premium ? 'border-[#C8780A]' : cat.isCta ? 'border-dashed border-[#7A3215]/15 bg-transparent' : 'border-[#7A3215]/15'
+                cat.premium ? 'border-[#C8780A]' : cat.isCta ? 'border-dashed border-[#7A3215]/30 bg-amber-50/20' : 'border-[#7A3215]/15'
               }`}
             >
               <div
