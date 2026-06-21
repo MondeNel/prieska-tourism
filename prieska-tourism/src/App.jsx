@@ -13,28 +13,56 @@ import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import FAQ from './components/FAQ';
 import Footer from './components/Footer';
-import BookingModal from './components/BookingModal'; // Import the Modal
+import BookingModal from './components/BookingModal'; 
+import AdminDashboard from './components/AdminDashboard';
 import { initData } from './services/dataService';
 
 function App() {
   const [isBookingOpen, setIsBookingOpen] = useState(false);
+  const [isBusinessModalOpen, setIsBusinessModalOpen] = useState(false);
   const [preselectedBooking, setPreselectedBooking] = useState(null);
+  const [adminUser, setAdminUser] = useState(null);
+
+  // Check for existing admin session
+  useEffect(() => {
+    const storedAdmin = localStorage.getItem('admin_logged_in');
+    if (storedAdmin) {
+      setAdminUser(JSON.parse(storedAdmin));
+    }
+  }, []);
 
   useEffect(() => { 
     initData(); 
   }, []);
 
-  // Universal opener for components to call directly
   const openBooking = (itemName = null) => {
     setPreselectedBooking(itemName);
     setIsBookingOpen(true);
   };
 
+  const openBusinessRegistration = () => {
+    setIsBusinessModalOpen(true);
+  };
+
+  const handleAdminLogin = (email, password) => {
+    // Simple login – any credentials work (demo mode)
+    const dummyUser = { email, name: email.split('@')[0] };
+    localStorage.setItem('admin_logged_in', JSON.stringify(dummyUser));
+    setAdminUser(dummyUser);
+  };
+
+  const handleAdminLogout = () => {
+    localStorage.removeItem('admin_logged_in');
+    setAdminUser(null);
+  };
+
   return (
     <div className="bg-karoo-cream min-h-screen font-sans antialiased selection:bg-[#E8A020]/30">
       
-      {/* Pass openBooking prop down to the navbar */}
-      <Navbar onBookNow={() => openBooking()} />
+      <Navbar 
+        onBookNow={openBooking} 
+        onListBusiness={openBusinessRegistration} 
+      />
       
       <Hero />
       
@@ -42,14 +70,11 @@ function App() {
         <CategoryStrip />
         <Stats />
         <TopAttractions />
-        
-        {/* Pass down to context cards so they can preselect items */}
         <Experiences onBookItem={openBooking} />
         <MapSection />
         <EventsAndAI />
         <Accommodation onBookItem={openBooking} />
         <BusinessDirectory />
-        
         <Gallery />
         <Testimonials />
         <FAQ />
@@ -57,11 +82,20 @@ function App() {
       
       <Footer />
 
-      {/* Global Modal Insertion */}
+      {/* Booking Modal */}
       <BookingModal 
         isOpen={isBookingOpen} 
         onClose={() => setIsBookingOpen(false)} 
         preselectedExperience={preselectedBooking}
+      />
+
+      {/* Business Registration / Admin Dashboard Modal */}
+      <AdminDashboard 
+        isOpen={isBusinessModalOpen}
+        onClose={() => setIsBusinessModalOpen(false)}
+        user={adminUser}
+        onLogin={handleAdminLogin}
+        onLogout={handleAdminLogout}
       />
       
     </div>
