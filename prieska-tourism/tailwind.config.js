@@ -22,11 +22,16 @@ export default {
       animation: {
         'bounce-slow': 'bounce 1s ease-in-out',
         'fade-in': 'fadeIn 0.5s ease-in',
+        'marquee': 'marquee 25s linear infinite', // Added Marquee Animation Loop
       },
       keyframes: {
         fadeIn: {
           '0%': { opacity: '0', transform: 'translateY(20px)' },
           '100%': { opacity: '1', transform: 'translateY(0)' },
+        },
+        marquee: { // Added Continuous Marquee Keyframes
+          '0%': { transform: 'translateX(0%)' },
+          '100%': { transform: 'translateX(-50%)' },
         },
       },
     },
